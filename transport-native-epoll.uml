@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.netty.channel.epoll.AbstractEpollChannel</OriginalElement>
+  <nodes>
+    <node x="394.0" y="158.0">io.netty.channel.epoll.EpollServerDomainSocketChannel</node>
+    <node x="0.0" y="390.0">io.netty.channel.epoll.EpollServerSocketChannelConfig</node>
+    <node x="77.53125" y="79.0">io.netty.channel.epoll.AbstractEpollStreamChannel</node>
+    <node x="148.0" y="765.0">io.netty.channel.epoll.EpollMode</node>
+    <node x="494.0" y="311.0">io.netty.channel.epoll.EpollSocketChannelConfig</node>
+    <node x="502.0" y="691.0">io.netty.channel.epoll.LinuxSocket</node>
+    <node x="767.75" y="79.0">io.netty.channel.epoll.EpollDatagramChannel</node>
+    <node x="0.0" y="158.0">io.netty.channel.epoll.EpollSocketChannel</node>
+    <node x="175.0" y="691.0">io.netty.channel.epoll.EpollEventLoop</node>
+    <node x="461.0" y="617.0">io.netty.channel.epoll.EpollChannelOption</node>
+    <node x="549.0" y="0.0">io.netty.channel.epoll.AbstractEpollChannel</node>
+    <node x="653.0" y="158.0">io.netty.channel.epoll.EpollServerSocketChannel</node>
+    <node x="543.75" y="79.0">io.netty.channel.epoll.AbstractEpollServerChannel</node>
+    <node x="31.0" y="464.0">io.netty.channel.epoll.EpollRecvByteAllocatorHandle</node>
+    <node x="249.0" y="617.0">io.netty.channel.epoll.EpollEventLoopGroup</node>
+    <node x="174.0" y="158.0">io.netty.channel.epoll.EpollDomainSocketChannel</node>
+    <node x="0.0" y="765.0">io.netty.channel.epoll.TcpMd5Util</node>
+    <node x="21.0" y="311.0">io.netty.channel.epoll.EpollServerChannelConfig</node>
+    <node x="324.0" y="464.0">io.netty.channel.epoll.NativeStaticallyReferencedJniMethods</node>
+    <node x="396.0" y="232.0">io.netty.channel.epoll.EpollChannelConfig</node>
+    <node x="405.0" y="765.0">io.netty.channel.epoll.Epoll</node>
+    <node x="289.0" y="765.0">io.netty.channel.epoll.Native</node>
+    <node x="0.0" y="543.0">io.netty.channel.epoll.EpollRecvByteAllocatorStreamingHandle</node>
+    <node x="0.0" y="617.0">io.netty.channel.epoll.NativeDatagramPacketArray</node>
+    <node x="233.00000000000003" y="311.0">io.netty.channel.epoll.EpollDomainSocketChannelConfig</node>
+    <node x="348.0" y="691.0">io.netty.channel.epoll.EpollTcpInfo</node>
+    <node x="0.0" y="691.0">io.netty.channel.epoll.EpollEventArray</node>
+    <node x="709.0" y="311.0">io.netty.channel.epoll.EpollDatagramChannelConfig</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.netty.channel.epoll.EpollDomainSocketChannel" target="io.netty.channel.epoll.AbstractEpollStreamChannel">
+      <point x="0.0" y="-14.5" />
+      <point x="274.0" y="133.0" />
+      <point x="233.53125" y="133.0" />
+      <point x="52.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.EpollSocketChannelConfig" target="io.netty.channel.epoll.EpollChannelConfig">
+      <point x="0.0" y="-14.5" />
+      <point x="591.5" y="291.0" />
+      <point x="491.625" y="291.0" />
+      <point x="19.125" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.EpollSocketChannel" target="io.netty.channel.epoll.AbstractEpollStreamChannel">
+      <point x="0.0" y="-14.5" />
+      <point x="77.0" y="133.0" />
+      <point x="129.53125" y="133.0" />
+      <point x="-52.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.EpollDatagramChannelConfig" target="io.netty.channel.epoll.EpollChannelConfig">
+      <point x="0.0" y="-14.5" />
+      <point x="815.0" y="281.0" />
+      <point x="529.875" y="281.0" />
+      <point x="57.375" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.AbstractEpollServerChannel" target="io.netty.channel.epoll.AbstractEpollChannel">
+      <point x="0.0" y="-14.5" />
+      <point x="645.75" y="54.0" />
+      <point x="631.5" y="54.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.EpollServerDomainSocketChannel" target="io.netty.channel.epoll.AbstractEpollServerChannel">
+      <point x="0.0" y="-14.5" />
+      <point x="513.5" y="133.0" />
+      <point x="594.75" y="133.0" />
+      <point x="-51.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.AbstractEpollStreamChannel" target="io.netty.channel.epoll.AbstractEpollChannel">
+      <point x="0.0" y="-14.5" />
+      <point x="181.53125" y="54.0" />
+      <point x="576.5" y="54.0" />
+      <point x="-55.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.EpollRecvByteAllocatorStreamingHandle" target="io.netty.channel.epoll.EpollRecvByteAllocatorHandle">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.EpollServerSocketChannelConfig" target="io.netty.channel.epoll.EpollServerChannelConfig">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.EpollServerChannelConfig" target="io.netty.channel.epoll.EpollChannelConfig">
+      <point x="0.0" y="-14.5" />
+      <point x="117.0" y="281.0" />
+      <point x="415.125" y="281.0" />
+      <point x="-57.375" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.EpollDomainSocketChannelConfig" target="io.netty.channel.epoll.EpollChannelConfig">
+      <point x="0.0" y="-14.5" />
+      <point x="353.5" y="291.0" />
+      <point x="453.375" y="291.0" />
+      <point x="-19.125" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.EpollDatagramChannel" target="io.netty.channel.epoll.AbstractEpollChannel">
+      <point x="0.0" y="-14.5" />
+      <point x="853.25" y="54.0" />
+      <point x="686.5" y="54.0" />
+      <point x="55.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.epoll.EpollServerSocketChannel" target="io.netty.channel.epoll.AbstractEpollServerChannel">
+      <point x="0.0" y="-14.5" />
+      <point x="749.5" y="133.0" />
+      <point x="696.75" y="133.0" />
+      <point x="51.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="249.5" y="133.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

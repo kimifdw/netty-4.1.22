@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.netty.handler.codec.http.CombinedHttpHeaders</OriginalElement>
+  <nodes>
+    <node x="1405.0" y="968.0">io.netty.handler.codec.http.HttpResponseDecoder</node>
+    <node x="1169.0" y="499.0">io.netty.handler.codec.http.HttpHeaders</node>
+    <node x="483.2291666666666" y="425.0">io.netty.handler.codec.http.DefaultFullHttpRequest</node>
+    <node x="220.0" y="1348.0">io.netty.handler.codec.http.HttpHeadersEncoder</node>
+    <node x="444.4867424242423" y="158.0">io.netty.handler.codec.http.DefaultHttpObject</node>
+    <node x="164.5075757575757" y="158.0">io.netty.handler.codec.http.HttpMessage</node>
+    <node x="965.5000000000001" y="657.0">io.netty.handler.codec.http.CombinedHttpHeaders</node>
+    <node x="385.375" y="657.0">io.netty.handler.codec.http.multipart.AbstractHttpData</node>
+    <node x="447.37499999999994" y="0.0">io.netty.handler.codec.http.HttpObject</node>
+    <node x="1286.0" y="1422.0">io.netty.handler.codec.http.HttpConstants</node>
+    <node x="929.0" y="1422.0">io.netty.handler.codec.http.HttpClientCodec</node>
+    <node x="758.0" y="1496.0">io.netty.handler.codec.http.cookie.CookieUtil</node>
+    <node x="344.99999999999994" y="346.0">io.netty.handler.codec.http.DefaultHttpRequest</node>
+    <node x="380.0" y="1422.0">io.netty.handler.codec.http.multipart.HttpPostBodyUtil</node>
+    <node x="966.0" y="1121.0">io.netty.handler.codec.http.cookie.ServerCookieDecoder</node>
+    <node x="181.0" y="1121.0">io.netty.handler.codec.http.HttpResponseEncoder</node>
+    <node x="1108.0" y="1422.0">io.netty.handler.codec.http.HttpStatusClass</node>
+    <node x="22.0" y="1195.0">io.netty.handler.codec.http.multipart.HttpDataFactory</node>
+    <node x="1455.0" y="1422.0">io.netty.handler.codec.http.multipart.FileUploadUtil</node>
+    <node x="190.0" y="1422.0">io.netty.handler.codec.http.cors.CorsConfigBuilder</node>
+    <node x="478.10937500000006" y="736.0">io.netty.handler.codec.http.multipart.AbstractDiskHttpData</node>
+    <node x="143.0" y="815.0">io.netty.handler.codec.http.multipart.MemoryAttribute</node>
+    <node x="1322.0" y="889.0">io.netty.handler.codec.http.HttpObjectDecoder</node>
+    <node x="404.3825757575757" y="267.0">io.netty.handler.codec.http.HttpRequest</node>
+    <node x="646.5" y="815.0">io.netty.handler.codec.http.multipart.DiskFileUpload</node>
+    <node x="427.0" y="1348.0">io.netty.handler.codec.http.HttpResponseStatus</node>
+    <node x="507.5" y="1042.0">io.netty.handler.codec.http.cookie.CookieEncoder</node>
+    <node x="450.125" y="499.0">io.netty.handler.codec.http.multipart.InterfaceHttpData</node>
+    <node x="245.0" y="1195.0">io.netty.handler.codec.http.cookie.Cookie</node>
+    <node x="548.9791666666665" y="346.0">io.netty.handler.codec.http.FullHttpRequest</node>
+    <node x="1149.5" y="578.0">io.netty.handler.codec.http.EmptyHttpHeaders</node>
+    <node x="132.140625" y="736.0">io.netty.handler.codec.http.multipart.Attribute</node>
+    <node x="534.3825757575758" y="267.0">io.netty.handler.codec.http.FullHttpMessage</node>
+    <node x="749.0" y="1422.0">io.netty.handler.codec.http.HttpMessageUtil</node>
+    <node x="223.0" y="1274.0">io.netty.handler.codec.http.cookie.DefaultCookie</node>
+    <node x="974.5000000000001" y="578.0">io.netty.handler.codec.http.DefaultHttpHeaders</node>
+    <node x="0.0" y="346.0">io.netty.handler.codec.http.DefaultHttpResponse</node>
+    <node x="473.0" y="968.0">io.netty.handler.codec.http.multipart.HttpPostStandardRequestDecoder</node>
+    <node x="209.0" y="968.0">io.netty.handler.codec.http.multipart.HttpPostMultipartRequestDecoder</node>
+    <node x="98.0" y="1042.0">io.netty.handler.codec.http.HttpObjectEncoder</node>
+    <node x="56.86174242424232" y="425.0">io.netty.handler.codec.http.DefaultFullHttpResponse</node>
+    <node x="12.229166666666515" y="267.0">io.netty.handler.codec.http.HttpResponse</node>
+    <node x="331.75" y="815.0">io.netty.handler.codec.http.multipart.DiskAttribute</node>
+    <node x="1431.0" y="1042.0">io.netty.handler.codec.http.HttpContentEncoder</node>
+    <node x="268.10937500000006" y="736.0">io.netty.handler.codec.http.multipart.AbstractMemoryHttpData</node>
+    <node x="0.0" y="1348.0">io.netty.handler.codec.http.HttpHeaderDateFormat</node>
+    <node x="191.23674242424232" y="267.0">io.netty.handler.codec.http.DefaultHttpMessage</node>
+    <node x="1419.0" y="1121.0">io.netty.handler.codec.http.HttpContentCompressor</node>
+    <node x="0.0" y="1121.0">io.netty.handler.codec.http.HttpRequestEncoder</node>
+    <node x="894.5" y="1042.0">io.netty.handler.codec.http.cookie.CookieDecoder</node>
+    <node x="928.0" y="1195.0">io.netty.handler.codec.http.HttpExpectationFailedEvent</node>
+    <node x="307.0" y="1496.0">io.netty.handler.codec.http.HttpVersion</node>
+    <node x="1410.0" y="1195.0">io.netty.handler.codec.http.multipart.CaseIgnoringComparator</node>
+    <node x="1176.0" y="1195.0">io.netty.handler.codec.http.multipart.HttpPostRequestEncoder</node>
+    <node x="0.0" y="1274.0">io.netty.handler.codec.http.multipart.DefaultHttpDataFactory</node>
+    <node x="800.0056818181818" y="158.0">io.netty.handler.codec.http.LastHttpContent</node>
+    <node x="1194.0" y="1042.0">io.netty.handler.codec.http.HttpContentDecoder</node>
+    <node x="925.875" y="267.0">io.netty.handler.codec.http.ComposedLastHttpContent</node>
+    <node x="788.5" y="815.0">io.netty.handler.codec.http.multipart.MixedFileUpload</node>
+    <node x="411.875" y="578.0">io.netty.handler.codec.http.multipart.HttpData</node>
+    <node x="464.75" y="815.0">io.netty.handler.codec.http.multipart.MemoryFileUpload</node>
+    <node x="386.0" y="1195.0">io.netty.handler.codec.http.HttpServerExpectContinueHandler</node>
+    <node x="0.0" y="1496.0">io.netty.handler.codec.http.cors.CorsHandler</node>
+    <node x="581.0" y="1121.0">io.netty.handler.codec.http.cookie.ClientCookieEncoder</node>
+    <node x="1319.5" y="578.0">io.netty.handler.codec.http.ReadOnlyHttpHeaders</node>
+    <node x="676.0" y="1195.0">io.netty.handler.codec.http.HttpServerKeepAliveHandler</node>
+    <node x="773.2556818181818" y="79.0">io.netty.handler.codec.http.HttpContent</node>
+    <node x="1039.0" y="1348.0">io.netty.handler.codec.http.QueryStringEncoder</node>
+    <node x="0.0" y="1422.0">io.netty.handler.codec.http.HttpHeaderValues</node>
+    <node x="700.71875" y="736.0">io.netty.handler.codec.http.multipart.FileUpload</node>
+    <node x="611.0" y="1496.0">io.netty.handler.codec.http.cors.CorsConfig</node>
+    <node x="459.0" y="1496.0">io.netty.handler.codec.http.HttpMethod</node>
+    <node x="1241.0" y="1348.0">io.netty.handler.codec.http.HttpChunkedInput</node>
+    <node x="519.875" y="578.0">io.netty.handler.codec.http.multipart.InternalAttribute</node>
+    <node x="566.0" y="1422.0">io.netty.handler.codec.http.HttpServerCodec</node>
+    <node x="736.125" y="267.0">io.netty.handler.codec.http.DefaultHttpContent</node>
+    <node x="183.99999999999994" y="346.0">io.netty.handler.codec.http.FullHttpResponse</node>
+    <node x="154.0" y="1496.0">io.netty.handler.codec.http.HttpScheme</node>
+    <node x="209.5" y="889.0">io.netty.handler.codec.http.multipart.InterfaceHttpPostRequestDecoder</node>
+    <node x="781.625" y="346.0">io.netty.handler.codec.http.DefaultLastHttpContent</node>
+    <node x="632.0" y="1348.0">io.netty.handler.codec.http.cookie.CookieHeaderNames</node>
+    <node x="837.0" y="1348.0">io.netty.handler.codec.http.QueryStringDecoder</node>
+    <node x="1224.0" y="968.0">io.netty.handler.codec.http.HttpRequestDecoder</node>
+    <node x="1175.0" y="1121.0">io.netty.handler.codec.http.HttpContentDecompressor</node>
+    <node x="1433.0" y="1348.0">io.netty.handler.codec.http.HttpHeaderNames</node>
+    <node x="983.0" y="968.0">io.netty.handler.codec.http.HttpClientUpgradeHandler</node>
+    <node x="0.0" y="968.0">io.netty.handler.codec.http.multipart.HttpPostRequestDecoder</node>
+    <node x="0.0" y="815.0">io.netty.handler.codec.http.multipart.MixedAttribute</node>
+    <node x="887.0" y="889.0">io.netty.handler.codec.http.HttpObjectAggregator</node>
+    <node x="397.0" y="1121.0">io.netty.handler.codec.http.cookie.ServerCookieEncoder</node>
+    <node x="786.0" y="1121.0">io.netty.handler.codec.http.cookie.ClientCookieDecoder</node>
+    <node x="898.0" y="1496.0">io.netty.handler.codec.http.HttpUtil</node>
+    <node x="763.0" y="968.0">io.netty.handler.codec.http.HttpServerUpgradeHandler</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.netty.handler.codec.http.DefaultHttpContent" target="io.netty.handler.codec.http.HttpContent">
+      <point x="38.5" y="-14.5" />
+      <point x="851.625" y="207.0" />
+      <point x="770.6723484848484" y="207.0" />
+      <point x="770.6723484848484" y="133.0" />
+      <point x="800.7556818181818" y="133.0" />
+      <point x="-27.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.cookie.ServerCookieEncoder" target="io.netty.handler.codec.http.cookie.CookieEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="479.0" y="1096.0" />
+      <point x="538.75" y="1096.0" />
+      <point x="-31.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.HttpData" target="io.netty.handler.codec.http.multipart.InterfaceHttpData">
+      <point x="0.0" y="-14.5" />
+      <point x="455.875" y="553.0" />
+      <point x="485.625" y="553.0" />
+      <point x="-35.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.Attribute" target="io.netty.handler.codec.http.multipart.HttpData">
+      <point x="0.0" y="-14.5" />
+      <point x="175.640625" y="632.0" />
+      <point x="426.5416666666667" y="632.0" />
+      <point x="-29.33333333333333" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.DiskAttribute" target="io.netty.handler.codec.http.multipart.AbstractDiskHttpData">
+      <point x="28.25" y="-14.5" />
+      <point x="416.5" y="795.0" />
+      <point x="519.859375" y="795.0" />
+      <point x="-41.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpContent" target="io.netty.handler.codec.http.HttpObject">
+      <point x="0.0" y="-14.5" />
+      <point x="828.2556818181818" y="54.0" />
+      <point x="530.7083333333333" y="54.0" />
+      <point x="33.33333333333337" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultFullHttpRequest" target="io.netty.handler.codec.http.DefaultHttpRequest">
+      <point x="-43.75" y="-14.5" />
+      <point x="526.9791666666665" y="400.0" />
+      <point x="421.99999999999994" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.AbstractMemoryHttpData" target="io.netty.handler.codec.http.multipart.AbstractHttpData">
+      <point x="0.0" y="-14.5" />
+      <point x="363.10937500000006" y="711.0" />
+      <point x="420.625" y="711.0" />
+      <point x="-35.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultFullHttpResponse" target="io.netty.handler.codec.http.DefaultHttpResponse">
+      <point x="-46.25" y="-14.5" />
+      <point x="103.11174242424232" y="400.0" />
+      <point x="82.0" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.DefaultHttpDataFactory" target="io.netty.handler.codec.http.multipart.HttpDataFactory">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.AbstractHttpData" target="io.netty.handler.codec.http.multipart.HttpData">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultFullHttpRequest" target="io.netty.handler.codec.http.FullHttpRequest">
+      <point x="43.75" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.DiskAttribute" target="io.netty.handler.codec.http.multipart.Attribute">
+      <point x="-28.25" y="-14.5" />
+      <point x="360.0" y="785.0" />
+      <point x="204.640625" y="785.0" />
+      <point x="29.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultLastHttpContent" target="io.netty.handler.codec.http.LastHttpContent">
+      <point x="45.0" y="-14.5" />
+      <point x="916.625" y="326.0" />
+      <point x="915.375" y="326.0" />
+      <point x="915.375" y="247.0" />
+      <point x="868.0056818181818" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultHttpRequest" target="io.netty.handler.codec.http.DefaultHttpMessage">
+      <point x="-38.5" y="-14.5" />
+      <point x="383.49999999999994" y="316.0" />
+      <point x="309.7367424242423" y="316.0" />
+      <point x="39.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.DiskFileUpload" target="io.netty.handler.codec.http.multipart.AbstractDiskHttpData">
+      <point x="-30.5" y="-14.5" />
+      <point x="677.0" y="785.0" />
+      <point x="603.359375" y="785.0" />
+      <point x="41.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpMessage" target="io.netty.handler.codec.http.HttpObject">
+      <point x="0.0" y="-14.5" />
+      <point x="221.5075757575757" y="54.0" />
+      <point x="464.04166666666663" y="54.0" />
+      <point x="-33.333333333333314" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.FullHttpMessage" target="io.netty.handler.codec.http.HttpMessage">
+      <point x="-33.75" y="-14.5" />
+      <point x="568.1325757575758" y="227.0" />
+      <point x="264.2575757575757" y="227.0" />
+      <point x="42.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpResponseEncoder" target="io.netty.handler.codec.http.HttpObjectEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="266.5" y="1096.0" />
+      <point x="211.25" y="1096.0" />
+      <point x="37.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.FullHttpRequest" target="io.netty.handler.codec.http.HttpRequest">
+      <point x="-32.75" y="-14.5" />
+      <point x="581.7291666666665" y="316.0" />
+      <point x="486.8825757575757" y="316.0" />
+      <point x="27.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.HttpPostRequestDecoder" target="io.netty.handler.codec.http.multipart.InterfaceHttpPostRequestDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="94.5" y="943.0" />
+      <point x="250.0" y="943.0" />
+      <point x="-81.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.ComposedLastHttpContent" target="io.netty.handler.codec.http.LastHttpContent">
+      <point x="0.0" y="-14.5" />
+      <point x="1026.875" y="237.0" />
+      <point x="913.339015151515" y="237.0" />
+      <point x="45.33333333333337" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultHttpHeaders" target="io.netty.handler.codec.http.HttpHeaders">
+      <point x="0.0" y="-14.5" />
+      <point x="1052.0" y="553.0" />
+      <point x="1187.5" y="553.0" />
+      <point x="-37.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpResponse" target="io.netty.handler.codec.http.HttpMessage">
+      <point x="0.0" y="-14.5" />
+      <point x="72.22916666666652" y="247.0" />
+      <point x="178.7575757575757" y="247.0" />
+      <point x="-42.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultHttpObject" target="io.netty.handler.codec.http.HttpObject">
+      <point x="0.0" y="-14.5" />
+      <point x="516.4867424242423" y="54.0" />
+      <point x="497.37499999999994" y="54.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.MemoryAttribute" target="io.netty.handler.codec.http.multipart.AbstractMemoryHttpData">
+      <point x="34.0" y="-14.5" />
+      <point x="245.0" y="795.0" />
+      <point x="315.60937500000006" y="795.0" />
+      <point x="-47.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpRequestDecoder" target="io.netty.handler.codec.http.HttpObjectDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1304.5" y="943.0" />
+      <point x="1359.75" y="943.0" />
+      <point x="-37.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.cookie.DefaultCookie" target="io.netty.handler.codec.http.cookie.Cookie">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.cookie.ClientCookieEncoder" target="io.netty.handler.codec.http.cookie.CookieEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="661.0" y="1096.0" />
+      <point x="601.25" y="1096.0" />
+      <point x="31.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.HttpPostMultipartRequestDecoder" target="io.netty.handler.codec.http.multipart.InterfaceHttpPostRequestDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpClientUpgradeHandler" target="io.netty.handler.codec.http.HttpObjectAggregator">
+      <point x="0.0" y="-14.5" />
+      <point x="1081.0" y="943.0" />
+      <point x="1014.5" y="943.0" />
+      <point x="42.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.FullHttpRequest" target="io.netty.handler.codec.http.FullHttpMessage">
+      <point x="32.75" y="-14.5" />
+      <point x="647.2291666666665" y="326.0" />
+      <point x="635.6325757575758" y="326.0" />
+      <point x="33.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultHttpContent" target="io.netty.handler.codec.http.DefaultHttpObject">
+      <point x="-38.5" y="-14.5" />
+      <point x="774.625" y="217.0" />
+      <point x="552.4867424242423" y="217.0" />
+      <point x="36.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.MemoryAttribute" target="io.netty.handler.codec.http.multipart.Attribute">
+      <point x="-34.0" y="-14.5" />
+      <point x="177.0" y="795.0" />
+      <point x="175.640625" y="795.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpContentDecompressor" target="io.netty.handler.codec.http.HttpContentDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.InternalAttribute" target="io.netty.handler.codec.http.multipart.InterfaceHttpData">
+      <point x="0.0" y="-14.5" />
+      <point x="586.375" y="553.0" />
+      <point x="556.625" y="553.0" />
+      <point x="35.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.MemoryFileUpload" target="io.netty.handler.codec.http.multipart.AbstractMemoryHttpData">
+      <point x="-36.25" y="-14.5" />
+      <point x="501.0" y="785.0" />
+      <point x="410.60937500000006" y="785.0" />
+      <point x="47.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.cookie.ClientCookieDecoder" target="io.netty.handler.codec.http.cookie.CookieDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="866.0" y="1096.0" />
+      <point x="925.75" y="1096.0" />
+      <point x="-31.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultHttpResponse" target="io.netty.handler.codec.http.DefaultHttpMessage">
+      <point x="41.0" y="-14.5" />
+      <point x="123.0" y="326.0" />
+      <point x="230.73674242424232" y="326.0" />
+      <point x="-39.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultHttpMessage" target="io.netty.handler.codec.http.DefaultHttpObject">
+      <point x="39.5" y="-14.5" />
+      <point x="309.7367424242423" y="247.0" />
+      <point x="480.4867424242423" y="247.0" />
+      <point x="-36.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.cookie.ServerCookieDecoder" target="io.netty.handler.codec.http.cookie.CookieDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1048.0" y="1096.0" />
+      <point x="988.25" y="1096.0" />
+      <point x="31.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.DiskFileUpload" target="io.netty.handler.codec.http.multipart.FileUpload">
+      <point x="30.5" y="-14.5" />
+      <point x="738.0" y="795.0" />
+      <point x="748.71875" y="795.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.MemoryFileUpload" target="io.netty.handler.codec.http.multipart.FileUpload">
+      <point x="36.25" y="-14.5" />
+      <point x="573.5" y="795.0" />
+      <point x="716.71875" y="795.0" />
+      <point x="-32.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.ReadOnlyHttpHeaders" target="io.netty.handler.codec.http.HttpHeaders">
+      <point x="0.0" y="-14.5" />
+      <point x="1404.0" y="553.0" />
+      <point x="1261.5" y="553.0" />
+      <point x="37.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.HttpPostStandardRequestDecoder" target="io.netty.handler.codec.http.multipart.InterfaceHttpPostRequestDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="595.5" y="943.0" />
+      <point x="412.0" y="943.0" />
+      <point x="81.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultHttpResponse" target="io.netty.handler.codec.http.HttpResponse">
+      <point x="-41.0" y="-14.5" />
+      <point x="41.0" y="326.0" />
+      <point x="42.229166666666515" y="326.0" />
+      <point x="-30.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.MixedFileUpload" target="io.netty.handler.codec.http.multipart.FileUpload">
+      <point x="0.0" y="-14.5" />
+      <point x="854.5" y="795.0" />
+      <point x="780.71875" y="795.0" />
+      <point x="32.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultFullHttpResponse" target="io.netty.handler.codec.http.FullHttpResponse">
+      <point x="46.25" y="-14.5" />
+      <point x="195.61174242424232" y="400.0" />
+      <point x="254.49999999999994" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultHttpRequest" target="io.netty.handler.codec.http.HttpRequest">
+      <point x="38.5" y="-14.5" />
+      <point x="460.49999999999994" y="316.0" />
+      <point x="431.8825757575757" y="316.0" />
+      <point x="-27.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.EmptyHttpHeaders" target="io.netty.handler.codec.http.HttpHeaders">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultHttpMessage" target="io.netty.handler.codec.http.HttpMessage">
+      <point x="-39.5" y="-14.5" />
+      <point x="230.73674242424232" y="247.0" />
+      <point x="207.2575757575757" y="247.0" />
+      <point x="-14.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.FullHttpResponse" target="io.netty.handler.codec.http.HttpResponse">
+      <point x="-35.25" y="-14.5" />
+      <point x="219.24999999999994" y="316.0" />
+      <point x="102.22916666666652" y="316.0" />
+      <point x="30.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.FullHttpResponse" target="io.netty.handler.codec.http.FullHttpMessage">
+      <point x="35.25" y="-14.5" />
+      <point x="289.74999999999994" y="326.0" />
+      <point x="568.1325757575758" y="326.0" />
+      <point x="-33.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpResponseDecoder" target="io.netty.handler.codec.http.HttpObjectDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1490.5" y="943.0" />
+      <point x="1435.25" y="943.0" />
+      <point x="37.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.CombinedHttpHeaders" target="io.netty.handler.codec.http.DefaultHttpHeaders">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.FullHttpMessage" target="io.netty.handler.codec.http.LastHttpContent">
+      <point x="33.75" y="-14.5" />
+      <point x="635.6325757575758" y="247.0" />
+      <point x="822.6723484848483" y="247.0" />
+      <point x="-45.33333333333337" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.DefaultLastHttpContent" target="io.netty.handler.codec.http.DefaultHttpContent">
+      <point x="-45.0" y="-14.5" />
+      <point x="826.625" y="326.0" />
+      <point x="813.125" y="326.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.MixedAttribute" target="io.netty.handler.codec.http.multipart.Attribute">
+      <point x="0.0" y="-14.5" />
+      <point x="61.5" y="795.0" />
+      <point x="146.640625" y="795.0" />
+      <point x="-29.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpRequest" target="io.netty.handler.codec.http.HttpMessage">
+      <point x="0.0" y="-14.5" />
+      <point x="459.3825757575757" y="237.0" />
+      <point x="235.7575757575757" y="237.0" />
+      <point x="14.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpRequestEncoder" target="io.netty.handler.codec.http.HttpObjectEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="80.5" y="1096.0" />
+      <point x="135.75" y="1096.0" />
+      <point x="-37.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.LastHttpContent" target="io.netty.handler.codec.http.HttpContent">
+      <point x="0.0" y="-14.5" />
+      <point x="868.0056818181818" y="133.0" />
+      <point x="855.7556818181818" y="133.0" />
+      <point x="27.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.AbstractDiskHttpData" target="io.netty.handler.codec.http.multipart.AbstractHttpData">
+      <point x="0.0" y="-14.5" />
+      <point x="561.609375" y="711.0" />
+      <point x="491.125" y="711.0" />
+      <point x="35.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.multipart.FileUpload" target="io.netty.handler.codec.http.multipart.HttpData">
+      <point x="0.0" y="-14.5" />
+      <point x="748.71875" y="632.0" />
+      <point x="485.2083333333333" y="632.0" />
+      <point x="29.33333333333333" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpContentCompressor" target="io.netty.handler.codec.http.HttpContentEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.http.HttpServerUpgradeHandler" target="io.netty.handler.codec.http.HttpObjectAggregator">
+      <point x="0.0" y="-14.5" />
+      <point x="863.0" y="943.0" />
+      <point x="929.5" y="943.0" />
+      <point x="-42.5" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="86.5" y="133.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

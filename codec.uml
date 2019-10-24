@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.netty.handler.codec.AsciiHeadersEncoder</OriginalElement>
+  <nodes>
+    <node x="121.0" y="2030.0">io.netty.handler.codec.compression.FastLz</node>
+    <node x="0.0" y="712.0">io.netty.handler.codec.compression.CompressionException</node>
+    <node x="870.5" y="633.0">io.netty.handler.codec.PrematureChannelClosureException</node>
+    <node x="966.0" y="1433.0">io.netty.handler.codec.serialization.ClassLoaderClassResolver</node>
+    <node x="73.75" y="401.0">io.netty.handler.codec.compression.ZlibEncoder</node>
+    <node x="1592.0" y="208.0">io.netty.handler.codec.marshalling.CompatibleMarshallingDecoder</node>
+    <node x="367.0" y="1882.0">io.netty.handler.codec.compression.CompressionUtil</node>
+    <node x="255.0" y="1660.0">io.netty.handler.codec.compression.Bzip2HuffmanStageEncoder</node>
+    <node x="1243.0" y="1956.0">io.netty.handler.codec.base64.Base64</node>
+    <node x="0.0" y="1808.0">io.netty.handler.codec.compression.Bzip2BlockCompressor</node>
+    <node x="1006.0" y="1660.0">io.netty.handler.codec.serialization.ObjectDecoderInputStream</node>
+    <node x="544.25" y="554.0">io.netty.handler.codec.CodecException</node>
+    <node x="1163.0" y="1734.0">io.netty.handler.codec.marshalling.ChannelBufferByteInput</node>
+    <node x="140.0" y="1280.0">io.netty.handler.codec.bytes.ByteArrayDecoder</node>
+    <node x="920.0000000000001" y="208.0">io.netty.handler.codec.marshalling.MarshallingDecoder</node>
+    <node x="0.0" y="480.0">io.netty.handler.codec.compression.JZlibEncoder</node>
+    <node x="442.0" y="1808.0">io.netty.handler.codec.ProtocolDetectionState</node>
+    <node x="878.75" y="401.0">io.netty.handler.codec.compression.LzmaFrameEncoder</node>
+    <node x="654.0" y="1956.0">io.netty.handler.codec.HeadersUtils</node>
+    <node x="186.0000000000001" y="129.0">io.netty.handler.codec.DelimiterBasedFrameDecoder</node>
+    <node x="1249.0" y="1660.0">io.netty.handler.codec.MessageToMessageCodec</node>
+    <node x="535.0" y="944.0">io.netty.handler.codec.DefaultHeadersImpl</node>
+    <node x="1071.0" y="1882.0">io.netty.handler.codec.serialization.ClassResolvers</node>
+    <node x="758.0000000000001" y="129.0">io.netty.handler.codec.LineBasedFrameDecoder</node>
+    <node x="0.0" y="1280.0">io.netty.handler.codec.string.StringDecoder</node>
+    <node x="1161.0" y="1117.0">io.netty.handler.codec.protobuf.ProtobufEncoder</node>
+    <node x="1210.0" y="129.0">io.netty.handler.codec.compression.Lz4FrameDecoder</node>
+    <node x="1093.0" y="208.0">io.netty.handler.codec.serialization.ObjectDecoder</node>
+    <node x="1103.25" y="1354.0">io.netty.handler.codec.serialization.ClassResolver</node>
+    <node x="1050.75" y="401.0">io.netty.handler.codec.compression.FastLzFrameEncoder</node>
+    <node x="1929.75" y="401.0">io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender</node>
+    <node x="1372.0" y="129.0">io.netty.handler.codec.compression.LzfDecoder</node>
+    <node x="476.2500000000001" y="208.0">io.netty.handler.codec.compression.JdkZlibDecoder</node>
+    <node x="398.0" y="1586.0">io.netty.handler.codec.compression.Crc32c</node>
+    <node x="0.0" y="944.0">io.netty.handler.codec.marshalling.ContextBoundUnmarshallerProvider</node>
+    <node x="1178.0" y="1433.0">io.netty.handler.codec.serialization.CachingClassResolver</node>
+    <node x="229.0" y="1433.0">io.netty.handler.codec.CharSequenceValueConverter</node>
+    <node x="1632.0" y="129.0">io.netty.handler.codec.ReplayingDecoder</node>
+    <node x="480.0" y="1280.0">io.netty.handler.codec.DatagramPacketDecoder</node>
+    <node x="166.75" y="786.0">io.netty.handler.codec.marshalling.UnmarshallerProvider</node>
+    <node x="1102.0" y="1507.0">io.netty.handler.codec.serialization.CompactObjectOutputStream</node>
+    <node x="1230.75" y="401.0">io.netty.handler.codec.compression.LzfEncoder</node>
+    <node x="1093.0" y="1808.0">io.netty.handler.codec.AsciiHeadersEncoder</node>
+    <node x="133.0" y="480.0">io.netty.handler.codec.compression.JdkZlibEncoder</node>
+    <node x="1261.5" y="0.0">io.netty.handler.codec.ByteToMessageDecoder</node>
+    <node x="1494.0" y="129.0">io.netty.handler.codec.compression.Bzip2Decoder</node>
+    <node x="952.25" y="282.0">io.netty.handler.codec.MessageToByteEncoder</node>
+    <node x="251.0" y="865.0">io.netty.handler.codec.marshalling.ThreadLocalUnmarshallerProvider</node>
+    <node x="710.0" y="1734.0">io.netty.handler.codec.compression.Bzip2MoveToFrontTable</node>
+    <node x="363.0" y="1507.0">io.netty.handler.codec.compression.ByteBufChecksum</node>
+    <node x="490.0" y="1433.0">io.netty.handler.codec.marshalling.ThreadLocalMarshallerProvider</node>
+    <node x="2147.0" y="129.0">io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder</node>
+    <node x="157.25" y="1354.0">io.netty.handler.codec.ValueConverter</node>
+    <node x="990.0" y="1280.0">io.netty.handler.codec.protobuf.ProtobufDecoderNano</node>
+    <node x="662.0" y="1808.0">io.netty.handler.codec.DecoderResultProvider</node>
+    <node x="165.0" y="1956.0">io.netty.handler.codec.base64.Base64Dialect</node>
+    <node x="411.75" y="401.0">io.netty.handler.codec.serialization.ObjectEncoder</node>
+    <node x="268.0" y="1117.0">io.netty.handler.codec.bytes.ByteArrayEncoder</node>
+    <node x="0.0" y="1956.0">io.netty.handler.codec.DateFormatter</node>
+    <node x="343.2500000000001" y="208.0">io.netty.handler.codec.compression.JZlibDecoder</node>
+    <node x="2395.0" y="129.0">io.netty.handler.codec.xml.XmlFrameDecoder</node>
+    <node x="475.0" y="1734.0">io.netty.handler.codec.compression.Bzip2BlockDecompressor</node>
+    <node x="759.0" y="1660.0">io.netty.handler.codec.serialization.CompactObjectInputStream</node>
+    <node x="417.0000000000001" y="129.0">io.netty.handler.codec.compression.ZlibDecoder</node>
+    <node x="0.0" y="1433.0">io.netty.handler.codec.UnsupportedValueConverter</node>
+    <node x="432.0" y="1117.0">io.netty.handler.codec.LengthFieldPrepender</node>
+    <node x="834.0" y="1507.0">io.netty.handler.codec.MessageAggregationException</node>
+    <node x="199.75" y="401.0">io.netty.handler.codec.serialization.CompatibleObjectEncoder</node>
+    <node x="1974.0" y="129.0">io.netty.handler.codec.json.JsonObjectDecoder</node>
+    <node x="1514.75" y="401.0">io.netty.handler.codec.marshalling.CompatibleMarshallingEncoder</node>
+    <node x="427.5" y="633.0">io.netty.handler.codec.DecoderException</node>
+    <node x="507.0" y="1660.0">io.netty.handler.codec.compression.Bzip2HuffmanStageDecoder</node>
+    <node x="724.0" y="1882.0">io.netty.handler.codec.compression.Bzip2Constants</node>
+    <node x="937.0" y="1734.0">io.netty.handler.codec.ProtocolDetectionResult</node>
+    <node x="140.0" y="1117.0">io.netty.handler.codec.string.LineEncoder</node>
+    <node x="238.0" y="1734.0">io.netty.handler.codec.ReplayingDecoderByteBuf</node>
+    <node x="970.0" y="1117.0">io.netty.handler.codec.protobuf.ProtobufEncoderNano</node>
+    <node x="1352.75" y="401.0">io.netty.handler.codec.compression.Lz4FrameEncoder</node>
+    <node x="0.0" y="1117.0">io.netty.handler.codec.string.StringEncoder</node>
+    <node x="407.0" y="712.0">io.netty.handler.codec.TooLongFrameException</node>
+    <node x="879.0" y="1808.0">io.netty.handler.codec.ByteToMessageCodec</node>
+    <node x="1366.0" y="1956.0">io.netty.handler.codec.compression.Snappy</node>
+    <node x="547.5" y="865.0">io.netty.handler.codec.DefaultHeaders</node>
+    <node x="543.0000000000001" y="129.0">io.netty.handler.codec.FixedLengthFrameDecoder</node>
+    <node x="694.5" y="865.0">io.netty.handler.codec.EmptyHeaders</node>
+    <node x="832.0" y="1280.0">io.netty.handler.codec.protobuf.ProtobufDecoder</node>
+    <node x="963.0" y="1956.0">io.netty.handler.codec.compression.Bzip2Rand</node>
+    <node x="492.0" y="1956.0">io.netty.handler.codec.string.LineSeparator</node>
+    <node x="641.75" y="786.0">io.netty.handler.codec.Headers</node>
+    <node x="1756.75" y="401.0">io.netty.handler.codec.marshalling.MarshallingEncoder</node>
+    <node x="1407.0" y="1882.0">io.netty.handler.codec.DecoderResult</node>
+    <node x="731.0" y="1433.0">io.netty.handler.codec.marshalling.DefaultMarshallerProvider</node>
+    <node x="0.0" y="1882.0">io.netty.handler.codec.marshalling.LimitingByteInput</node>
+    <node x="618.0" y="1117.0">io.netty.handler.codec.DatagramPacketEncoder</node>
+    <node x="740.75" y="401.0">io.netty.handler.codec.compression.Bzip2Encoder</node>
+    <node x="546.0" y="1882.0">io.netty.handler.codec.compression.Bzip2DivSufSort</node>
+    <node x="23.0" y="865.0">io.netty.handler.codec.marshalling.DefaultUnmarshallerProvider</node>
+    <node x="1106.0" y="1956.0">io.netty.handler.codec.Delimiters</node>
+    <node x="15.0" y="633.0">io.netty.handler.codec.EncoderException</node>
+    <node x="612.0" y="712.0">io.netty.handler.codec.compression.DecompressionException</node>
+    <node x="238.0" y="2030.0">io.netty.handler.codec.compression.Crc32</node>
+    <node x="97.5" y="1507.0">io.netty.handler.codec.serialization.ReferenceMap</node>
+    <node x="508.75" y="1018.0">io.netty.handler.codec.MessageToMessageEncoder</node>
+    <node x="1240.0" y="1882.0">io.netty.handler.codec.compression.Bzip2BitWriter</node>
+    <node x="1794.0" y="129.0">io.netty.handler.codec.compression.FastLzFrameDecoder</node>
+    <node x="900.0" y="1882.0">io.netty.handler.codec.compression.Bzip2BitReader</node>
+    <node x="0.0" y="1734.0">io.netty.handler.codec.marshalling.ChannelBufferByteOutput</node>
+    <node x="304.0" y="1280.0">io.netty.handler.codec.MessageAggregator</node>
+    <node x="1301.0" y="1808.0">io.netty.handler.codec.compression.ZlibCodecFactory</node>
+    <node x="221.0" y="1808.0">io.netty.handler.codec.compression.Bzip2HuffmanAllocator</node>
+    <node x="185.0" y="1882.0">io.netty.handler.codec.CodecOutputList</node>
+    <node x="961.0000000000001" y="129.0">io.netty.handler.codec.LengthFieldBasedFrameDecoder</node>
+    <node x="468.0" y="1191.0">io.netty.handler.codec.MessageToMessageDecoder</node>
+    <node x="329.0" y="1956.0">io.netty.handler.codec.compression.Lz4Constants</node>
+    <node x="683.0" y="1280.0">io.netty.handler.codec.base64.Base64Decoder</node>
+    <node x="0.0" y="2030.0">io.netty.handler.codec.compression.ZlibUtil</node>
+    <node x="0.0" y="1586.0">io.netty.handler.codec.serialization.SoftReferenceMap</node>
+    <node x="0.0" y="1660.0">io.netty.handler.codec.serialization.ObjectEncoderOutputStream</node>
+    <node x="554.75" y="401.0">io.netty.handler.codec.compression.SnappyFrameEncoder</node>
+    <node x="810.0" y="1956.0">io.netty.handler.codec.compression.ZlibWrapper</node>
+    <node x="0.0" y="129.0">io.netty.handler.codec.compression.SnappyFrameDecoder</node>
+    <node x="554.0" y="1507.0">io.netty.handler.codec.compression.Bzip2MTFAndRLE2StageEncoder</node>
+    <node x="591.5" y="633.0">io.netty.handler.codec.UnsupportedMessageTypeException</node>
+    <node x="640.25" y="1354.0">io.netty.handler.codec.marshalling.MarshallerProvider</node>
+    <node x="821.0" y="1117.0">io.netty.handler.codec.base64.Base64Encoder</node>
+    <node x="194.0" y="712.0">io.netty.handler.codec.CorruptedFrameException</node>
+    <node x="165.0" y="1586.0">io.netty.handler.codec.serialization.WeakReferenceMap</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.netty.handler.codec.compression.Lz4FrameEncoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1423.75" y="361.0" />
+      <point x="1080.4583333333335" y="361.0" />
+      <point x="37.708333333333485" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.JdkZlibDecoder" target="io.netty.handler.codec.compression.ZlibDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="540.2500000000001" y="183.0" />
+      <point x="496.5000000000001" y="183.0" />
+      <point x="26.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.LzfEncoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1281.75" y="371.0" />
+      <point x="1065.375" y="371.0" />
+      <point x="22.625" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.DelimiterBasedFrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="291.5000000000001" y="59.0" />
+      <point x="1280.8928571428573" y="59.0" />
+      <point x="-71.10714285714289" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.xml.XmlFrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="2466.5" y="49.0" />
+      <point x="1436.0357142857142" y="49.0" />
+      <point x="84.03571428571422" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.string.StringEncoder" target="io.netty.handler.codec.MessageToMessageEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="60.0" y="1067.0" />
+      <point x="521.6875" y="1067.0" />
+      <point x="-90.5625" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.ReplayingDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1703.0" y="89.0" />
+      <point x="1384.321428571429" y="89.0" />
+      <point x="32.32142857142867" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.marshalling.DefaultMarshallerProvider" target="io.netty.handler.codec.marshalling.MarshallerProvider">
+      <point x="0.0" y="-14.5" />
+      <point x="826.0" y="1408.0" />
+      <point x="749.75" y="1408.0" />
+      <point x="36.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.MessageAggregator" target="io.netty.handler.codec.MessageToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="382.0" y="1260.0" />
+      <point x="541.9285714285714" y="1260.0" />
+      <point x="-29.571428571428555" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.Bzip2Encoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="799.75" y="371.0" />
+      <point x="1020.125" y="371.0" />
+      <point x="-22.625" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.marshalling.DefaultUnmarshallerProvider" target="io.netty.handler.codec.marshalling.UnmarshallerProvider">
+      <point x="0.0" y="-14.5" />
+      <point x="127.0" y="840.0" />
+      <point x="207.75" y="840.0" />
+      <point x="-41.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.bytes.ByteArrayDecoder" target="io.netty.handler.codec.MessageToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="212.0" y="1250.0" />
+      <point x="512.3571428571429" y="1250.0" />
+      <point x="-59.14285714285711" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.CharSequenceValueConverter" target="io.netty.handler.codec.ValueConverter">
+      <point x="0.0" y="-14.5" />
+      <point x="337.0" y="1408.0" />
+      <point x="252.5" y="1408.0" />
+      <point x="31.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.EmptyHeaders" target="io.netty.handler.codec.Headers">
+      <point x="0.0" y="-14.5" />
+      <point x="755.5" y="840.0" />
+      <point x="704.0" y="840.0" />
+      <point x="20.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="2261.0" y="59.0" />
+      <point x="1423.1071428571431" y="59.0" />
+      <point x="71.10714285714289" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.LzfDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1423.0" y="109.0" />
+      <point x="1358.4642857142858" y="109.0" />
+      <point x="6.464285714285779" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.PrematureChannelClosureException" target="io.netty.handler.codec.CodecException">
+      <point x="0.0" y="-14.5" />
+      <point x="997.0" y="603.0" />
+      <point x="659.75" y="603.0" />
+      <point x="49.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.FixedLengthFrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="640.5000000000001" y="79.0" />
+      <point x="1306.75" y="79.0" />
+      <point x="-45.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.DatagramPacketEncoder" target="io.netty.handler.codec.MessageToMessageEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="709.5" y="1097.0" />
+      <point x="625.1875" y="1097.0" />
+      <point x="12.9375" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.string.LineEncoder" target="io.netty.handler.codec.MessageToMessageEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="194.0" y="1077.0" />
+      <point x="547.5625" y="1077.0" />
+      <point x="-64.6875" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.Lz4FrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1281.0" y="109.0" />
+      <point x="1345.5357142857142" y="109.0" />
+      <point x="-6.464285714285779" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.FastLzFrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1874.0" y="79.0" />
+      <point x="1397.25" y="79.0" />
+      <point x="45.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.UnsupportedMessageTypeException" target="io.netty.handler.codec.CodecException">
+      <point x="0.0" y="-14.5" />
+      <point x="721.0" y="613.0" />
+      <point x="626.75" y="613.0" />
+      <point x="16.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.serialization.WeakReferenceMap" target="io.netty.handler.codec.serialization.ReferenceMap">
+      <point x="0.0" y="-14.5" />
+      <point x="241.5" y="1561.0" />
+      <point x="186.75" y="1561.0" />
+      <point x="29.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.serialization.SoftReferenceMap" target="io.netty.handler.codec.serialization.ReferenceMap">
+      <point x="0.0" y="-14.5" />
+      <point x="72.5" y="1561.0" />
+      <point x="127.25" y="1561.0" />
+      <point x="-29.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.marshalling.MarshallingDecoder" target="io.netty.handler.codec.LengthFieldBasedFrameDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="996.5000000000001" y="183.0" />
+      <point x="1018.2500000000001" y="183.0" />
+      <point x="-57.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.LzmaFrameEncoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="954.75" y="381.0" />
+      <point x="1035.2083333333333" y="381.0" />
+      <point x="-7.5416666666667425" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.FastLzFrameEncoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1130.75" y="381.0" />
+      <point x="1050.2916666666667" y="381.0" />
+      <point x="7.5416666666667425" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.marshalling.CompatibleMarshallingDecoder" target="io.netty.handler.codec.ReplayingDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.UnsupportedValueConverter" target="io.netty.handler.codec.ValueConverter">
+      <point x="0.0" y="-14.5" />
+      <point x="104.5" y="1408.0" />
+      <point x="189.0" y="1408.0" />
+      <point x="-31.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.serialization.ObjectDecoder" target="io.netty.handler.codec.LengthFieldBasedFrameDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1154.5" y="183.0" />
+      <point x="1132.75" y="183.0" />
+      <point x="57.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.base64.Base64Encoder" target="io.netty.handler.codec.MessageToMessageEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="885.5" y="1087.0" />
+      <point x="651.0625" y="1087.0" />
+      <point x="38.8125" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.SnappyFrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="83.0" y="49.0" />
+      <point x="1267.9642857142858" y="49.0" />
+      <point x="-84.03571428571422" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.marshalling.ThreadLocalUnmarshallerProvider" target="io.netty.handler.codec.marshalling.UnmarshallerProvider">
+      <point x="0.0" y="-14.5" />
+      <point x="370.5" y="840.0" />
+      <point x="289.75" y="840.0" />
+      <point x="41.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.marshalling.ThreadLocalMarshallerProvider" target="io.netty.handler.codec.marshalling.MarshallerProvider">
+      <point x="0.0" y="-14.5" />
+      <point x="600.5" y="1408.0" />
+      <point x="676.75" y="1408.0" />
+      <point x="-36.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.serialization.CachingClassResolver" target="io.netty.handler.codec.serialization.ClassResolver">
+      <point x="0.0" y="-14.5" />
+      <point x="1261.5" y="1408.0" />
+      <point x="1191.0" y="1408.0" />
+      <point x="29.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.JZlibEncoder" target="io.netty.handler.codec.compression.ZlibEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="56.5" y="455.0" />
+      <point x="100.25" y="455.0" />
+      <point x="-26.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.protobuf.ProtobufDecoder" target="io.netty.handler.codec.MessageToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="901.0" y="1250.0" />
+      <point x="630.6428571428571" y="1250.0" />
+      <point x="59.14285714285711" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.JdkZlibEncoder" target="io.netty.handler.codec.compression.ZlibEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="197.0" y="455.0" />
+      <point x="153.25" y="455.0" />
+      <point x="26.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.DecoderException" target="io.netty.handler.codec.CodecException">
+      <point x="0.0" y="-14.5" />
+      <point x="499.5" y="613.0" />
+      <point x="593.75" y="613.0" />
+      <point x="-16.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.DecompressionException" target="io.netty.handler.codec.DecoderException">
+      <point x="0.0" y="-14.5" />
+      <point x="706.0" y="687.0" />
+      <point x="547.5" y="687.0" />
+      <point x="48.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.DefaultHeaders" target="io.netty.handler.codec.Headers">
+      <point x="0.0" y="-14.5" />
+      <point x="611.0" y="840.0" />
+      <point x="662.5" y="840.0" />
+      <point x="-20.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.serialization.CompatibleObjectEncoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="295.75" y="341.0" />
+      <point x="974.875" y="341.0" />
+      <point x="-67.875" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.ZlibDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="470.0000000000001" y="69.0" />
+      <point x="1293.821428571429" y="69.0" />
+      <point x="-58.17857142857133" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.TooLongFrameException" target="io.netty.handler.codec.DecoderException">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.string.StringDecoder" target="io.netty.handler.codec.MessageToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="60.0" y="1240.0" />
+      <point x="482.7857142857143" y="1240.0" />
+      <point x="-88.71428571428572" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.LineBasedFrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="849.5000000000001" y="89.0" />
+      <point x="1319.6785714285716" y="89.0" />
+      <point x="-32.32142857142867" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.marshalling.MarshallingEncoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1833.25" y="341.0" />
+      <point x="1110.625" y="341.0" />
+      <point x="67.875" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.Crc32c" target="io.netty.handler.codec.compression.ByteBufChecksum">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.json.JsonObjectDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="2050.5" y="69.0" />
+      <point x="1410.1785714285716" y="69.0" />
+      <point x="58.17857142857133" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.marshalling.ContextBoundUnmarshallerProvider" target="io.netty.handler.codec.marshalling.DefaultUnmarshallerProvider">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="2066.75" y="331.0" />
+      <point x="1125.7083333333335" y="331.0" />
+      <point x="82.95833333333348" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.bytes.ByteArrayEncoder" target="io.netty.handler.codec.MessageToMessageEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="340.0" y="1087.0" />
+      <point x="573.4375" y="1087.0" />
+      <point x="-38.8125" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.LengthFieldPrepender" target="io.netty.handler.codec.MessageToMessageEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="515.0" y="1097.0" />
+      <point x="599.3125" y="1097.0" />
+      <point x="-12.9375" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.CorruptedFrameException" target="io.netty.handler.codec.DecoderException">
+      <point x="0.0" y="-14.5" />
+      <point x="290.5" y="687.0" />
+      <point x="451.5" y="687.0" />
+      <point x="-48.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.Bzip2Decoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1553.0" y="99.0" />
+      <point x="1371.3928571428573" y="99.0" />
+      <point x="19.39285714285711" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.DatagramPacketDecoder" target="io.netty.handler.codec.MessageToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.marshalling.CompatibleMarshallingEncoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1625.75" y="351.0" />
+      <point x="1095.5416666666667" y="351.0" />
+      <point x="52.79166666666674" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.protobuf.ProtobufEncoder" target="io.netty.handler.codec.MessageToMessageEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1230.0" y="1067.0" />
+      <point x="702.8125" y="1067.0" />
+      <point x="90.5625" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.serialization.ClassLoaderClassResolver" target="io.netty.handler.codec.serialization.ClassResolver">
+      <point x="0.0" y="-14.5" />
+      <point x="1062.0" y="1408.0" />
+      <point x="1132.5" y="1408.0" />
+      <point x="-29.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.serialization.ObjectEncoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="473.25" y="351.0" />
+      <point x="989.9583333333333" y="351.0" />
+      <point x="-52.79166666666663" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.JZlibDecoder" target="io.netty.handler.codec.compression.ZlibDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="399.7500000000001" y="183.0" />
+      <point x="443.5000000000001" y="183.0" />
+      <point x="-26.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.CompressionException" target="io.netty.handler.codec.EncoderException">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.DefaultHeadersImpl" target="io.netty.handler.codec.DefaultHeaders">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.SnappyFrameEncoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="637.75" y="361.0" />
+      <point x="1005.0416666666665" y="361.0" />
+      <point x="-37.70833333333337" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.protobuf.ProtobufEncoderNano" target="io.netty.handler.codec.MessageToMessageEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1055.5" y="1077.0" />
+      <point x="676.9375" y="1077.0" />
+      <point x="64.6875" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.protobuf.ProtobufDecoderNano" target="io.netty.handler.codec.MessageToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1075.5" y="1240.0" />
+      <point x="660.2142857142858" y="1240.0" />
+      <point x="88.71428571428578" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.LengthFieldBasedFrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="1075.5" y="99.0" />
+      <point x="1332.6071428571431" y="99.0" />
+      <point x="-19.39285714285711" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.base64.Base64Decoder" target="io.netty.handler.codec.MessageToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="747.5" y="1260.0" />
+      <point x="601.0714285714286" y="1260.0" />
+      <point x="29.571428571428555" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.compression.ZlibEncoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="126.75" y="331.0" />
+      <point x="959.7916666666665" y="331.0" />
+      <point x="-82.95833333333337" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.EncoderException" target="io.netty.handler.codec.CodecException">
+      <point x="0.0" y="-14.5" />
+      <point x="87.0" y="603.0" />
+      <point x="560.75" y="603.0" />
+      <point x="-49.5" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0169793169793169" x="272.12703968216437" y="508.99872298160153" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
