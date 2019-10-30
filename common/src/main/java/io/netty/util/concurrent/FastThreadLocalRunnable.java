@@ -17,6 +17,7 @@ package io.netty.util.concurrent;
 
 import io.netty.util.internal.ObjectUtil;
 
+//
 final class FastThreadLocalRunnable implements Runnable {
     private final Runnable runnable;
 
@@ -24,6 +25,7 @@ final class FastThreadLocalRunnable implements Runnable {
         this.runnable = ObjectUtil.checkNotNull(runnable, "runnable");
     }
 
+//
     @Override
     public void run() {
         try {
@@ -33,6 +35,7 @@ final class FastThreadLocalRunnable implements Runnable {
         }
     }
 
+//
     static Runnable wrap(Runnable runnable) {
         return runnable instanceof FastThreadLocalRunnable ? runnable : new FastThreadLocalRunnable(runnable);
     }

@@ -291,6 +291,7 @@ import java.nio.charset.UnsupportedCharsetException;
  I / O流
  请参阅ByteBufInputStream和ByteBufOutputStream
  */
+//
 @SuppressWarnings("ClassMayBeInterface")
 public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
 
@@ -352,8 +353,8 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
      *
      * @return {@code null} if this buffer is not a wrapper
      */
-    public abstract ByteBuf unwrap();
 
+    public abstract ByteBuf unwrap();
     /**
      * Returns {@code true} if and only if this buffer is backed by an
      * NIO direct buffer.如果且仅当此缓冲区由NIO直接缓冲区支持时，返回true。

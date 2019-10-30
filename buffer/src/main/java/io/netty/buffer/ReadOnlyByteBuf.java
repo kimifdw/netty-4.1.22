@@ -39,6 +39,7 @@ public class ReadOnlyByteBuf extends AbstractDerivedByteBuf {
 
     private final ByteBuf buffer;
 
+//
     public ReadOnlyByteBuf(ByteBuf buffer) {
         super(buffer.maxCapacity());
 

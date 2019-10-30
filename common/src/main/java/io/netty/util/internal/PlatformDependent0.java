@@ -458,6 +458,7 @@ final class PlatformDependent0 {
         }
     }
 
+//
     static long directBufferAddress(ByteBuffer buffer) {
         return getLong(buffer, ADDRESS_FIELD_OFFSET);
     }
@@ -474,6 +475,7 @@ final class PlatformDependent0 {
         return UNSAFE.getInt(object, fieldOffset);
     }
 
+//
     private static long getLong(Object object, long fieldOffset) {
         return UNSAFE.getLong(object, fieldOffset);
     }

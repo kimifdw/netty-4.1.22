@@ -127,7 +127,7 @@ final class PoolChunk<T> implements PoolChunkMetric {
     private final byte[] memoryMap;
     private final byte[] depthMap;
     private final PoolSubpage<T>[] subpages;
-    /** Used to determine if the requested capacity is equal to or greater than pageSize. */
+    /** Used to determine if the requested capacity is equal to or greater than pageSize.用于确定请求的容量是否等于或大于pageSize */
     private final int subpageOverflowMask;
     private final int pageSize;
     private final int pageShifts;
@@ -135,7 +135,7 @@ final class PoolChunk<T> implements PoolChunkMetric {
     private final int chunkSize;
     private final int log2ChunkSize;
     private final int maxSubpageAllocs;
-    /** Used to mark memory as unusable */
+    /** Used to mark memory as unusable 用来标记内存不可用*/
     private final byte unusable;
 
     private int freeBytes;
@@ -168,10 +168,10 @@ final class PoolChunk<T> implements PoolChunkMetric {
         memoryMap = new byte[maxSubpageAllocs << 1];
         depthMap = new byte[memoryMap.length];
         int memoryMapIndex = 1;
-        for (int d = 0; d <= maxOrder; ++ d) { // move down the tree one level at a time
+        for (int d = 0; d <= maxOrder; ++ d) { // move down the tree one level at a time沿着树一步一步向下移动
             int depth = 1 << d;
             for (int p = 0; p < depth; ++ p) {
-                // in each level traverse left to right and set value to the depth of subtree
+                // in each level traverse left to right and set value to the depth of subtree在每一层中，从左到右遍历，并将值设置为子树的深度
                 memoryMap[memoryMapIndex] = (byte) d;
                 depthMap[memoryMapIndex] = (byte) d;
                 memoryMapIndex ++;
@@ -227,9 +227,10 @@ final class PoolChunk<T> implements PoolChunkMetric {
     }
 
     long allocate(int normCapacity) {
-        if ((normCapacity & subpageOverflowMask) != 0) { // >= pageSize
+        if ((normCapacity & subpageOverflowMask) != 0) { // >= pageSize 直接分配叶子节点
             return allocateRun(normCapacity);
         } else {
+//            小于8192 分配 subpage
             return allocateSubpage(normCapacity);
         }
     }
@@ -238,7 +239,7 @@ final class PoolChunk<T> implements PoolChunkMetric {
      * Update method used by allocate
      * This is triggered only when a successor is allocated and all its predecessors
      * need to update their state
-     * The minimal depth at which subtree rooted at id has some free space
+     * The minimal depth at which subtree rooted at id has some free space更新方法使用的分配这是触发时，只有当一个后续是分配和所有的前身需要更新其状态最小深度的子树根在id有一些空闲空间
      *
      * @param id id
      */
@@ -267,7 +268,7 @@ final class PoolChunk<T> implements PoolChunkMetric {
             int parentId = id >>> 1;
             byte val1 = value(id);
             byte val2 = value(id ^ 1);
-            logChild -= 1; // in first iteration equals log, subsequently reduce 1 from logChild as we traverse up
+            logChild -= 1; // in first iteration equals log, subsequently reduce 1 from logChild as we traverse up在第一次迭代中等于log，当我们向上遍历时，从logChild中减少1
 
             if (val1 == logChild && val2 == logChild) {
                 setValue(parentId, (byte) (logChild - 1));
@@ -289,7 +290,7 @@ final class PoolChunk<T> implements PoolChunkMetric {
      */
     private int allocateNode(int d) {
         int id = 1;
-        int initial = - (1 << d); // has last d bits = 0 and rest all = 1
+        int initial = - (1 << d); // has last d bits = 0 and rest all = 1最后的d位是否为0，其余的都为1
         byte val = value(id);
         if (val > d) { // unusable
             return -1;
@@ -336,10 +337,11 @@ final class PoolChunk<T> implements PoolChunkMetric {
      */
     private long allocateSubpage(int normCapacity) {
         // Obtain the head of the PoolSubPage pool that is owned by the PoolArena and synchronize on it.
-        // This is need as we may add it back and so alter the linked-list structure.
+        // This is need as we may add it back and so alter the linked-list structure.//获取PoolArena拥有的PoolSubPage池的头部并在其上进行同步。
+//这是必要的，因为我们可能会把它加回去，从而改变链表结构。
         PoolSubpage<T> head = arena.findSubpagePoolHead(normCapacity);
         synchronized (head) {
-            int d = maxOrder; // subpages are only be allocated from pages i.e., leaves
+            int d = maxOrder; // subpages are only be allocated from pages i.e., leaves子页面只能从页面中分配。、树叶
             int id = allocateNode(d);
             if (id < 0) {
                 return id;
@@ -356,6 +358,7 @@ final class PoolChunk<T> implements PoolChunkMetric {
                 subpage = new PoolSubpage<T>(head, this, id, runOffset(id), pageSize, normCapacity);
                 subpages[subpageIdx] = subpage;
             } else {
+//                初始化subpage
                 subpage.init(head, normCapacity);
             }
             return subpage.allocate();
@@ -380,7 +383,8 @@ final class PoolChunk<T> implements PoolChunkMetric {
             assert subpage != null && subpage.doNotDestroy;
 
             // Obtain the head of the PoolSubPage pool that is owned by the PoolArena and synchronize on it.
-            // This is need as we may add it back and so alter the linked-list structure.
+            // This is need as we may add it back and so alter the linked-list structure.//获取PoolArena拥有的PoolSubPage池的头部并在其上进行同步。
+//这是必要的，因为我们可能会把它加回去，从而改变链表结构。
             PoolSubpage<T> head = arena.findSubpagePoolHead(subpage.elemSize);
             synchronized (head) {
                 if (subpage.free(head, bitmapIdx & 0x3FFFFFFF)) {
@@ -413,8 +417,10 @@ final class PoolChunk<T> implements PoolChunkMetric {
     private void initBufWithSubpage(PooledByteBuf<T> buf, long handle, int bitmapIdx, int reqCapacity) {
         assert bitmapIdx != 0;
 
+//        subpage采用long数组管理空闲的空间，0标识可用，1标识不可用
         int memoryMapIdx = memoryMapIdx(handle);
 
+//        找到可用的subpage
         PoolSubpage<T> subpage = subpages[subpageIdx(memoryMapIdx)];
         assert subpage.doNotDestroy;
         assert reqCapacity <= subpage.elemSize;
@@ -438,23 +444,23 @@ final class PoolChunk<T> implements PoolChunkMetric {
     }
 
     private static int log2(int val) {
-        // compute the (0-based, with lsb = 0) position of highest set bit i.e, log2
+        // compute the (0-based, with lsb = 0) position of highest set bit i.e, log2计算(基于0的，lsb = 0)最高集第i位的位置。e, log2
         return INTEGER_SIZE_MINUS_ONE - Integer.numberOfLeadingZeros(val);
     }
 
     private int runLength(int id) {
-        // represents the size in #bytes supported by node 'id' in the tree
+        // represents the size in #bytes supported by node 'id' in the tree表示树中的节点“id”支持的大小(以#字节为单位)
         return 1 << log2ChunkSize - depth(id);
     }
 
     private int runOffset(int id) {
-        // represents the 0-based offset in #bytes from start of the byte-array chunk
+        // represents the 0-based offset in #bytes from start of the byte-array chunk表示从字节数组块开始的基于0的偏移量(以#字节为单位)
         int shift = id ^ 1 << depth(id);
         return shift * runLength(id);
     }
 
     private int subpageIdx(int memoryMapIdx) {
-        return memoryMapIdx ^ maxSubpageAllocs; // remove highest set bit, to get offset
+        return memoryMapIdx ^ maxSubpageAllocs; // remove highest set bit, to get offset删除最高设置位，以获得偏移量
     }
 
     private static int memoryMapIdx(long handle) {

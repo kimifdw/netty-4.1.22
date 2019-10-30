@@ -34,7 +34,7 @@ final class PoolChunkList<T> implements PoolChunkListMetric {
     private final int maxCapacity;
     private PoolChunk<T> head;
 
-    // This is only update once when create the linked like list of PoolChunkList in PoolArena constructor.
+    // This is only update once when create the linked like list of PoolChunkList in PoolArena constructor.在PoolArena构造函数中创建PoolChunkList的类似链表时，仅更新一次。
     private PoolChunkList<T> prevList;
 
     // TODO: Test if adding padding helps under contention
@@ -58,7 +58,7 @@ final class PoolChunkList<T> implements PoolChunkListMetric {
         minUsage = minUsage0(minUsage);
 
         if (minUsage == 100) {
-            // If the minUsage is 100 we can not allocate anything out of this list.
+            // If the minUsage is 100 we can not allocate anything out of this list.如果minUsage是100，我们就不能从这个列表中分配任何东西。
             return 0;
         }
 
@@ -66,7 +66,11 @@ final class PoolChunkList<T> implements PoolChunkListMetric {
         //
         // As an example:
         // - If a PoolChunkList has minUsage == 25 we are allowed to allocate at most 75% of the chunkSize because
-        //   this is the maximum amount available in any PoolChunk in this PoolChunkList.
+        //   this is the maximum amount available in any PoolChunk in this PoolChunkList.//计算可以从这个PoolChunkList中的一个PoolChunk分配的最大字节数。
+//
+//例如:
+// -如果一个PoolChunkList有minUsage == 25，那么我们最多可以分配chunkSize的75%，因为
+//这是在这个PoolChunkList中的任何PoolChunk中可用的最大数量。
         return  (int) (chunkSize * (100L - minUsage) / 100L);
     }
 
@@ -78,7 +82,8 @@ final class PoolChunkList<T> implements PoolChunkListMetric {
     boolean allocate(PooledByteBuf<T> buf, int reqCapacity, int normCapacity) {
         if (head == null || normCapacity > maxCapacity) {
             // Either this PoolChunkList is empty or the requested capacity is larger then the capacity which can
-            // be handled by the PoolChunks that are contained in this PoolChunkList.
+            // be handled by the PoolChunks that are contained in this PoolChunkList.//要么这个PoolChunkList是空的，要么请求的容量大于可能的容量
+//由这个PoolChunkList中包含的PoolChunks来处理。
             return false;
         }
 
@@ -104,7 +109,7 @@ final class PoolChunkList<T> implements PoolChunkListMetric {
         chunk.free(handle);
         if (chunk.usage() < minUsage) {
             remove(chunk);
-            // Move the PoolChunk down the PoolChunkList linked-list.
+            // Move the PoolChunk down the PoolChunkList linked-list.将PoolChunk移动到PoolChunkList链表下。
             return move0(chunk);
         }
         return true;
@@ -114,23 +119,24 @@ final class PoolChunkList<T> implements PoolChunkListMetric {
         assert chunk.usage() < maxUsage;
 
         if (chunk.usage() < minUsage) {
-            // Move the PoolChunk down the PoolChunkList linked-list.
+            // Move the PoolChunk down the PoolChunkList linked-list.将PoolChunk移动到PoolChunkList链表下。
             return move0(chunk);
         }
 
-        // PoolChunk fits into this PoolChunkList, adding it here.
+        // PoolChunk fits into this PoolChunkList, adding it here.PoolChunk适合这个PoolChunkList，并将其添加到这里。
         add0(chunk);
         return true;
     }
 
     /**
      * Moves the {@link PoolChunk} down the {@link PoolChunkList} linked-list so it will end up in the right
-     * {@link PoolChunkList} that has the correct minUsage / maxUsage in respect to {@link PoolChunk#usage()}.
+     * {@link PoolChunkList} that has the correct minUsage / maxUsage in respect to {@link PoolChunk#usage()}.将PoolChunk移动到PoolChunkList链表中，这样它就会出现在正确的PoolChunkList中，与PoolChunk.usage()相比，该PoolChunkList具有正确的minUsage / maxUsage。
      */
     private boolean move0(PoolChunk<T> chunk) {
         if (prevList == null) {
             // There is no previous PoolChunkList so return false which result in having the PoolChunk destroyed and
-            // all memory associated with the PoolChunk will be released.
+            // all memory associated with the PoolChunk will be released.//之前没有PoolChunkList，所以返回false，导致PoolChunk被销毁
+//            所有与PoolChunk相关的内存将被释放。
             assert chunk.usage() == 0;
             return false;
         }

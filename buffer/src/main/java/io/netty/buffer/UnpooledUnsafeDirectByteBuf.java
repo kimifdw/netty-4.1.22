@@ -78,12 +78,15 @@ public class UnpooledUnsafeDirectByteBuf extends AbstractReferenceCountedByteBuf
         // We never try to free the buffer if it was provided by the end-user as we not know if this is an duplicate or
         // an slice. This is done to prevent an IllegalArgumentException when using Java9 as Unsafe.invokeCleaner(...)
         // will check if the given buffer is either an duplicate or slice and in this case throw an
-        // IllegalArgumentException.
+        // IllegalArgumentException.//我们从不尝试释放缓冲区，如果它是由终端用户提供的，因为我们不知道这是一个副本或
+//一片。这样做是为了防止在使用Java9作为不安全时出现IllegalArgumentException。
+//将检查给定的缓冲区是副本还是片，并在本例中抛出一个
+// IllegalArgumentException。
         //
         // See http://hg.openjdk.java.net/jdk9/hs-demo/jdk/file/0d2ab72ba600/src/jdk.unsupported/share/classes/
         // sun/misc/Unsafe.java#l1250
         //
-        // We also call slice() explicitly here to preserve behaviour with previous netty releases.
+        // We also call slice() explicitly here to preserve behaviour with previous netty releases.我们还在这里显式地调用slice()来保存以前netty版本的行为。
         this(alloc, initialBuffer.slice(), maxCapacity, false);
     }
 
@@ -135,6 +138,7 @@ public class UnpooledUnsafeDirectByteBuf extends AbstractReferenceCountedByteBuf
                 if (doNotFree) {
                     doNotFree = false;
                 } else {
+//                    释放直接缓冲区
                     freeDirect(oldBuffer);
                 }
             }
@@ -510,7 +514,7 @@ public class UnpooledUnsafeDirectByteBuf extends AbstractReferenceCountedByteBuf
     @Override
     protected SwappedByteBuf newSwappedByteBuf() {
         if (PlatformDependent.isUnaligned()) {
-            // Only use if unaligned access is supported otherwise there is no gain.
+            // Only use if unaligned access is supported otherwise there is no gain.仅在支持非对齐访问时使用，否则没有增益。
             return new UnsafeDirectSwappedByteBuf(this);
         }
         return super.newSwappedByteBuf();

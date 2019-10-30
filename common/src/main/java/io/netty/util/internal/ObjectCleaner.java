@@ -40,6 +40,7 @@ public final class ObjectCleaner {
     // This will hold a reference to the AutomaticCleanerReference which will be removed once we called cleanup()
     private static final Set<AutomaticCleanerReference> LIVE_SET = new ConcurrentSet<AutomaticCleanerReference>();
     private static final ReferenceQueue<Object> REFERENCE_QUEUE = new ReferenceQueue<Object>();
+//    用来做线程同步开关，cas无锁实现线程安全
     private static final AtomicBoolean CLEANER_RUNNING = new AtomicBoolean(false);
     private static final Runnable CLEANER_TASK = new Runnable() {
         @Override
@@ -92,6 +93,7 @@ public final class ObjectCleaner {
      * anymore because it is not a cheap way to handle the cleanup.
      * 注册一个给定的对象，一旦不再有对该对象的引用，Runnable将被执行。只有当对象无法访问时，才应该使用这种方法执行一些清理，因为这不是一种廉价的处理清理的方法。
      */
+//
     public static void register(Object object, Runnable cleanupTask) {
         AutomaticCleanerReference reference = new AutomaticCleanerReference(object,
                 ObjectUtil.checkNotNull(cleanupTask, "cleanupTask"));

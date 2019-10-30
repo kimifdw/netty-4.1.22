@@ -262,7 +262,7 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
 
             int readableBytes = buffer.readableBytes();
 
-            // No need to consolidate - just add a component to the list.
+            // No need to consolidate - just add a component to the list.不需要合并——只需要向列表中添加一个组件。
             @SuppressWarnings("deprecation")
             Component c = new Component(buffer.order(ByteOrder.BIG_ENDIAN).slice());
             if (cIndex == components.size()) {
@@ -318,10 +318,11 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
         try {
             checkComponentIndex(cIndex);
 
-            // No need for consolidation
+            // No need for consolidation不需要合并
             while (i < len) {
                 // Increment i now to prepare for the next iteration and prevent a duplicate release (addComponent0
-                // will release if an exception occurs, and we also release in the finally block here).
+                // will release if an exception occurs, and we also release in the finally block here).//增量i现在为下一次迭代做准备，并防止一个重复的版本(addComponent0
+                //如果发生异常，//将释放，我们也在这里的finally块释放)。
                 ByteBuf b = buffers[i++];
                 if (b == null) {
                     break;
@@ -405,14 +406,15 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
      */
     private void consolidateIfNeeded() {
         // Consolidate if the number of components will exceed the allowed maximum by the current
-        // operation.
+        // operation.//如果组件的数量超过当前允许的最大数量，则进行合并
+//操作。
         final int numComponents = components.size();
         if (numComponents > maxNumComponents) {
             final int capacity = components.get(numComponents - 1).endOffset;
 
             ByteBuf consolidated = allocBuffer(capacity);
 
-            // We're not using foreach to avoid creating an iterator.
+            // We're not using foreach to avoid creating an iterator.我们没有使用foreach来避免创建迭代器。
             for (int i = 0; i < numComponents; i ++) {
                 Component c = components.get(i);
                 ByteBuf b = c.buf;
@@ -476,7 +478,7 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
         Component comp = components.remove(cIndex);
         comp.freeIfNecessary();
         if (comp.length > 0) {
-            // Only need to call updateComponentOffsets if the length was > 0
+            // Only need to call updateComponentOffsets if the length was > 0只需要调用updateComponentOffsets如果长度是> 0
             updateComponentOffsets(cIndex);
         }
         return this;
@@ -558,7 +560,7 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
             }
         } while (bytesToSlice > 0);
 
-        // Slice all components because only readable bytes are interesting.
+        // Slice all components because only readable bytes are interesting.将所有组件切片，因为只有可读的字节才是有趣的。
         for (int i = 0; i < slice.size(); i ++) {
             slice.set(i, slice.get(i).slice());
         }
@@ -651,6 +653,7 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
 
     @Override
     public CompositeByteBuf capacity(int newCapacity) {
+//        检查重新分配的内存大小是否合法
         checkNewCapacity(newCapacity);
 
         int oldCapacity = capacity();
@@ -659,14 +662,15 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
             ByteBuf padding;
             int nComponents = components.size();
             if (nComponents < maxNumComponents) {
+//                分配内存
                 padding = allocBuffer(paddingLength);
                 padding.setIndex(0, paddingLength);
                 addComponent0(false, components.size(), padding);
             } else {
                 padding = allocBuffer(paddingLength);
                 padding.setIndex(0, paddingLength);
-                // FIXME: No need to create a padding buffer and consolidate.
-                // Just create a big single buffer and put the current content there.
+                // FIXME: No need to create a padding buffer and consolidate.不需要创建填充缓冲区和合并。
+                // Just create a big single buffer and put the current content there.只需创建一个大的缓冲区，并把当前的内容放在那里。
                 addComponent0(false, components.size(), padding);
                 consolidateIfNeeded();
             }
@@ -680,7 +684,7 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
                     continue;
                 }
 
-                // Replace the last component with the trimmed slice.
+                // Replace the last component with the trimmed slice.将最后一个组件替换为被修剪的片。
                 Component newC = new Component(c.buf.slice(0, c.length - bytesToTrim));
                 newC.offset = c.offset;
                 newC.endOffset = newC.offset + newC.length;
@@ -1402,7 +1406,7 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
 
     /**
      * Return the internal {@link ByteBuf} on the specified offset. Note that updating the indexes of the returned
-     * buffer will lead to an undefined behavior of this buffer.
+     * buffer will lead to an undefined behavior of this buffer.在指定的偏移量上返回内部ByteBuf。注意，更新返回缓冲区的索引将导致此缓冲区的未定义行为。
      *
      * @param offset the offset for which the {@link ByteBuf} should be returned
      */
@@ -1639,11 +1643,11 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
             components.get(i).freeIfNecessary();
         }
 
-        // Remove or replace the first readable component with a new slice.
+        // Remove or replace the first readable component with a new slice.用一个新的片删除或替换第一个可读的组件。
         Component c = components.get(firstComponentId);
         int adjustment = readerIndex - c.offset;
         if (adjustment == c.length) {
-            // new slice would be empty, so remove instead
+            // new slice would be empty, so remove instead新的切片将是空的，所以删除
             firstComponentId++;
         } else {
             Component newC = new Component(c.buf.slice(adjustment, c.length - adjustment));
@@ -1682,7 +1686,7 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
         }
 
         void freeIfNecessary() {
-            buf.release(); // We should not get a NPE here. If so, it must be a bug.
+            buf.release(); // We should not get a NPE here. If so, it must be a bug.这里不应该有NPE。如果是这样，那一定是一个bug。
         }
     }
 
@@ -1992,7 +1996,7 @@ public class CompositeByteBuf extends AbstractReferenceCountedByteBuf implements
             super(initialCapacity);
         }
 
-        // Expose this methods so we not need to create a new subList just to remove a range of elements.
+        // Expose this methods so we not need to create a new subList just to remove a range of elements.公开这个方法，这样我们就不需要创建一个新的子列表来删除一系列元素。
         @Override
         public void removeRange(int fromIndex, int toIndex) {
             super.removeRange(fromIndex, toIndex);

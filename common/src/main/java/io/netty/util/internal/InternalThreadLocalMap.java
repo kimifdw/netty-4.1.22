@@ -36,6 +36,7 @@ import java.util.WeakHashMap;
  * unless you know what you are doing.
  * 为Netty和所有fastthreadlocal存储线程本地变量的内部数据结构。请注意，这个类仅供内部使用，随时可能更改。使用FastThreadLocal，除非您知道自己在做什么。
  */
+//
 public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap {
 
     private static final InternalLogger logger = InternalLoggerFactory.getInstance(InternalThreadLocalMap.class);
@@ -55,6 +56,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         logger.debug("-Dio.netty.threadLocalMap.stringBuilder.maxSize: {}", STRING_BUILDER_MAX_SIZE);
     }
 
+//
     public static InternalThreadLocalMap getIfSet() {
         Thread thread = Thread.currentThread();
         if (thread instanceof FastThreadLocalThread) {
@@ -63,6 +65,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         return slowThreadLocalMap.get();
     }
 
+//
     public static InternalThreadLocalMap get() {
         Thread thread = Thread.currentThread();
         if (thread instanceof FastThreadLocalThread) {
@@ -72,6 +75,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         }
     }
 
+//
     private static InternalThreadLocalMap fastGet(FastThreadLocalThread thread) {
         InternalThreadLocalMap threadLocalMap = thread.threadLocalMap();
         if (threadLocalMap == null) {
@@ -80,6 +84,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         return threadLocalMap;
     }
 
+//
     private static InternalThreadLocalMap slowGet() {
         ThreadLocal<InternalThreadLocalMap> slowThreadLocalMap = UnpaddedInternalThreadLocalMap.slowThreadLocalMap;
         InternalThreadLocalMap ret = slowThreadLocalMap.get();
@@ -90,6 +95,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         return ret;
     }
 
+//
     public static void remove() {
         Thread thread = Thread.currentThread();
         if (thread instanceof FastThreadLocalThread) {
@@ -99,10 +105,12 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         }
     }
 
+//
     public static void destroy() {
         slowThreadLocalMap.remove();
     }
 
+//
     public static int nextVariableIndex() {
         int index = nextIndex.getAndIncrement();
         if (index < 0) {
@@ -117,13 +125,16 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
     }
 
     // Cache line padding (must be public)
-    // With CompressedOops enabled, an instance of this class should occupy at least 128 bytes.
+    // With CompressedOops enabled, an instance of this class should occupy at least 128 bytes.//高速缓存线填充(必须是公共的)
+//启用CompressedOops后，该类的实例应该至少占用128字节。
     public long rp1, rp2, rp3, rp4, rp5, rp6, rp7, rp8, rp9;
 
+//
     private InternalThreadLocalMap() {
         super(newIndexedVariableTable());
     }
 
+//
     private static Object[] newIndexedVariableTable() {
         Object[] array = new Object[32];
         Arrays.fill(array, UNSET);
@@ -174,7 +185,8 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         }
 
         // We should subtract 1 from the count because the first element in 'indexedVariables' is reserved
-        // by 'FastThreadLocal' to keep the list of 'FastThreadLocal's to remove on 'FastThreadLocal.removeAll()'.
+        // by 'FastThreadLocal' to keep the list of 'FastThreadLocal's to remove on 'FastThreadLocal.removeAll()'.//我们应该从计数中减去1，因为'indexedVariables'中的第一个元素是保留的
+//通过“FastThreadLocal”来保存要删除的“FastThreadLocal”的列表。
         return count - 1;
     }
 
@@ -211,6 +223,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         return arrayList(DEFAULT_ARRAY_LIST_INITIAL_CAPACITY);
     }
 
+//
     @SuppressWarnings("unchecked")
     public <E> ArrayList<E> arrayList(int minCapacity) {
         ArrayList<E> list = (ArrayList<E>) arrayList;
@@ -231,6 +244,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         this.futureListenerStackDepth = futureListenerStackDepth;
     }
 
+//
     public ThreadLocalRandom random() {
         ThreadLocalRandom r = random;
         if (r == null) {
@@ -266,7 +280,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
     public Map<Class<?>, Boolean> handlerSharableCache() {
         Map<Class<?>, Boolean> cache = handlerSharableCache;
         if (cache == null) {
-            // Start with small capacity to keep memory overhead as low as possible.
+            // Start with small capacity to keep memory overhead as low as possible.从小容量开始，尽可能降低内存开销。
             handlerSharableCache = cache = new WeakHashMap<Class<?>, Boolean>(4);
         }
         return cache;
@@ -280,6 +294,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         this.localChannelReaderStackDepth = localChannelReaderStackDepth;
     }
 
+//
     public Object indexedVariable(int index) {
         Object[] lookup = indexedVariables;
         return index < lookup.length? lookup[index] : UNSET;
@@ -288,6 +303,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
     /**
      * @return {@code true} if and only if a new thread-local variable has been created
      */
+//
     public boolean setIndexedVariable(int index, Object value) {
         Object[] lookup = indexedVariables;
         if (index < lookup.length) {
@@ -300,6 +316,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         }
     }
 
+//
     private void expandIndexedVariableTableAndSet(int index, Object value) {
         Object[] oldArray = indexedVariables;
         final int oldCapacity = oldArray.length;
@@ -317,6 +334,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         indexedVariables = newArray;
     }
 
+//
     public Object removeIndexedVariable(int index) {
         Object[] lookup = indexedVariables;
         if (index < lookup.length) {
@@ -328,6 +346,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
         }
     }
 
+//
     public boolean isIndexedVariableSet(int index) {
         Object[] lookup = indexedVariables;
         return index < lookup.length && lookup[index] != UNSET;

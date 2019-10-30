@@ -563,12 +563,14 @@ public abstract class Recycler<T> {
         void push(DefaultHandle<?> item) {
             Thread currentThread = Thread.currentThread();
             if (threadRef.get() == currentThread) {
-                // The current Thread is the thread that belongs to the Stack, we can try to push the object now.
+                // The current Thread is the thread that belongs to the Stack, we can try to push the object now.当前线程是属于堆栈的线程，我们现在可以尝试推送对象。
                 pushNow(item);
             } else {
                 // The current Thread is not the one that belongs to the Stack
                 // (or the Thread that belonged to the Stack was collected already), we need to signal that the push
-                // happens later.
+                // happens later.//当前线程不属于堆栈
+//(或者已经收集了属于堆栈的线程)，我们需要发出push的信号
+//后发生。
                 pushLater(item, currentThread);
             }
         }
@@ -581,7 +583,7 @@ public abstract class Recycler<T> {
 
             int size = this.size;
             if (size >= maxCapacity || dropHandle(item)) {
-                // Hit the maximum capacity or should drop - drop the possibly youngest object.
+                // Hit the maximum capacity or should drop - drop the possibly youngest object.达到最大容量或应该删除最年轻的对象。
                 return;
             }
             if (size == elements.length) {
@@ -595,16 +597,18 @@ public abstract class Recycler<T> {
         private void pushLater(DefaultHandle<?> item, Thread thread) {
             // we don't want to have a ref to the queue as the value in our weak map
             // so we null it out; to ensure there are no races with restoring it later
-            // we impose a memory ordering here (no-op on x86)
+            // we impose a memory ordering here (no-op on x86)//我们不希望引用到队列作为我们的弱映射中的值
+//所以我们把它去掉;以确保没有种族与恢复它以后
+//我们在这里强制执行内存排序(x86上无操作)
             Map<Stack<?>, WeakOrderQueue> delayedRecycled = DELAYED_RECYCLED.get();
             WeakOrderQueue queue = delayedRecycled.get(this);
             if (queue == null) {
                 if (delayedRecycled.size() >= maxDelayedQueues) {
-                    // Add a dummy queue so we know we should drop the object
+                    // Add a dummy queue so we know we should drop the object添加一个虚拟队列，这样我们就知道应该删除对象
                     delayedRecycled.put(this, WeakOrderQueue.DUMMY);
                     return;
                 }
-                // Check if we already reached the maximum number of delayed queues and if we can allocate at all.
+                // Check if we already reached the maximum number of delayed queues and if we can allocate at all.检查我们是否已经达到了延迟队列的最大数量，以及我们是否可以进行分配。
                 if ((queue = WeakOrderQueue.allocate(this, thread)) == null) {
                     // drop object
                     return;

@@ -28,6 +28,24 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Math.max;
 
+/**
+ * PoolChunk 16m
+ 分成page 8192
+
+ PoolSubpage
+ tiny 小于512
+ small 大于512 512,1024,2048,4096
+
+ Netty中有36种PoolSubpage，所以用36个PoolSubpage链表表示PoolSubpage池。
+
+ PoolChunkList 这些PoolChunk组成一个链表，然后用PoolChunkList持有这个链表，它有6个PoolChunkList，所以将PoolChunk按内存使用率分类组成6个PoolChunkList
+
+ PoolArena ThreadLocal里面放一个PoolThreadCache对象，然后释放的内存都放入到PoolThreadCache里面，下次申请先从PoolThreadCache获取
+
+ PooledByteBuf 对象池
+
+ 内存泄露检测
+ */
 abstract class PoolArena<T> implements PoolArenaMetric {
     static final boolean HAS_UNSAFE = PlatformDependent.hasUnsafe();
 
@@ -37,7 +55,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
         Normal
     }
 
-    static final int numTinySubpagePools = 512 >>> 4;
+    static final int numTinySubpagePools = 512 >>> 4;//32
 
     final PooledByteBufAllocator parent;
 
@@ -55,15 +73,16 @@ abstract class PoolArena<T> implements PoolArenaMetric {
     private final PoolChunkList<T> q050;
     private final PoolChunkList<T> q025;
     private final PoolChunkList<T> q000;
+//    创建的chunk集合，其他都是按使用率
     private final PoolChunkList<T> qInit;
     private final PoolChunkList<T> q075;
     private final PoolChunkList<T> q100;
 
     private final List<PoolChunkListMetric> chunkListMetrics;
 
-    // Metrics for allocations and deallocations
+    // Metrics for allocations and deallocations分配和分配的度量
     private long allocationsNormal;
-    // We need to use the LongCounter here as this is not guarded via synchronized block.
+    // We need to use the LongCounter here as this is not guarded via synchronized block.我们需要使用这里的LongCounter，因为这不是通过synchronized块来保护的。
     private final LongCounter allocationsTiny = PlatformDependent.newLongCounter();
     private final LongCounter allocationsSmall = PlatformDependent.newLongCounter();
     private final LongCounter allocationsHuge = PlatformDependent.newLongCounter();
@@ -76,7 +95,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
     // We need to use the LongCounter here as this is not guarded via synchronized block.
     private final LongCounter deallocationsHuge = PlatformDependent.newLongCounter();
 
-    // Number of thread caches backed by this arena.
+    // Number of thread caches backed by this arena.这个舞台支持的线程缓存的数量。
     final AtomicInteger numThreadCaches = new AtomicInteger();
 
     // TODO: Test if adding padding helps under contention
@@ -142,7 +161,9 @@ abstract class PoolArena<T> implements PoolArenaMetric {
     abstract boolean isDirect();
 
     PooledByteBuf<T> allocate(PoolThreadCache cache, int reqCapacity, int maxCapacity) {
+//        创建PooledByteBuf对象
         PooledByteBuf<T> buf = newByteBuf(maxCapacity);
+//        内存分配
         allocate(cache, buf, reqCapacity);
         return buf;
     }
@@ -172,21 +193,24 @@ abstract class PoolArena<T> implements PoolArenaMetric {
     }
 
     private void allocate(PoolThreadCache cache, PooledByteBuf<T> buf, final int reqCapacity) {
+//        根据分配的内存计算正常内存容量，接近于512就分配512，内存预分配
         final int normCapacity = normalizeCapacity(reqCapacity);
+//        初始化内存小于pageSize 8192
         if (isTinyOrSmall(normCapacity)) { // capacity < pageSize
             int tableIdx;
             PoolSubpage<T>[] table;
+//            初始化内存是否小于512
             boolean tiny = isTiny(normCapacity);
             if (tiny) { // < 512
                 if (cache.allocateTiny(this, buf, reqCapacity, normCapacity)) {
-                    // was able to allocate out of the cache so move on
+                    // was able to allocate out of the cache so move on能够从缓存中进行分配吗
                     return;
                 }
                 tableIdx = tinyIdx(normCapacity);
                 table = tinySubpagePools;
-            } else {
+            } else { //大于512
                 if (cache.allocateSmall(this, buf, reqCapacity, normCapacity)) {
-                    // was able to allocate out of the cache so move on
+                    // was able to allocate out of the cache so move on能够从缓存中进行分配吗
                     return;
                 }
                 tableIdx = smallIdx(normCapacity);
@@ -197,8 +221,10 @@ abstract class PoolArena<T> implements PoolArenaMetric {
 
             /**
              * Synchronize on the head. This is needed as {@link PoolChunk#allocateSubpage(int)} and
-             * {@link PoolChunk#free(long)} may modify the doubly linked list as well.
+             * {@link PoolChunk#free(long)} may modify the doubly linked list as well.头部同步。这需要作为{@link PoolChunk#allocateSubpage(int)}和
+             * {@link PoolChunk#free(long)}也可以修改双链表。
              */
+//            维护PoolSubpage链表
             synchronized (head) {
                 final PoolSubpage<T> s = head.next;
                 if (s != head) {
@@ -211,6 +237,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
                 }
             }
             synchronized (this) {
+//                分配正常的缓冲区
                 allocateNormal(buf, reqCapacity, normCapacity);
             }
 
@@ -219,7 +246,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
         }
         if (normCapacity <= chunkSize) {
             if (cache.allocateNormal(this, buf, reqCapacity, normCapacity)) {
-                // was able to allocate out of the cache so move on
+                // was able to allocate out of the cache so move on能够从缓存中进行分配吗
                 return;
             }
             synchronized (this) {
@@ -227,7 +254,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
                 ++allocationsNormal;
             }
         } else {
-            // Huge allocations are never served via the cache so just call allocateHuge
+            // Huge allocations are never served via the cache so just call allocateHuge巨大的分配从来没有通过缓存服务，所以只需调用allocateHuge
             allocateHuge(buf, reqCapacity);
         }
     }
@@ -240,7 +267,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
             return;
         }
 
-        // Add a new chunk.
+        // Add a new chunk. 添加一个chunk
         PoolChunk<T> c = newChunk(pageSize, maxOrder, pageShifts, chunkSize);
         long handle = c.allocate(normCapacity);
         assert handle > 0;
@@ -272,7 +299,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
         } else {
             SizeClass sizeClass = sizeClass(normCapacity);
             if (cache != null && cache.add(this, chunk, handle, normCapacity, sizeClass)) {
-                // cached so not free it.
+                // cached so not free it.缓存，所以不能释放它。
                 return;
             }
 
@@ -306,7 +333,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
             destroyChunk = !chunk.parent.free(chunk, handle);
         }
         if (destroyChunk) {
-            // destroyChunk not need to be called while holding the synchronized lock.
+            // destroyChunk not need to be called while holding the synchronized lock.持有同步锁时不需要调用destroyChunk。
             destroyChunk(chunk);
         }
     }
@@ -335,10 +362,12 @@ abstract class PoolArena<T> implements PoolArenaMetric {
             throw new IllegalArgumentException("capacity: " + reqCapacity + " (expected: 0+)");
         }
 
+//        chunkSize 16777216 初始化内存大于16m初始化多少分配多少
         if (reqCapacity >= chunkSize) {
             return directMemoryCacheAlignment == 0 ? reqCapacity : alignCapacity(reqCapacity);
         }
 
+//        如果分配内存大于512直接分配1024的倍数
         if (!isTiny(reqCapacity)) { // >= 512
             // Doubled
 
@@ -727,7 +756,8 @@ abstract class PoolArena<T> implements PoolArenaMetric {
 
         private int offsetCacheLine(ByteBuffer memory) {
             // We can only calculate the offset if Unsafe is present as otherwise directBufferAddress(...) will
-            // throw an NPE.
+            // throw an NPE.//我们只能计算偏移，如果不安全的存在，否则directBufferAddress(…)将
+//扔一个NPE。
             return HAS_UNSAFE ?
                     (int) (PlatformDependent.directBufferAddress(memory) & directMemoryCacheAlignmentMask) : 0;
         }
@@ -793,7 +823,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
                         PlatformDependent.directBufferAddress(src) + srcOffset,
                         PlatformDependent.directBufferAddress(dst) + dstOffset, length);
             } else {
-                // We must duplicate the NIO buffers because they may be accessed by other Netty buffers.
+                // We must duplicate the NIO buffers because they may be accessed by other Netty buffers.我们必须复制NIO缓冲区，因为它们可能被其他Netty缓冲区访问。
                 src = src.duplicate();
                 dst = dst.duplicate();
                 src.position(srcOffset).limit(srcOffset + length);

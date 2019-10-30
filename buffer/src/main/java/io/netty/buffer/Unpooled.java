@@ -250,7 +250,7 @@ public final class Unpooled {
     /**
      * Creates a new big-endian composite buffer which wraps the readable bytes of the
      * specified buffers without copying them.  A modification on the content
-     * of the specified buffers will be visible to the returned buffer.
+     * of the specified buffers will be visible to the returned buffer.创建一个新的big-endian复合缓冲区，它包装指定缓冲区的可读字节而不复制它们。返回的缓冲区可以看到对指定缓冲区内容的修改。
      * @param buffers The buffers to wrap. Reference count ownership of all variables is transfered to this method.
      * @return The readable portion of the {@code buffers}. The caller is responsible for releasing this buffer.
      */
@@ -261,7 +261,7 @@ public final class Unpooled {
     /**
      * Creates a new big-endian composite buffer which wraps the slices of the specified
      * NIO buffers without copying them.  A modification on the content of the
-     * specified buffers will be visible to the returned buffer.
+     * specified buffers will be visible to the returned buffer.创建一个新的big-endian复合缓冲区，它包装指定NIO缓冲区的片而不复制它们。返回的缓冲区可以看到对指定缓冲区内容的修改。
      */
     public static ByteBuf wrappedBuffer(ByteBuffer... buffers) {
         return wrappedBuffer(AbstractByteBufAllocator.DEFAULT_MAX_COMPONENTS, buffers);
@@ -282,7 +282,7 @@ public final class Unpooled {
             }
             break;
         default:
-            // Get the list of the component, while guessing the byte order.
+            // Get the list of the component, while guessing the byte order.获取组件列表，同时猜测字节顺序。
             final List<ByteBuf> components = new ArrayList<ByteBuf>(arrays.length);
             for (byte[] a: arrays) {
                 if (a == null) {
@@ -350,7 +350,7 @@ public final class Unpooled {
             }
             break;
         default:
-            // Get the list of the component, while guessing the byte order.
+            // Get the list of the component, while guessing the byte order.获取组件列表，同时猜测字节顺序。
             final List<ByteBuf> components = new ArrayList<ByteBuf>(buffers.length);
             for (ByteBuffer b: buffers) {
                 if (b == null) {
@@ -377,7 +377,7 @@ public final class Unpooled {
     }
 
     /**
-     * Returns a new big-endian composite buffer with no components.
+     * Returns a new big-endian composite buffer with no components.返回一个新的没有组件的big-endian复合缓冲区。
      */
     public static CompositeByteBuf compositeBuffer(int maxNumComponents) {
         return new CompositeByteBuf(ALLOC, false, maxNumComponents);
@@ -422,7 +422,7 @@ public final class Unpooled {
             return EMPTY_BUFFER;
         }
         byte[] copy = new byte[length];
-        // Duplicate the buffer so we not adjust the position during our get operation.
+        // Duplicate the buffer so we not adjust the position during our get operation.复制缓冲区，这样我们就不会在get操作期间调整位置。
         // See https://github.com/netty/netty/issues/3896
         ByteBuffer duplicate = buffer.duplicate();
         duplicate.get(copy);
@@ -464,7 +464,7 @@ public final class Unpooled {
             }
         }
 
-        // Merge the specified arrays into one array.
+        // Merge the specified arrays into one array.将指定的数组合并到一个数组中。
         int length = 0;
         for (byte[] a: arrays) {
             if (Integer.MAX_VALUE - length < a.length) {
@@ -506,7 +506,7 @@ public final class Unpooled {
             return copiedBuffer(buffers[0]);
         }
 
-        // Merge the specified buffers into one buffer.
+        // Merge the specified buffers into one buffer.将指定的缓冲区合并到一个缓冲区中。
         ByteOrder order = null;
         int length = 0;
         for (ByteBuf b: buffers) {
@@ -561,7 +561,7 @@ public final class Unpooled {
             return copiedBuffer(buffers[0]);
         }
 
-        // Merge the specified buffers into one buffer.
+        // Merge the specified buffers into one buffer.将指定的缓冲区合并到一个缓冲区中。
         ByteOrder order = null;
         int length = 0;
         for (ByteBuffer b: buffers) {
@@ -589,7 +589,7 @@ public final class Unpooled {
 
         byte[] mergedArray = new byte[length];
         for (int i = 0, j = 0; i < buffers.length; i ++) {
-            // Duplicate the buffer so we not adjust the position during our get operation.
+            // Duplicate the buffer so we not adjust the position during our get operation.复制缓冲区，这样我们就不会在get操作期间调整位置。
             // See https://github.com/netty/netty/issues/3896
             ByteBuffer b = buffers[i].duplicate();
             int bLen = b.remaining();
@@ -694,6 +694,7 @@ public final class Unpooled {
      * @deprecated Use {@link ByteBuf#asReadOnly()}.
      * 创建一个只读缓冲区，该缓冲区不允许对指定缓冲区进行任何修改操作。新缓冲区具有与指定缓冲区相同的readerIndex和writerIndex。
      */
+//
     @Deprecated
     public static ByteBuf unmodifiableBuffer(ByteBuf buffer) {
         ByteOrder endianness = buffer.order();

@@ -244,7 +244,7 @@ class UnpooledUnsafeHeapByteBuf extends UnpooledHeapByteBuf {
     @Override
     public ByteBuf setZero(int index, int length) {
         if (PlatformDependent.javaVersion() >= 7) {
-            // Only do on java7+ as the needed Unsafe call was only added there.
+            // Only do on java7+ as the needed Unsafe call was only added there.只在java7+上执行，因为只在那里添加了所需的不安全调用。
             checkIndex(index, length);
             UnsafeByteBufUtil.setZero(array, index, length);
             return this;
@@ -269,7 +269,7 @@ class UnpooledUnsafeHeapByteBuf extends UnpooledHeapByteBuf {
     @Deprecated
     protected SwappedByteBuf newSwappedByteBuf() {
         if (PlatformDependent.isUnaligned()) {
-            // Only use if unaligned access is supported otherwise there is no gain.
+            // Only use if unaligned access is supported otherwise there is no gain.仅在支持非对齐访问时使用，否则没有增益。
             return new UnsafeHeapSwappedByteBuf(this);
         }
         return super.newSwappedByteBuf();

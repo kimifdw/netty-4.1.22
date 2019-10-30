@@ -59,7 +59,9 @@ final class UnreleasableByteBuf extends WrappedByteBuf {
     public ByteBuf readRetainedSlice(int length) {
         // We could call buf.readSlice(..), and then call buf.release(). However this creates a leak in unit tests
         // because the release method on UnreleasableByteBuf will never allow the leak record to be cleaned up.
-        // So we just use readSlice(..) because the end result should be logically equivalent.
+        // So we just use readSlice(..) because the end result should be logically equivalent.//我们可以调用buf.readSlice(..)，然后调用buf.release()。然而，这在单元测试中造成了泄漏
+//因为UnreleasableByteBuf上的释放方法永远不会允许清理泄漏记录。
+//        因此，我们只使用readSlice(..)，因为最终结果应该在逻辑上是等价的。
         return readSlice(length);
     }
 
@@ -72,7 +74,9 @@ final class UnreleasableByteBuf extends WrappedByteBuf {
     public ByteBuf retainedSlice() {
         // We could call buf.retainedSlice(), and then call buf.release(). However this creates a leak in unit tests
         // because the release method on UnreleasableByteBuf will never allow the leak record to be cleaned up.
-        // So we just use slice() because the end result should be logically equivalent.
+        // So we just use slice() because the end result should be logically equivalent.//我们可以调用buf.retainedSlice()，然后调用buf.release()。然而，这在单元测试中造成了泄漏
+//因为UnreleasableByteBuf上的释放方法永远不会允许清理泄漏记录。
+//因此我们只使用slice()，因为最终结果应该在逻辑上是等价的。
         return slice();
     }
 
@@ -85,7 +89,9 @@ final class UnreleasableByteBuf extends WrappedByteBuf {
     public ByteBuf retainedSlice(int index, int length) {
         // We could call buf.retainedSlice(..), and then call buf.release(). However this creates a leak in unit tests
         // because the release method on UnreleasableByteBuf will never allow the leak record to be cleaned up.
-        // So we just use slice(..) because the end result should be logically equivalent.
+        // So we just use slice(..) because the end result should be logically equivalent.//我们可以调用buf.retainedSlice(..)，然后调用buf.release(..)。然而，这在单元测试中造成了泄漏
+//因为UnreleasableByteBuf上的释放方法永远不会允许清理泄漏记录。
+//因此我们只使用slice(..)，因为最终结果应该在逻辑上是等价的。
         return slice(index, length);
     }
 
@@ -98,7 +104,9 @@ final class UnreleasableByteBuf extends WrappedByteBuf {
     public ByteBuf retainedDuplicate() {
         // We could call buf.retainedDuplicate(), and then call buf.release(). However this creates a leak in unit tests
         // because the release method on UnreleasableByteBuf will never allow the leak record to be cleaned up.
-        // So we just use duplicate() because the end result should be logically equivalent.
+        // So we just use duplicate() because the end result should be logically equivalent.//我们可以调用buf.retainedDuplicate()，然后调用buf.release()。然而，这在单元测试中造成了泄漏
+//因为UnreleasableByteBuf上的释放方法永远不会允许清理泄漏记录。
+//所以我们只使用duplicate()，因为最终结果应该在逻辑上是等价的。
         return duplicate();
     }
 

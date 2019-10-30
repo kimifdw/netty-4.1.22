@@ -39,6 +39,7 @@ public class SwappedByteBuf extends ByteBuf {
     private final ByteBuf buf;
     private final ByteOrder order;
 
+//
     public SwappedByteBuf(ByteBuf buf) {
         if (buf == null) {
             throw new NullPointerException("buf");

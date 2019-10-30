@@ -31,12 +31,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  * unless you know what you are doing.
  * 为Netty和所有fastthreadlocal存储线程本地变量的内部数据结构。请注意，这个类仅供内部使用，随时可能更改。使用FastThreadLocal，除非您知道自己在做什么。
  */
+//
 class UnpaddedInternalThreadLocalMap {
 
     static final ThreadLocal<InternalThreadLocalMap> slowThreadLocalMap = new ThreadLocal<InternalThreadLocalMap>();
     static final AtomicInteger nextIndex = new AtomicInteger();
 
     /** Used by {@link FastThreadLocal} */
+//    用数组保存threadLocal
     Object[] indexedVariables;
 
     // Core thread-locals

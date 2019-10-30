@@ -145,7 +145,7 @@ public class ByteBufInputStream extends InputStream implements DataInput {
         try {
             super.close();
         } finally {
-            // The Closable interface says "If the stream is already closed then invoking this method has no effect."
+            // The Closable interface says "If the stream is already closed then invoking this method has no effect."Closable接口表示“如果流已经关闭，那么调用这个方法没有效果。”
             if (releaseOnClose && !closed) {
                 closed = true;
                 buffer.release();

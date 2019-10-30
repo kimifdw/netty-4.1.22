@@ -183,6 +183,7 @@ public class UnpooledHeapByteBuf extends AbstractReferenceCountedByteBuf {
     public ByteBuf getBytes(int index, ByteBuf dst, int dstIndex, int length) {
         checkDstIndex(index, length, dstIndex, dst.capacity());
         if (dst.hasMemoryAddress()) {
+//            内存copy
             PlatformDependent.copyMemory(array, index, dst.memoryAddress() + dstIndex, length);
         } else if (dst.hasArray()) {
             getBytes(index, dst.array(), dst.arrayOffset() + dstIndex, length);

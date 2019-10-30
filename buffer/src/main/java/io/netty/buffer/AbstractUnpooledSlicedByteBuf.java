@@ -29,6 +29,7 @@ import java.nio.charset.Charset;
 
 import static io.netty.util.internal.MathUtil.isOutOfBounds;
 
+//
 abstract class AbstractUnpooledSlicedByteBuf extends AbstractDerivedByteBuf {
     private final ByteBuf buffer;
     private final int adjustment;
@@ -469,6 +470,7 @@ abstract class AbstractUnpooledSlicedByteBuf extends AbstractDerivedByteBuf {
         return index + adjustment;
     }
 
+//
     static void checkSliceOutOfBounds(int index, int length, ByteBuf buffer) {
         if (isOutOfBounds(index, length, buffer.capacity())) {
             throw new IndexOutOfBoundsException(buffer + ".slice(" + index + ", " + length + ')');

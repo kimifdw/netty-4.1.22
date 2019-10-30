@@ -123,7 +123,7 @@ public class ResourceLeakDetector<T> {
         }
     }
 
-    // There is a minor performance benefit in TLR if this is a power of 2.
+    // There is a minor performance benefit in TLR if this is a power of 2.如果这是2的幂，那么TLR有一个小的性能优势。
     static final int DEFAULT_SAMPLING_INTERVAL = 128;
 
     /**
@@ -240,20 +240,25 @@ public class ResourceLeakDetector<T> {
      *
      * @return the {@link ResourceLeakTracker} or {@code null}
      */
+//
     @SuppressWarnings("unchecked")
     public final ResourceLeakTracker<T> track(T obj) {
         return track0(obj);
     }
 
+//
     @SuppressWarnings("unchecked")
     private DefaultResourceLeak track0(T obj) {
         Level level = ResourceLeakDetector.level;
+//        禁用资源泄漏监测
         if (level == Level.DISABLED) {
             return null;
         }
 
+//        启用资源泄漏监测
         if (level.ordinal() < Level.PARANOID.ordinal()) {
             if ((PlatformDependent.threadLocalRandom().nextInt(samplingInterval)) == 0) {
+//                资源泄漏上报
                 reportLeak();
                 return new DefaultResourceLeak(obj, refQueue, allLeaks);
             }
@@ -263,6 +268,7 @@ public class ResourceLeakDetector<T> {
         return new DefaultResourceLeak(obj, refQueue, allLeaks);
     }
 
+//
     private void clearRefQueue() {
         for (;;) {
             @SuppressWarnings("unchecked")
@@ -274,13 +280,14 @@ public class ResourceLeakDetector<T> {
         }
     }
 
+//
     private void reportLeak() {
         if (!logger.isErrorEnabled()) {
             clearRefQueue();
             return;
         }
 
-        // Detect and report previous leaks.
+        // Detect and report previous leaks.检测并报告以前的泄漏。
         for (;;) {
             @SuppressWarnings("unchecked")
             DefaultResourceLeak ref = (DefaultResourceLeak) refQueue.poll();
@@ -295,8 +302,10 @@ public class ResourceLeakDetector<T> {
             String records = ref.toString();
             if (reportedLeaks.putIfAbsent(records, Boolean.TRUE) == null) {
                 if (records.isEmpty()) {
+//                    报告未监测到的资源泄漏
                     reportUntracedLeak(resourceType);
                 } else {
+//                    报告监测到的资源泄漏
                     reportTracedLeak(resourceType, records);
                 }
             }
@@ -334,10 +343,12 @@ public class ResourceLeakDetector<T> {
     protected void reportInstancesLeak(String resourceType) {
     }
 
+//
     @SuppressWarnings("deprecation")
     private static final class DefaultResourceLeak<T>
             extends WeakReference<Object> implements ResourceLeakTracker<T>, ResourceLeak {
 
+//        原子操作保证线程安全
         @SuppressWarnings("unchecked") // generics and updaters do not mix.
         private static final AtomicReferenceFieldUpdater<DefaultResourceLeak<?>, Record> headUpdater =
                 (AtomicReferenceFieldUpdater)
@@ -366,7 +377,9 @@ public class ResourceLeakDetector<T> {
 
             // Store the hash of the tracked object to later assert it in the close(...) method.
             // It's important that we not store a reference to the referent as this would disallow it from
-            // be collected via the WeakReference.
+            // be collected via the WeakReference.//存储被跟踪对象的散列，以便稍后在close(…)方法中断言它。
+//重要的是，我们不存储对referent的引用，因为这会禁止它
+//通过WeakReference收集。
             trackedHash = System.identityHashCode(referent);
             allLeaks.put(this, LeakEntry.INSTANCE);
             headUpdater.set(this, Record.BOTTOM);
@@ -418,8 +431,9 @@ public class ResourceLeakDetector<T> {
          会出现backoff。这与典型的访问模式相匹配，在这种模式下，访问次数(即缓存的缓冲区)或访问次数(即短暂的缓冲区)都比较少，但两者之间的访问次数并不多。使用atomics可以避免序列化大量的访问，因为大多数记录将被丢弃。
          只有在现有记录非常少的情况下才会发生高争用，只有在对象没有共享的情况下才会发生这种情况!如果这是一个问题，循环可能被中止，记录被删除，因为另一个线程赢得了比赛。
          */
+//
         private void record0(Object hint) {
-            // Check TARGET_RECORDS > 0 here to avoid similar check before remove from and add to lastRecords
+            // Check TARGET_RECORDS > 0 here to avoid similar check before remove from and add to lastRecords在这里检查TARGET_RECORDS >，以避免在删除和添加到lastRecords之前进行类似的检查
             if (TARGET_RECORDS > 0) {
                 Record oldHead;
                 Record prevHead;
@@ -447,6 +461,7 @@ public class ResourceLeakDetector<T> {
             }
         }
 
+//
         boolean dispose() {
             clear();
             return allLeaks.remove(this, LeakEntry.INSTANCE);
@@ -454,9 +469,9 @@ public class ResourceLeakDetector<T> {
 
         @Override
         public boolean close() {
-            // Use the ConcurrentMap remove method, which avoids allocating an iterator.
+            // Use the ConcurrentMap remove method, which avoids allocating an iterator.使用ConcurrentMap删除方法，这避免了分配迭代器。
             if (allLeaks.remove(this, LeakEntry.INSTANCE)) {
-                // Call clear so the reference is not even enqueued.
+                // Call clear so the reference is not even enqueued.调用clear，这样引用甚至不会被加入队列。
                 clear();
                 headUpdater.set(this, null);
                 return true;
@@ -466,13 +481,16 @@ public class ResourceLeakDetector<T> {
 
         @Override
         public boolean close(T trackedObject) {
-            // Ensure that the object that was tracked is the same as the one that was passed to close(...).
+            // Ensure that the object that was tracked is the same as the one that was passed to close(...).确保被跟踪的对象与传递给close(…)的对象相同。
             assert trackedHash == System.identityHashCode(trackedObject);
 
             // We need to actually do the null check of the trackedObject after we close the leak because otherwise
             // we may get false-positives reported by the ResourceLeakDetector. This can happen as the JIT / GC may
             // be able to figure out that we do not need the trackedObject anymore and so already enqueue it for
-            // collection before we actually get a chance to close the enclosing ResourceLeak.
+            // collection before we actually get a chance to close the enclosing ResourceLeak.//我们需要在关闭漏洞后对trackedObject执行空检查，否则
+//我们可能会得到ResourceLeakDetector报告的假阳性结果。这可以在JIT / GC中发生
+//能够发现我们不再需要trackedObject，因此已经将它加入队列
+//            在我们有机会关闭封闭的ResourceLeak之前。
             return close() && trackedObject != null;
         }
 
@@ -533,10 +551,12 @@ public class ResourceLeakDetector<T> {
     private static final AtomicReference<String[]> excludedMethods =
             new AtomicReference<String[]>(EmptyArrays.EMPTY_STRINGS);
 
+//
     public static void addExclusions(Class clz, String ... methodNames) {
         Set<String> nameSet = new HashSet<String>(Arrays.asList(methodNames));
         // Use loop rather than lookup. This avoids knowing the parameters, and doesn't have to handle
-        // NoSuchMethodException.
+        // NoSuchMethodException.使用循环而不是查找。这避免了知道参数，并且不需要处理
+// NoSuchMethodException。
         for (Method method : clz.getDeclaredMethods()) {
             if (nameSet.remove(method.getName()) && nameSet.isEmpty()) {
                 break;
@@ -557,6 +577,7 @@ public class ResourceLeakDetector<T> {
         } while (!excludedMethods.compareAndSet(oldMethods, newMethods));
     }
 
+//
     private static final class Record extends Throwable {
         private static final long serialVersionUID = 6065153674892850720L;
 
@@ -567,7 +588,7 @@ public class ResourceLeakDetector<T> {
         private final int pos;
 
         Record(Record next, Object hint) {
-            // This needs to be generated even if toString() is never called as it may change later on.
+            // This needs to be generated even if toString() is never called as it may change later on.即使从未调用toString()，也需要生成这个函数，因为稍后可能会更改它。
             hintString = hint instanceof ResourceLeakHint ? ((ResourceLeakHint) hint).toHintString() : hint.toString();
             this.next = next;
             this.pos = next.pos + 1;
@@ -615,6 +636,7 @@ public class ResourceLeakDetector<T> {
         }
     }
 
+//    懒汉式单例模式
     private static final class LeakEntry {
         static final LeakEntry INSTANCE = new LeakEntry();
         private static final int HASH = System.identityHashCode(INSTANCE);

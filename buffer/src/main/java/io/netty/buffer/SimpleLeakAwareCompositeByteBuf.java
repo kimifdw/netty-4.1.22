@@ -33,7 +33,8 @@ class SimpleLeakAwareCompositeByteBuf extends WrappedCompositeByteBuf {
     @Override
     public boolean release() {
         // Call unwrap() before just in case that super.release() will change the ByteBuf instance that is returned
-        // by unwrap().
+        // by unwrap().//调用unwrap()，以防super.release()改变返回的ByteBuf实例
+//打开()。
         ByteBuf unwrapped = unwrap();
         if (super.release()) {
             closeLeak(unwrapped);
@@ -45,7 +46,8 @@ class SimpleLeakAwareCompositeByteBuf extends WrappedCompositeByteBuf {
     @Override
     public boolean release(int decrement) {
         // Call unwrap() before just in case that super.release() will change the ByteBuf instance that is returned
-        // by unwrap().
+        // by unwrap().//调用unwrap()，以防super.release()改变返回的ByteBuf实例
+//打开()。
         ByteBuf unwrapped = unwrap();
         if (super.release(decrement)) {
             closeLeak(unwrapped);
@@ -56,7 +58,8 @@ class SimpleLeakAwareCompositeByteBuf extends WrappedCompositeByteBuf {
 
     private void closeLeak(ByteBuf trackedByteBuf) {
         // Close the ResourceLeakTracker with the tracked ByteBuf as argument. This must be the same that was used when
-        // calling DefaultResourceLeak.track(...).
+        // calling DefaultResourceLeak.track(...).//以被跟踪的ByteBuf作为参数关闭ResourceLeakTracker。这个必须和以前用的是一样的
+//调用DefaultResourceLeak.track (……)。
         boolean closed = leak.close(trackedByteBuf);
         assert closed;
     }

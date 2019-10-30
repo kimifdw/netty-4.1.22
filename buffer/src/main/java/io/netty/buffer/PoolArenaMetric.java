@@ -21,8 +21,8 @@ import java.util.List;
 /**
  * Expose metrics for an arena.公开竞技场的指标。
  */
-public interface PoolArenaMetric {
 
+public interface PoolArenaMetric {
     /**
      * Returns the number of thread caches backed by this arena.返回此竞技场支持的线程缓存的数量。
      */

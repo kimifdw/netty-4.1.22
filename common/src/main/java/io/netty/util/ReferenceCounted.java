@@ -32,6 +32,7 @@ package io.netty.util;
  当实例化一个新的referencecount时，它的引用计数为1。retain()增加引用计数，release()减少引用计数。如果引用计数减少到0，则对象将被显式地释放，访问释放对象通常会导致访问违反。
  如果实现referencount的对象是实现referencount的其他对象的容器，那么当容器的引用计数变为0时，包含的对象也将通过release()释放。
  */
+//
 public interface ReferenceCounted {
     /**
      * Returns the reference count of this object.  If {@code 0}, it means this object has been deallocated.返回该对象的引用计数。如果为0，则表示该对象已被释放。

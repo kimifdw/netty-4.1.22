@@ -30,7 +30,8 @@ final class ReadOnlyUnsafeDirectByteBuf extends ReadOnlyByteBufferBuf {
     ReadOnlyUnsafeDirectByteBuf(ByteBufAllocator allocator, ByteBuffer byteBuffer) {
         super(allocator, byteBuffer);
         // Use buffer as the super class will slice the passed in ByteBuffer which means the memoryAddress
-        // may be different if the position != 0.
+        // may be different if the position != 0.//使用buffer作为超类将分割在ByteBuffer中传递的内存地址
+//        如果位置!= 0，则可能不同。
         memoryAddress = PlatformDependent.directBufferAddress(buffer);
     }
 

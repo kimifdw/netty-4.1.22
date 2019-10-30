@@ -21,8 +21,9 @@ import io.netty.util.internal.UnstableApi;
 /**
  * A special {@link Thread} that provides fast access to {@link FastThreadLocal} variables.提供快速访问FastThreadLocal变量的特殊线程。
  */
+//
 public class FastThreadLocalThread extends Thread {
-    // This will be set to true if we have a chance to wrap the Runnable.
+    // This will be set to true if we have a chance to wrap the Runnable.如果我们有机会包装Runnable，那么它将被设置为true。
     private final boolean cleanupFastThreadLocals;
 
     private InternalThreadLocalMap threadLocalMap;
@@ -70,6 +71,7 @@ public class FastThreadLocalThread extends Thread {
      * Returns the internal data structure that keeps the thread-local variables bound to this thread.
      * Note that this method is for internal use only, and thus is subject to change at any time.返回内部数据结构，该结构使线程局部变量绑定到该线程。请注意，此方法仅供内部使用，因此随时可能更改。
      */
+//
     public final InternalThreadLocalMap threadLocalMap() {
         return threadLocalMap;
     }

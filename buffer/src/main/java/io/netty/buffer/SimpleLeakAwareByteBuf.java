@@ -115,9 +115,11 @@ class SimpleLeakAwareByteBuf extends WrappedByteBuf {
         return false;
     }
 
+//
     private void closeLeak() {
         // Close the ResourceLeakTracker with the tracked ByteBuf as argument. This must be the same that was used when
-        // calling DefaultResourceLeak.track(...).
+        // calling DefaultResourceLeak.track(...).//以被跟踪的ByteBuf作为参数关闭ResourceLeakTracker。这个必须和以前用的是一样的
+//调用DefaultResourceLeak.track (……)。
         boolean closed = leak.close(trackedByteBuf);
         assert closed;
     }
@@ -131,18 +133,20 @@ class SimpleLeakAwareByteBuf extends WrappedByteBuf {
         }
     }
 
+//
     private ByteBuf unwrappedDerived(ByteBuf derived) {
         // We only need to unwrap SwappedByteBuf implementations as these will be the only ones that may end up in
-        // the AbstractLeakAwareByteBuf implementations beside slices / duplicates and "real" buffers.
+        // the AbstractLeakAwareByteBuf implementations beside slices / duplicates and "real" buffers.//我们只需要打开SwappedByteBuf实现，因为这些将是唯一可能结束的实现
+//在片/副本和“实际”缓冲区旁边的AbstractLeakAwareByteBuf实现。
         ByteBuf unwrappedDerived = unwrapSwapped(derived);
 
         if (unwrappedDerived instanceof AbstractPooledDerivedByteBuf) {
-            // Update the parent to point to this buffer so we correctly close the ResourceLeakTracker.
+            // Update the parent to point to this buffer so we correctly close the ResourceLeakTracker.更新父类以指向这个缓冲区，这样我们就可以正确地关闭ResourceLeakTracker。
             ((AbstractPooledDerivedByteBuf) unwrappedDerived).parent(this);
 
             ResourceLeakTracker<ByteBuf> newLeak = AbstractByteBuf.leakDetector.track(derived);
             if (newLeak == null) {
-                // No leak detection, just return the derived buffer.
+                // No leak detection, just return the derived buffer.没有泄漏检测，只是返回派生缓冲区。
                 return derived;
             }
             return newLeakAwareByteBuf(derived, newLeak);
@@ -150,6 +154,7 @@ class SimpleLeakAwareByteBuf extends WrappedByteBuf {
         return newSharedLeakAwareByteBuf(derived);
     }
 
+//
     @SuppressWarnings("deprecation")
     private static ByteBuf unwrapSwapped(ByteBuf buf) {
         if (buf instanceof SwappedByteBuf) {

@@ -30,6 +30,7 @@ public abstract class AbstractReferenceCountedByteBuf extends AbstractByteBuf {
     private static final AtomicIntegerFieldUpdater<AbstractReferenceCountedByteBuf> refCntUpdater =
             AtomicIntegerFieldUpdater.newUpdater(AbstractReferenceCountedByteBuf.class, "refCnt");
 
+//    引用计数
     private volatile int refCnt;
 
     protected AbstractReferenceCountedByteBuf(int maxCapacity) {
@@ -63,7 +64,7 @@ public abstract class AbstractReferenceCountedByteBuf extends AbstractByteBuf {
     private ByteBuf retain0(final int increment) {
         int oldRef = refCntUpdater.getAndAdd(this, increment);
         if (oldRef <= 0 || oldRef + increment < oldRef) {
-            // Ensure we don't resurrect (which means the refCnt was 0) and also that we encountered an overflow.
+            // Ensure we don't resurrect (which means the refCnt was 0) and also that we encountered an overflow.确保我们没有复活(这意味着refCnt是0)，并且我们遇到了溢出。
             refCntUpdater.getAndAdd(this, -increment);
             throw new IllegalReferenceCountException(oldRef, increment);
         }

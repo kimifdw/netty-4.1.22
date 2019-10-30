@@ -247,7 +247,8 @@ final class FixedCompositeByteBuf extends AbstractReferenceCountedByteBuf {
             if (index < readable) {
                 if (isBuffer) {
                     // Create a new component and store it in the array so it not create a new object
-                    // on the next access.
+                    // on the next access.//创建一个新组件并将其存储在数组中，这样它就不会创建一个新对象
+//在下一个通道。
                     comp = new Component(i, readable - b.readableBytes(), b);
                     buffers[i] = comp;
                 }

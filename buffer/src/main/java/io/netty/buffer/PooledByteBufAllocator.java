@@ -47,7 +47,7 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator implements 
     private static final int DEFAULT_DIRECT_MEMORY_CACHE_ALIGNMENT;
 
     private static final int MIN_PAGE_SIZE = 4096;
-    private static final int MAX_CHUNK_SIZE = (int) (((long) Integer.MAX_VALUE + 1) / 2);
+    private static final int MAX_CHUNK_SIZE = (int) (((long) Integer.MAX_VALUE + 1) / 2);//1073741824
 
     static {
         int defaultPageSize = SystemPropertyUtil.getInt("io.netty.allocator.pageSize", 8192);
@@ -71,13 +71,16 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator implements 
         DEFAULT_MAX_ORDER = defaultMaxOrder;
 
         // Determine reasonable default for nHeapArena and nDirectArena.
-        // Assuming each arena has 3 chunks, the pool should not consume more than 50% of max memory.
+        // Assuming each arena has 3 chunks, the pool should not consume more than 50% of max memory.//确定nHeapArena和nDirectArena的合理默认值。
+//假设每个竞技场有3个内存块，那么内存池消耗的最大内存应该不超过50%。
         final Runtime runtime = Runtime.getRuntime();
 
         /*
          * We use 2 * available processors by default to reduce contention as we use 2 * available processors for the
          * number of EventLoops in NIO and EPOLL as well. If we choose a smaller number we will run into hot spots as
-         * allocation and de-allocation needs to be synchronized on the PoolArena.
+         * allocation and de-allocation needs to be synchronized on the PoolArena.我们默认使用2 *可用的处理器来减少争用，因为我们使用2 *可用的处理器
+*在NIO和EPOLL中的eventloop的数量。如果我们选择一个较小的数字，我们将遇到热点作为
+*需要在PoolArena上同步分配和取消分配。
          *
          * See https://github.com/netty/netty/issues/3888.
          */
@@ -102,11 +105,12 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator implements 
         DEFAULT_NORMAL_CACHE_SIZE = SystemPropertyUtil.getInt("io.netty.allocator.normalCacheSize", 64);
 
         // 32 kb is the default maximum capacity of the cached buffer. Similar to what is explained in
-        // 'Scalable memory allocation using jemalloc'
+        // 'Scalable memory allocation using jemalloc'// 32kb是缓存缓冲区的默认最大容量。类似于
+//“使用jemalloc的可伸缩内存分配”
         DEFAULT_MAX_CACHED_BUFFER_CAPACITY = SystemPropertyUtil.getInt(
                 "io.netty.allocator.maxCachedBufferCapacity", 32 * 1024);
 
-        // the number of threshold of allocations when cached entries will be freed up if not frequently used
+        // the number of threshold of allocations when cached entries will be freed up if not frequently used如果不经常使用，缓存条目时分配的阈值数量将被释放
         DEFAULT_CACHE_TRIM_INTERVAL = SystemPropertyUtil.getInt(
                 "io.netty.allocator.cacheTrimInterval", 8192);
 
@@ -276,7 +280,7 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator implements 
             throw new IllegalArgumentException("pageSize: " + pageSize + " (expected: power of 2)");
         }
 
-        // Logarithm base 2. At this point we know that pageSize is a power of two.
+        // Logarithm base 2. At this point we know that pageSize is a power of two.以2为底的对数。此时，我们知道pageSize是2的幂。
         return Integer.SIZE - 1 - Integer.numberOfLeadingZeros(pageSize);
     }
 
@@ -285,7 +289,7 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator implements 
             throw new IllegalArgumentException("maxOrder: " + maxOrder + " (expected: 0-14)");
         }
 
-        // Ensure the resulting chunkSize does not overflow.
+        // Ensure the resulting chunkSize does not overflow.确保结果chunkSize不会溢出。
         int chunkSize = pageSize;
         for (int i = maxOrder; i > 0; i --) {
             if (chunkSize > MAX_CHUNK_SIZE / 2) {
@@ -299,18 +303,24 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator implements 
 
     @Override
     protected ByteBuf newHeapBuffer(int initialCapacity, int maxCapacity) {
+//        获取当前线程的内存缓存
         PoolThreadCache cache = threadCache.get();
+//        查询内存区域
         PoolArena<byte[]> heapArena = cache.heapArena;
 
         final ByteBuf buf;
+//        用内存池进行分配内存
         if (heapArena != null) {
+//            分配内存区域
             buf = heapArena.allocate(cache, initialCapacity, maxCapacity);
         } else {
+//            不用内存池进行内存分配
             buf = PlatformDependent.hasUnsafe() ?
                     new UnpooledUnsafeHeapByteBuf(this, initialCapacity, maxCapacity) :
                     new UnpooledHeapByteBuf(this, initialCapacity, maxCapacity);
         }
 
+//        创建内存泄漏跟踪器
         return toLeakAwareBuffer(buf);
     }
 
@@ -443,7 +453,7 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator implements 
                         heapArena, directArena, tinyCacheSize, smallCacheSize, normalCacheSize,
                         DEFAULT_MAX_CACHED_BUFFER_CAPACITY, DEFAULT_CACHE_TRIM_INTERVAL);
             }
-            // No caching so just use 0 as sizes.
+            // No caching so just use 0 as sizes.没有缓存，所以只使用0作为大小。
             return new PoolThreadCache(heapArena, directArena, 0, 0, 0, 0, 0);
         }
 

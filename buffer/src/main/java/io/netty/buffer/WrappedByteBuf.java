@@ -37,6 +37,7 @@ import java.nio.charset.Charset;
  * and {@link ByteBufUtil#writeUtf8(ByteBuf, CharSequence)}.
  * 另一个ByteBuf包装。重要的是，readerIndex()和writerIndex()不会动态地对索引进行任何调整，因为ByteBufUtil进行了内部优化。writeAscii(ByteBuf CharSequence进行)和ByteBufUtil。writeUtf8(ByteBuf CharSequence进行)。
  */
+//继承方式适配器模式实现
 class WrappedByteBuf extends ByteBuf {
 
     protected final ByteBuf buf;

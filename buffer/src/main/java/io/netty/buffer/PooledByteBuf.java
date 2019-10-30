@@ -70,8 +70,11 @@ abstract class PooledByteBuf<T> extends AbstractReferenceCountedByteBuf {
      */
     final void reuse(int maxCapacity) {
         maxCapacity(maxCapacity);
+//        设置引用计数
         setRefCnt(1);
+//        设置读写index
         setIndex0(0, 0);
+//        清空标记index
         discardMarks();
     }
 
@@ -84,7 +87,7 @@ abstract class PooledByteBuf<T> extends AbstractReferenceCountedByteBuf {
     public final ByteBuf capacity(int newCapacity) {
         checkNewCapacity(newCapacity);
 
-        // If the request capacity does not require reallocation, just update the length of the memory.
+        // If the request capacity does not require reallocation, just update the length of the memory.如果请求容量不需要重新分配，只需更新内存的长度。
         if (chunk.unpooled) {
             if (newCapacity == length) {
                 return this;

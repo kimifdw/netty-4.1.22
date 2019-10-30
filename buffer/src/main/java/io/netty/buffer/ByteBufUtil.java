@@ -294,7 +294,7 @@ public final class ByteBufUtil {
                         compareUintBigEndianB(bufferA, bufferB, aIndex, bIndex, uintCountIncrement);
             }
             if (res != 0) {
-                // Ensure we not overflow when cast
+                // Ensure we not overflow when cast确保在浇铸时不会溢出
                 return (int) Math.min(Integer.MAX_VALUE, Math.max(Integer.MIN_VALUE, res));
             }
             aIndex += uintCountIncrement;
@@ -424,7 +424,7 @@ public final class ByteBufUtil {
     }
 
     /**
-     * Read the given amount of bytes into a new {@link ByteBuf} that is allocated from the {@link ByteBufAllocator}.
+     * Read the given amount of bytes into a new {@link ByteBuf} that is allocated from the {@link ByteBufAllocator}.将给定的字节量读入从ByteBufAllocator分配的新ByteBuf。
      */
     public static ByteBuf readBytes(ByteBufAllocator alloc, ByteBuf buffer, int length) {
         boolean release = true;
@@ -467,7 +467,7 @@ public final class ByteBufUtil {
      * result.
      */
     public static ByteBuf writeUtf8(ByteBufAllocator alloc, CharSequence seq) {
-        // UTF-8 uses max. 3 bytes per char, so calculate the worst case.
+        // UTF-8 uses max. 3 bytes per char, so calculate the worst case.utf - 8使用max。每个字符3个字节，所以计算最坏的情况。
         ByteBuf buf = alloc.buffer(utf8MaxBytes(seq));
         writeUtf8(buf, seq);
         return buf;
@@ -497,6 +497,7 @@ public final class ByteBufUtil {
      * 用UTF-8编码CharSequence，并将其写入ByteBuf的保留字节。
      为了确保该方法不会失败，必须计算reserveBytes(即急切地使用utf8MaxBytes(CharSequence)或确切地使用utf8Bytes(CharSequence)):出于性能原因，索引检查将仅使用reserveBytes进行。此方法返回实际写入的字节数。
      */
+//
     public static int reserveAndWriteUtf8(ByteBuf buf, CharSequence seq, int reserveBytes) {
         for (;;) {
             if (buf instanceof AbstractByteBuf) {
@@ -506,7 +507,7 @@ public final class ByteBufUtil {
                 byteBuf.writerIndex += written;
                 return written;
             } else if (buf instanceof WrappedByteBuf) {
-                // Unwrap as the wrapped buffer may be an AbstractByteBuf and so we can use fast-path.
+                // Unwrap as the wrapped buffer may be an AbstractByteBuf and so we can use fast-path.打开包装的缓冲区可能是AbstractByteBuf，因此我们可以使用快速路径。
                 buf = buf.unwrap();
             } else {
                 byte[] bytes = seq.toString().getBytes(CharsetUtil.UTF_8);
@@ -516,12 +517,14 @@ public final class ByteBufUtil {
         }
     }
 
+//
     // Fast-Path implementation
     static int writeUtf8(AbstractByteBuf buffer, int writerIndex, CharSequence seq, int len) {
         int oldWriterIndex = writerIndex;
 
         // We can use the _set methods as these not need to do any index checks and reference checks.
-        // This is possible as we called ensureWritable(...) before.
+        // This is possible as we called ensureWritable(...) before.//我们可以使用_set方法，因为它们不需要进行任何索引检查和引用检查。
+//这是可能的，因为我们以前称ensureWritable(…)。
         for (int i = 0; i < len; i++) {
             char c = seq.charAt(i);
             if (c < 0x80) {
@@ -538,7 +541,9 @@ public final class ByteBufUtil {
                 try {
                     // Surrogate Pair consumes 2 characters. Optimistically try to get the next character to avoid
                     // duplicate bounds checking with charAt. If an IndexOutOfBoundsException is thrown we will
-                    // re-throw a more informative exception describing the problem.
+                    // re-throw a more informative exception describing the problem.//代理项对消耗2个字符。乐观地尝试得到下一个要避免的字符
+//与charAt进行重复边界检查。如果一个IndexOutOfBoundsException被抛出，我们将
+//重新抛出一个更有用的异常来描述问题。
                     c2 = seq.charAt(++i);
                 } catch (IndexOutOfBoundsException ignored) {
                     buffer._setByte(writerIndex++, WRITE_UTF_UNKNOWN);
@@ -567,6 +572,7 @@ public final class ByteBufUtil {
     /**
      * Returns max bytes length of UTF8 character sequence of the given length.返回给定长度的UTF8字符序列的最大字节长度。
      */
+//
     public static int utf8MaxBytes(final int seqLength) {
         return seqLength * MAX_BYTES_PER_CHAR_UTF8;
     }
@@ -578,6 +584,7 @@ public final class ByteBufUtil {
      * 返回UTF8字符序列的最大字节长度。
      它的行为类似于应用于seq CharSequence.length()的utf8MaxBytes(int)。
      */
+//
     public static int utf8MaxBytes(CharSequence seq) {
         return utf8MaxBytes(seq.length());
     }
@@ -607,7 +614,7 @@ public final class ByteBufUtil {
         int encodedLength = 0;
         for (int i = start; i < length; i++) {
             final char c = seq.charAt(i);
-            // making it 100% branchless isn't rewarding due to the many bit operations necessary!
+            // making it 100% branchless isn't rewarding due to the many bit operations necessary!由于需要许多位操作，使它100%无分支是没有意义的!
             if (c < 0x800) {
                 // branchless version of: (c <= 127 ? 0:1) + 1
                 encodedLength += ((0x7f - c) >>> 31) + 1;
@@ -620,7 +627,8 @@ public final class ByteBufUtil {
                 final char c2;
                 try {
                     // Surrogate Pair consumes 2 characters. Optimistically try to get the next character to avoid
-                    // duplicate bounds checking with charAt.
+                    // duplicate bounds checking with charAt.//代理项对消耗2个字符。乐观地尝试得到下一个要避免的字符
+//与charAt进行重复边界检查。
                     c2 = seq.charAt(++i);
                 } catch (IndexOutOfBoundsException ignored) {
                     encodedLength++;
@@ -678,7 +686,7 @@ public final class ByteBufUtil {
                     byteBuf.writerIndex += written;
                     return written;
                 } else if (buf instanceof WrappedByteBuf) {
-                    // Unwrap as the wrapped buffer may be an AbstractByteBuf and so we can use fast-path.
+                    // Unwrap as the wrapped buffer may be an AbstractByteBuf and so we can use fast-path.打开包装的缓冲区可能是AbstractByteBuf，因此我们可以使用快速路径。
                     buf = buf.unwrap();
                 } else {
                     byte[] bytes = seq.toString().getBytes(CharsetUtil.US_ASCII);
@@ -690,11 +698,13 @@ public final class ByteBufUtil {
         return len;
     }
 
+//
     // Fast-Path implementation
     static int writeAscii(AbstractByteBuf buffer, int writerIndex, CharSequence seq, int len) {
 
         // We can use the _set methods as these not need to do any index checks and reference checks.
-        // This is possible as we called ensureWritable(...) before.
+        // This is possible as we called ensureWritable(...) before.//我们可以使用_set方法，因为它们不需要进行任何索引检查和引用检查。
+//这是可能的，因为我们以前称ensureWritable(…)。
         for (int i = 0; i < len; i++) {
             buffer._setByte(writerIndex++, AsciiString.c2b(seq.charAt(i)));
         }
@@ -781,14 +791,15 @@ public final class ByteBufUtil {
             decodeString(decoder, src.nioBuffer(readerIndex, len), dst);
         } else {
             // We use a heap buffer as CharsetDecoder is most likely able to use a fast-path if src and dst buffers
-            // are both backed by a byte array.
+            // are both backed by a byte array.//我们使用堆缓冲区，因为如果src和dst缓冲区，CharsetDecoder最有可能使用快速路径
+//            都是由字节数组支持的。
             ByteBuf buffer = src.alloc().heapBuffer(len);
             try {
                 buffer.writeBytes(src, readerIndex, len);
                 // Use internalNioBuffer(...) to reduce object creation.
                 decodeString(decoder, buffer.internalNioBuffer(buffer.readerIndex(), len), dst);
             } finally {
-                // Release the temporary buffer again.
+                // Release the temporary buffer again.再次释放临时缓冲区。
                 buffer.release();
             }
         }
@@ -950,7 +961,7 @@ public final class ByteBufUtil {
         HexUtil.appendPrettyHexDump(dump, buf, offset, length);
     }
 
-    /* Separate class so that the expensive static initialization is only done when needed */
+    /* Separate class so that the expensive static initialization is only done when needed 单独的类，以便仅在需要时才进行昂贵的静态初始化*/
     private static final class HexUtil {
 
         private static final char[] BYTE2CHAR = new char[256];
@@ -979,7 +990,7 @@ public final class ByteBufUtil {
                 HEXPADDING[i] = buf.toString();
             }
 
-            // Generate the lookup table for the start-offset header in each row (up to 64KiB).
+            // Generate the lookup table for the start-offset header in each row (up to 64KiB).在每一行中为起始偏移头生成查找表(最大64KiB)。
             for (i = 0; i < HEXDUMP_ROWPREFIXES.length; i ++) {
                 StringBuilder buf = new StringBuilder(12);
                 buf.append(NEWLINE);
@@ -989,12 +1000,12 @@ public final class ByteBufUtil {
                 HEXDUMP_ROWPREFIXES[i] = buf.toString();
             }
 
-            // Generate the lookup table for byte-to-hex-dump conversion
+            // Generate the lookup table for byte-to-hex-dump conversion为字节到十六进制转储转换生成查找表
             for (i = 0; i < BYTE2HEX.length; i ++) {
                 BYTE2HEX[i] = ' ' + StringUtil.byteToHexStringPadded(i);
             }
 
-            // Generate the lookup table for byte dump paddings
+            // Generate the lookup table for byte dump paddings为字节转储操作生成查找表
             for (i = 0; i < BYTEPADDING.length; i ++) {
                 int padding = BYTEPADDING.length - i;
                 StringBuilder buf = new StringBuilder(padding);
@@ -1087,7 +1098,7 @@ public final class ByteBufUtil {
             final int fullRows = length >>> 4;
             final int remainder = length & 0xF;
 
-            // Dump the rows which have 16 bytes.
+            // Dump the rows which have 16 bytes.转储具有16字节的行。
             for (int row = 0; row < fullRows; row ++) {
                 int rowStartIndex = (row << 4) + startIndex;
 
@@ -1108,7 +1119,7 @@ public final class ByteBufUtil {
                 dump.append('|');
             }
 
-            // Dump the last row which has less than 16 bytes.
+            // Dump the last row which has less than 16 bytes.转储最后一行，该行小于16字节。
             if (remainder != 0) {
                 int rowStartIndex = (fullRows << 4) + startIndex;
                 appendHexDumpRowPrefix(dump, fullRows, rowStartIndex);

@@ -496,7 +496,7 @@ final class UnsafeByteBufUtil {
 
         if (dst.isDirect()) {
             if (dst.isReadOnly()) {
-                // We need to check if dst is ready-only so we not write something in it by using Unsafe.
+                // We need to check if dst is ready-only so we not write something in it by using Unsafe.我们需要检查dst是否已经就绪，这样我们就不会使用不安全的方法在其中写入内容。
                 throw new ReadOnlyBufferException();
             }
             // Copy to direct memory

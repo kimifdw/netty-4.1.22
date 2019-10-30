@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * A {@link ThreadFactory} implementation with a simple naming rule.
  */
+//
 public class DefaultThreadFactory implements ThreadFactory {
 
     private static final AtomicInteger poolId = new AtomicInteger();
@@ -63,6 +64,7 @@ public class DefaultThreadFactory implements ThreadFactory {
         this(toPoolName(poolType), daemon, priority);
     }
 
+//
     public static String toPoolName(Class<?> poolType) {
         if (poolType == null) {
             throw new NullPointerException("poolType");
@@ -115,7 +117,7 @@ public class DefaultThreadFactory implements ThreadFactory {
                 t.setPriority(priority);
             }
         } catch (Exception ignored) {
-            // Doesn't matter even if failed to set.
+            // Doesn't matter even if failed to set.就算设置失败也没关系。
         }
         return t;
     }

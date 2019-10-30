@@ -24,10 +24,14 @@ import static io.netty.util.internal.ObjectUtil.checkPositive;
  */
 public abstract class AbstractReferenceCounted implements ReferenceCounted {
 
+//    原子方式修改字段值
     private static final AtomicIntegerFieldUpdater<AbstractReferenceCounted> refCntUpdater =
             AtomicIntegerFieldUpdater.newUpdater(AbstractReferenceCounted.class, "refCnt");
 
+//    volatile保证线程可见性但不是线程安全的
     private volatile int refCnt = 1;
+
+//    上面两行代码一般可以实现线程开关类似的功能，当然也可以使用atomic的类
 
     @Override
     public final int refCnt() {
@@ -37,6 +41,7 @@ public abstract class AbstractReferenceCounted implements ReferenceCounted {
     /**
      * An unsafe operation intended for use by a subclass that sets the reference count of the buffer directly 用于直接设置缓冲区引用计数的子类的不安全操作
      */
+//    线程安全的方式设置该属性值
     protected final void setRefCnt(int refCnt) {
         refCntUpdater.set(this, refCnt);
     }
@@ -54,7 +59,7 @@ public abstract class AbstractReferenceCounted implements ReferenceCounted {
     private ReferenceCounted retain0(int increment) {
         int oldRef = refCntUpdater.getAndAdd(this, increment);
         if (oldRef <= 0 || oldRef + increment < oldRef) {
-            // Ensure we don't resurrect (which means the refCnt was 0) and also that we encountered an overflow.
+            // Ensure we don't resurrect (which means the refCnt was 0) and also that we encountered an overflow.确保我们没有复活(这意味着refCnt是0)，并且我们遇到了溢出。
             refCntUpdater.getAndAdd(this, -increment);
             throw new IllegalReferenceCountException(oldRef, increment);
         }
@@ -82,7 +87,7 @@ public abstract class AbstractReferenceCounted implements ReferenceCounted {
             deallocate();
             return true;
         } else if (oldRef < decrement || oldRef - decrement > oldRef) {
-            // Ensure we don't over-release, and avoid underflow.
+            // Ensure we don't over-release, and avoid underflow.确保我们不会过度释放，避免下溢。
             refCntUpdater.getAndAdd(this, decrement);
             throw new IllegalReferenceCountException(oldRef, decrement);
         }

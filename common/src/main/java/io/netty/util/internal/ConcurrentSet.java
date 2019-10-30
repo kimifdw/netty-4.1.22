@@ -20,6 +20,7 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentMap;
 
+//用concurrentHashMap实现一个线程安全的concurrentSet
 public final class ConcurrentSet<E> extends AbstractSet<E> implements Serializable {
 
     private static final long serialVersionUID = -6761513279741915432L;

@@ -404,7 +404,29 @@
       <artifactId>netty-common</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
-      <optional>true</optional>
+        <exclusions>
+            <exclusion>
+                <artifactId>netty-common</artifactId>
+                <groupId>io.netty</groupId>
+            </exclusion>
+          <exclusion>
+            <artifactId>netty-common</artifactId>
+            <groupId>io.netty</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>netty-common</artifactId>
+            <groupId>io.netty</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>netty-common</artifactId>
+            <groupId>io.netty</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>netty-common</artifactId>
+            <groupId>io.netty</groupId>
+          </exclusion>
+        </exclusions>
+        <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>

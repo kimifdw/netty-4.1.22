@@ -19,6 +19,7 @@ package io.netty.buffer;
  * {@link DuplicatedByteBuf} implementation that can do optimizations because it knows the duplicated buffer
  * is of type {@link AbstractByteBuf}.duplicate bytebuf实现可以进行优化，因为它知道重复的缓冲区是AbstractByteBuf类型。
  */
+//
 class UnpooledDuplicatedByteBuf extends DuplicatedByteBuf {
     UnpooledDuplicatedByteBuf(AbstractByteBuf buffer) {
         super(buffer);

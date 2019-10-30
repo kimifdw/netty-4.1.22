@@ -19,7 +19,7 @@ import io.netty.util.ResourceLeakTracker;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-
+//默认实现
 final class NoopResourceLeakTracker<T> extends AtomicBoolean implements ResourceLeakTracker<T> {
 
     private static final long serialVersionUID = 7874092436796083851L;

@@ -15,7 +15,6 @@
     <orderEntry type="module" module-name="netty-codec-haproxy" scope="TEST" />
     <orderEntry type="module" module-name="netty-codec-http" scope="TEST" />
     <orderEntry type="module" module-name="netty-codec-http2" scope="TEST" />
-    <orderEntry type="module" module-name="netty-all" scope="TEST" />
     <orderEntry type="module" module-name="netty-codec-memcache" scope="TEST" />
     <orderEntry type="module" module-name="netty-codec-mqtt" scope="TEST" />
     <orderEntry type="module" module-name="netty-codec-socks" scope="TEST" />

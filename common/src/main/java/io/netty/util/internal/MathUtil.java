@@ -41,7 +41,8 @@ public final class MathUtil {
     /**
      * Fast method of finding the next power of 2 greater than or equal to the supplied value.
      * <p>This method will do runtime bounds checking and call {@link #findNextPositivePowerOfTwo(int)} if within a
-     * valid range.
+     * valid range.求下一个大于或等于给定值的2的幂的快速方法。
+     此方法将执行运行时界限检查，并在有效范围内调用findNextPositivePowerOfTwo(int)。
      * @param value from which to search for next power of 2
      * @return The next power of 2 or the value itself if it is a power of 2.
      * <p>Special cases for return values are as follows:
@@ -62,6 +63,7 @@ public final class MathUtil {
      * @return {@code true} if the requested {@code index} and {@code length} will fit within {@code capacity}.
      * {@code false} if this would result in an index out of bounds exception.
      */
+//
     public static boolean isOutOfBounds(int index, int length, int capacity) {
         return (index | length | (index + length) | (capacity - (index + length))) < 0;
     }

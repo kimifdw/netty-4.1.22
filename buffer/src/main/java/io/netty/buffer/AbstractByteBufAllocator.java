@@ -102,6 +102,7 @@ public abstract class AbstractByteBufAllocator implements ByteBufAllocator {
     @Override
     public ByteBuf buffer() {
         if (directByDefault) {
+//            分配直接缓冲区
             return directBuffer();
         }
         return heapBuffer();
@@ -109,9 +110,11 @@ public abstract class AbstractByteBufAllocator implements ByteBufAllocator {
 
     @Override
     public ByteBuf buffer(int initialCapacity) {
+//        直接缓冲区分配
         if (directByDefault) {
             return directBuffer(initialCapacity);
         }
+//        对缓冲区分配
         return heapBuffer(initialCapacity);
     }
 
@@ -149,25 +152,31 @@ public abstract class AbstractByteBufAllocator implements ByteBufAllocator {
 
     @Override
     public ByteBuf heapBuffer() {
+//        默认堆内存256k
         return heapBuffer(DEFAULT_INITIAL_CAPACITY, DEFAULT_MAX_CAPACITY);
     }
 
     @Override
     public ByteBuf heapBuffer(int initialCapacity) {
+//        最大是int的最大值
         return heapBuffer(initialCapacity, DEFAULT_MAX_CAPACITY);
     }
 
     @Override
     public ByteBuf heapBuffer(int initialCapacity, int maxCapacity) {
+//        如果初始化内存大小和最大内存大小都是0
         if (initialCapacity == 0 && maxCapacity == 0) {
             return emptyBuf;
         }
+//        参数验证
         validate(initialCapacity, maxCapacity);
+//        创建堆缓冲区
         return newHeapBuffer(initialCapacity, maxCapacity);
     }
 
     @Override
     public ByteBuf directBuffer() {
+//       默认256的直接缓冲区
         return directBuffer(DEFAULT_INITIAL_CAPACITY, DEFAULT_MAX_CAPACITY);
     }
 
@@ -233,12 +242,12 @@ public abstract class AbstractByteBufAllocator implements ByteBufAllocator {
     }
 
     /**
-     * Create a heap {@link ByteBuf} with the given initialCapacity and maxCapacity.
+     * Create a heap {@link ByteBuf} with the given initialCapacity and maxCapacity.使用给定的初始容量和最大容量创建一个堆ByteBuf。
      */
     protected abstract ByteBuf newHeapBuffer(int initialCapacity, int maxCapacity);
 
     /**
-     * Create a direct {@link ByteBuf} with the given initialCapacity and maxCapacity.
+     * Create a direct {@link ByteBuf} with the given initialCapacity and maxCapacity.使用给定的初始容量和最大容量创建一个直接ByteBuf。
      */
     protected abstract ByteBuf newDirectBuffer(int initialCapacity, int maxCapacity);
 
@@ -263,7 +272,7 @@ public abstract class AbstractByteBufAllocator implements ByteBufAllocator {
             return threshold;
         }
 
-        // If over threshold, do not double but just increase by threshold.
+        // If over threshold, do not double but just increase by threshold.如果超过阈值，不要翻倍，只要按阈值增加即可。
         if (minNewCapacity > threshold) {
             int newCapacity = minNewCapacity / threshold * threshold;
             if (newCapacity > maxCapacity - threshold) {
@@ -274,7 +283,7 @@ public abstract class AbstractByteBufAllocator implements ByteBufAllocator {
             return newCapacity;
         }
 
-        // Not over threshold. Double up to 4 MiB, starting from 64.
+        // Not over threshold. Double up to 4 MiB, starting from 64.不超过阈值。加倍到4mib，从64开始。
         int newCapacity = 64;
         while (newCapacity < minNewCapacity) {
             newCapacity <<= 1;

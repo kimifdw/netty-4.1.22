@@ -268,6 +268,7 @@ public final class StringUtil {
     /**
      * The shortcut to {@link #simpleClassName(Class) simpleClassName(o.getClass())}.simpleClassName捷径(o.getClass())。
      */
+//
     public static String simpleClassName(Object o) {
         if (o == null) {
             return "null_object";
@@ -280,6 +281,7 @@ public final class StringUtil {
      * Generates a simplified name from a {@link Class}.  Similar to {@link Class#getSimpleName()}, but it works fine
      * with anonymous classes.从类生成简化的名称。类似于Class.getSimpleName()，但是它可以很好地处理匿名类。
      */
+//
     public static String simpleClassName(Class<?> clazz) {
         String className = checkNotNull(clazz, "clazz").getName();
         final int lastDotIdx = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR);

@@ -33,6 +33,7 @@ import java.security.PrivilegedAction;
 public abstract class ResourceLeakDetectorFactory {
     private static final InternalLogger logger = InternalLoggerFactory.getInstance(ResourceLeakDetectorFactory.class);
 
+//    饿汉式单例模式
     private static volatile ResourceLeakDetectorFactory factoryInstance = new DefaultResourceLeakDetectorFactory();
 
     /**
@@ -40,6 +41,7 @@ public abstract class ResourceLeakDetectorFactory {
      *
      * @return the current {@link ResourceLeakDetectorFactory}
      */
+//
     public static ResourceLeakDetectorFactory instance() {
         return factoryInstance;
     }
@@ -62,6 +64,7 @@ public abstract class ResourceLeakDetectorFactory {
      * @param <T> the type of the resource class
      * @return a new instance of {@link ResourceLeakDetector}
      */
+//
     public final <T> ResourceLeakDetector<T> newResourceLeakDetector(Class<T> resource) {
         return newResourceLeakDetector(resource, ResourceLeakDetector.DEFAULT_SAMPLING_INTERVAL);
     }
@@ -77,6 +80,7 @@ public abstract class ResourceLeakDetectorFactory {
      * @param <T> the type of the resource class
      * @return a new instance of {@link ResourceLeakDetector}
      */
+//
     @Deprecated
     public abstract <T> ResourceLeakDetector<T> newResourceLeakDetector(
             Class<T> resource, int samplingInterval, long maxActive);
@@ -89,6 +93,7 @@ public abstract class ResourceLeakDetectorFactory {
      * @param <T> the type of the resource class
      * @return a new instance of {@link ResourceLeakDetector}
      */
+//
     @SuppressWarnings("deprecation")
     public <T> ResourceLeakDetector<T> newResourceLeakDetector(Class<T> resource, int samplingInterval) {
         return newResourceLeakDetector(resource, ResourceLeakDetector.DEFAULT_SAMPLING_INTERVAL, Long.MAX_VALUE);
@@ -101,6 +106,7 @@ public abstract class ResourceLeakDetectorFactory {
         private final Constructor<?> obsoleteCustomClassConstructor;
         private final Constructor<?> customClassConstructor;
 
+//      可以扩展默认的资源探测器
         DefaultResourceLeakDetectorFactory() {
             String customLeakDetector;
             try {
@@ -122,6 +128,7 @@ public abstract class ResourceLeakDetectorFactory {
             }
         }
 
+//
         private static Constructor<?> obsoleteCustomClassConstructor(String customLeakDetector) {
             try {
                 final Class<?> detectorClass = Class.forName(customLeakDetector, true,
@@ -139,6 +146,7 @@ public abstract class ResourceLeakDetectorFactory {
             return null;
         }
 
+//
         private static Constructor<?> customClassConstructor(String customLeakDetector) {
             try {
                 final Class<?> detectorClass = Class.forName(customLeakDetector, true,

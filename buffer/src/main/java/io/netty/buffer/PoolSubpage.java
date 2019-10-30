@@ -71,6 +71,7 @@ final class PoolSubpage<T> implements PoolSubpageMetric {
                 bitmap[i] = 0;
             }
         }
+//        添加到PoolSubpage中
         addToPool(head);
     }
 
@@ -122,13 +123,13 @@ final class PoolSubpage<T> implements PoolSubpageMetric {
         if (numAvail != maxNumElems) {
             return true;
         } else {
-            // Subpage not in use (numAvail == maxNumElems)
+            // Subpage not in use (numAvail == maxNumElems)未使用的子页面(numAvail == maxNumElems)
             if (prev == next) {
-                // Do not remove if this subpage is the only one left in the pool.
+                // Do not remove if this subpage is the only one left in the pool.如果此子页面是池中仅剩的一个，则不要删除它。
                 return true;
             }
 
-            // Remove this subpage from the pool if there are other subpages left in the pool.
+            // Remove this subpage from the pool if there are other subpages left in the pool.如果池中还剩下其他子页面，则从池中删除此子页面。
             doNotDestroy = false;
             removeFromPool();
             return false;

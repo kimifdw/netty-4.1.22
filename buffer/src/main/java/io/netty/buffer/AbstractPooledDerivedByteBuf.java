@@ -44,6 +44,7 @@ abstract class AbstractPooledDerivedByteBuf extends AbstractReferenceCountedByte
         this.recyclerHandle = (Handle<AbstractPooledDerivedByteBuf>) recyclerHandle;
     }
 
+//
     // Called from within SimpleLeakAwareByteBuf and AdvancedLeakAwareByteBuf.
     final void parent(ByteBuf newParent) {
         assert newParent instanceof SimpleLeakAwareByteBuf;
@@ -57,13 +58,13 @@ abstract class AbstractPooledDerivedByteBuf extends AbstractReferenceCountedByte
 
     final <U extends AbstractPooledDerivedByteBuf> U init(
             AbstractByteBuf unwrapped, ByteBuf wrapped, int readerIndex, int writerIndex, int maxCapacity) {
-        wrapped.retain(); // Retain up front to ensure the parent is accessible before doing more work.
+        wrapped.retain(); // Retain up front to ensure the parent is accessible before doing more work.在做更多的工作之前，预先保留以确保可以访问父进程。
         parent = wrapped;
         rootParent = unwrapped;
 
         try {
             maxCapacity(maxCapacity);
-            setIndex0(readerIndex, writerIndex); // It is assumed the bounds checking is done by the caller.
+            setIndex0(readerIndex, writerIndex); // It is assumed the bounds checking is done by the caller.假定边界检查是由调用者完成的。
             setRefCnt(1);
 
             @SuppressWarnings("unchecked")
@@ -82,7 +83,9 @@ abstract class AbstractPooledDerivedByteBuf extends AbstractReferenceCountedByte
     protected final void deallocate() {
         // We need to first store a reference to the parent before recycle this instance. This is needed as
         // otherwise it is possible that the same AbstractPooledDerivedByteBuf is again obtained and init(...) is
-        // called before we actually have a chance to call release(). This leads to call release() on the wrong parent.
+        // called before we actually have a chance to call release(). This leads to call release() on the wrong parent.//在回收这个实例之前，我们需要先存储一个对父类的引用。这是需要的
+//否则，可能会再次获得相同的AbstractPooledDerivedByteBuf，而init(…)是
+//在我们有机会调用release()之前调用。这将导致在错误的父节点上调用release()。
         ByteBuf parent = this.parent;
         recyclerHandle.recycle(this);
         parent.release();
@@ -142,7 +145,7 @@ abstract class AbstractPooledDerivedByteBuf extends AbstractReferenceCountedByte
 
     @Override
     public ByteBuf slice(int index, int length) {
-        // All reference count methods should be inherited from this object (this is the "parent").
+        // All reference count methods should be inherited from this object (this is the "parent").所有引用计数方法都应该继承自这个对象(这是“父”对象)。
         return new PooledNonRetainedSlicedByteBuf(this, unwrap(), index, length);
     }
 
@@ -216,7 +219,7 @@ abstract class AbstractPooledDerivedByteBuf extends AbstractReferenceCountedByte
 
         @Override
         public ByteBuf retainedSlice() {
-            // Capacity is not allowed to change for a sliced ByteBuf, so length == capacity()
+            // Capacity is not allowed to change for a sliced ByteBuf, so length == capacity()对于切片的ByteBuf，容量不允许改变，因此length == Capacity ()
             return retainedSlice(readerIndex(), capacity());
         }
 
@@ -293,7 +296,7 @@ abstract class AbstractPooledDerivedByteBuf extends AbstractReferenceCountedByte
 
         @Override
         public ByteBuf retainedSlice() {
-            // Capacity is not allowed to change for a sliced ByteBuf, so length == capacity()
+            // Capacity is not allowed to change for a sliced ByteBuf, so length == capacity()对于切片的ByteBuf，容量不允许改变，因此length == Capacity ()
             return retainedSlice(0, capacity());
         }
 
