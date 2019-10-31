@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.netty.util.AbstractConstant</OriginalElement>
+  <nodes>
+    <node x="82.21875" y="785.0">io.netty.util.concurrent.ScheduledFutureTask</node>
+    <node x="16.0" y="1017.0">io.netty.util.AttributeKey</node>
+    <node x="1286.0" y="1244.0">io.netty.util.concurrent.RejectedExecutionHandlers</node>
+    <node x="1266.0" y="1091.0">io.netty.util.AttributeMap</node>
+    <node x="1467.0" y="859.0">io.netty.util.internal.Cleaner</node>
+    <node x="0.0" y="1244.0">io.netty.util.IllegalReferenceCountException</node>
+    <node x="1054.8750000000002" y="548.0">io.netty.util.concurrent.PromiseNotifier</node>
+    <node x="91.5" y="548.0">io.netty.util.concurrent.ScheduledFuture</node>
+    <node x="633.0" y="1392.0">io.netty.util.internal.PlatformDependent0</node>
+    <node x="1251.0" y="1614.0">io.netty.util.AsciiString</node>
+    <node x="643.0" y="1614.0">io.netty.util.internal.ReflectionUtil</node>
+    <node x="13.0" y="237.0">io.netty.util.concurrent.DefaultEventExecutorGroup</node>
+    <node x="928.0" y="1318.0">io.netty.util.concurrent.FastThreadLocalThread</node>
+    <node x="892.375" y="627.0">io.netty.util.concurrent.UnaryPromiseNotifier</node>
+    <node x="1105.0" y="1614.0">io.netty.util.CharsetUtil</node>
+    <node x="306.0" y="1091.0">io.netty.util.internal.TypeParameterMatcher</node>
+    <node x="8.5" y="79.0">io.netty.util.concurrent.AbstractEventExecutorGroup</node>
+    <node x="837.0" y="1392.0">io.netty.util.internal.ThreadLocalRandom</node>
+    <node x="0.0" y="1318.0">io.netty.util.concurrent.RejectedExecutionHandler</node>
+    <node x="1201.8750000000002" y="548.0">io.netty.util.concurrent.GenericProgressiveFutureListener</node>
+    <node x="1038.0" y="1244.0">io.netty.util.internal.SuppressJava6Requirement</node>
+    <node x="1382.0" y="938.0">io.netty.util.internal.CleanerJava9</node>
+    <node x="276.0" y="938.0">io.netty.util.internal.logging.Slf4JLoggerFactory</node>
+    <node x="173.375" y="706.0">io.netty.util.concurrent.SucceededFuture</node>
+    <node x="1368.0" y="1318.0">io.netty.util.internal.PromiseNotificationUtil</node>
+    <node x="161.0" y="1614.0">io.netty.util.NettyRuntime</node>
+    <node x="1516.0" y="938.0">io.netty.util.internal.CleanerJava6</node>
+    <node x="589.375" y="706.0">io.netty.util.concurrent.DefaultProgressivePromise</node>
+    <node x="396.0" y="1688.0">io.netty.util.Recycler</node>
+    <node x="580.0" y="237.0">io.netty.util.concurrent.AbstractScheduledEventExecutor</node>
+    <node x="1684.625" y="469.0">io.netty.util.internal.logging.InternalLogger</node>
+    <node x="660.625" y="627.0">io.netty.util.concurrent.ProgressivePromise</node>
+    <node x="1239.0" y="1392.0">io.netty.util.ReferenceCountUtil</node>
+    <node x="653.0" y="79.0">io.netty.util.concurrent.NonStickyEventExecutorGroup</node>
+    <node x="1536.0" y="1466.0">io.netty.util.concurrent.ThreadProperties</node>
+    <node x="511.00000000000006" y="79.0">io.netty.util.concurrent.EventExecutor</node>
+    <node x="89.25" y="859.0">io.netty.util.Constant</node>
+    <node x="448.0" y="938.0">io.netty.util.internal.logging.JdkLoggerFactory</node>
+    <node x="248.3203125" y="627.0">io.netty.util.concurrent.CompleteFuture</node>
+    <node x="703.375" y="548.0">io.netty.util.concurrent.ProgressiveFuture</node>
+    <node x="916.372807017544" y="79.0">io.netty.util.concurrent.EventExecutorChooserFactory</node>
+    <node x="1660.5" y="1091.0">io.netty.util.internal.LongCounter</node>
+    <node x="0.0" y="1688.0">io.netty.util.internal.StringUtil</node>
+    <node x="238.0" y="1318.0">io.netty.util.concurrent.FastThreadLocalRunnable</node>
+    <node x="459.375" y="706.0">io.netty.util.concurrent.PromiseTask</node>
+    <node x="1163.0" y="1466.0">io.netty.util.ResourceLeakHint</node>
+    <node x="1768.375" y="548.0">io.netty.util.internal.logging.Log4J2Logger</node>
+    <node x="1574.375" y="548.0">io.netty.util.internal.logging.AbstractInternalLogger</node>
+    <node x="839.0" y="237.0">io.netty.util.concurrent.ImmediateEventExecutor</node>
+    <node x="802.0" y="1614.0">io.netty.util.internal.EmptyArrays</node>
+    <node x="1033.0" y="1170.0">io.netty.util.DomainNameMapping</node>
+    <node x="1642.0" y="1170.0">io.netty.util.internal.LongAdderCounter</node>
+    <node x="1731.0" y="1540.0">io.netty.util.internal.ThrowableUtil</node>
+    <node x="1537.0" y="1614.0">io.netty.util.TimerTask</node>
+    <node x="537.0" y="1540.0">io.netty.util.internal.logging.FormattingTuple</node>
+    <node x="135.0" y="1688.0">io.netty.util.Attribute</node>
+    <node x="282.0703125" y="548.0">io.netty.util.concurrent.AbstractFuture</node>
+    <node x="556.625" y="548.0">io.netty.util.concurrent.Promise</node>
+    <node x="286.50000000000006" y="316.0">io.netty.util.concurrent.SingleThreadEventExecutor</node>
+    <node x="798.0" y="938.0">io.netty.util.internal.logging.Log4JLoggerFactory</node>
+    <node x="0.0" y="1091.0">io.netty.util.internal.UnpaddedInternalThreadLocalMap</node>
+    <node x="1234.0" y="1540.0">io.netty.util.ByteProcessor</node>
+    <node x="1436.0" y="1392.0">io.netty.util.SuppressForbidden</node>
+    <node x="815.5" y="1091.0">io.netty.util.ReferenceCounted</node>
+    <node x="288.0" y="1170.0">io.netty.util.internal.NoOpTypeParameterMatcher</node>
+    <node x="1587.0" y="1318.0">io.netty.util.concurrent.DefaultFutureListeners</node>
+    <node x="304.50000000000006" y="395.0">io.netty.util.concurrent.DefaultEventExecutor</node>
+    <node x="271.0" y="1244.0">io.netty.util.ResourceLeakDetectorFactory</node>
+    <node x="523.5" y="859.0">io.netty.util.internal.logging.InternalLoggerFactory</node>
+    <node x="411.6171875" y="469.0">io.netty.util.concurrent.Future</node>
+    <node x="215.0" y="1392.0">io.netty.util.concurrent.DefaultThreadFactory</node>
+    <node x="0.0" y="1614.0">io.netty.util.ConstantPool</node>
+    <node x="1568.0" y="1540.0">io.netty.util.internal.ObjectCleaner</node>
+    <node x="1401.0" y="1540.0">io.netty.util.internal.ConcurrentSet</node>
+    <node x="577.5" y="1091.0">io.netty.util.BooleanSupplier</node>
+    <node x="0.0" y="938.0">io.netty.util.AbstractConstant</node>
+    <node x="953.5" y="0.0">io.netty.util.internal.UnstableApi</node>
+    <node x="678.75" y="316.0">io.netty.util.concurrent.GlobalEventExecutor</node>
+    <node x="392.0" y="1466.0">io.netty.util.ByteProcessorUtils</node>
+    <node x="1177.0" y="938.0">io.netty.util.internal.DefaultPriorityQueue</node>
+    <node x="1633.0" y="1392.0">io.netty.util.internal.PlatformDependent</node>
+    <node x="251.00000000000006" y="158.0">io.netty.util.concurrent.OrderedEventExecutor</node>
+    <node x="443.00000000000006" y="158.0">io.netty.util.concurrent.UnorderedThreadPoolEventExecutor</node>
+    <node x="1677.0" y="1614.0">io.netty.util.internal.ObjectUtil</node>
+    <node x="1729.875" y="627.0">io.netty.util.internal.logging.Log4JLogger</node>
+    <node x="1612.875" y="627.0">io.netty.util.internal.logging.JdkLogger</node>
+    <node x="1073.5" y="1091.0">io.netty.util.Mapping</node>
+    <node x="180.0" y="1540.0">io.netty.util.internal.NativeLibraryUtil</node>
+    <node x="913.8750000000001" y="548.0">io.netty.util.concurrent.FutureListener</node>
+    <node x="532.0" y="1244.0">io.netty.util.DomainNameMappingBuilder</node>
+    <node x="715.0" y="1540.0">io.netty.util.internal.logging.InternalLogLevel</node>
+    <node x="1531.0" y="1244.0">io.netty.util.internal.AppendableCharSequence</node>
+    <node x="1351.0" y="1466.0">io.netty.util.concurrent.PromiseCombiner</node>
+    <node x="0.0" y="1392.0">io.netty.util.ResourceLeakDetector</node>
+    <node x="0.0" y="706.0">io.netty.util.internal.PriorityQueueNode</node>
+    <node x="892.0" y="1540.0">io.netty.util.internal.MacAddressUtil</node>
+    <node x="483.125" y="627.0">io.netty.util.concurrent.DefaultPromise</node>
+    <node x="651.0" y="1688.0">io.netty.util.Version</node>
+    <node x="0.0" y="1540.0">io.netty.util.internal.ReadOnlyIterator</node>
+    <node x="1446.0" y="1170.0">io.netty.util.HashedWheelTimer</node>
+    <node x="1488.5" y="1091.0">io.netty.util.Timer</node>
+    <node x="1066.0" y="1540.0">io.netty.util.AsyncMapping</node>
+    <node x="587.0" y="1466.0">io.netty.util.concurrent.ImmediateExecutor</node>
+    <node x="543.0" y="1170.0">io.netty.util.UncheckedBooleanSupplier</node>
+    <node x="0.0" y="158.0">io.netty.util.concurrent.MultithreadEventExecutorGroup</node>
+    <node x="1039.0" y="1392.0">io.netty.util.internal.NativeLibraryLoader</node>
+    <node x="1110.25" y="859.0">io.netty.util.internal.PriorityQueue</node>
+    <node x="32.0" y="1170.0">io.netty.util.internal.InternalThreadLocalMap</node>
+    <node x="1002.0" y="938.0">io.netty.util.internal.EmptyPriorityQueue</node>
+    <node x="789.0" y="1170.0">io.netty.util.AbstractReferenceCounted</node>
+    <node x="727.75" y="158.0">io.netty.util.concurrent.AbstractEventExecutor</node>
+    <node x="0.0" y="1466.0">io.netty.util.internal.RecyclableArrayList</node>
+    <node x="1719.0" y="1466.0">io.netty.util.HashingStrategy</node>
+    <node x="267.0" y="1688.0">io.netty.util.internal.MathUtil</node>
+    <node x="1394.0" y="1614.0">io.netty.util.IntSupplier</node>
+    <node x="1486.875" y="627.0">io.netty.util.internal.logging.Slf4JLogger</node>
+    <node x="359.0" y="1540.0">io.netty.util.concurrent.FastThreadLocal</node>
+    <node x="1244.0" y="1170.0">io.netty.util.DefaultAttributeMap</node>
+    <node x="786.0" y="1244.0">io.netty.util.concurrent.BlockingOperationException</node>
+    <node x="958.0" y="1614.0">io.netty.util.internal.SocketUtils</node>
+    <node x="473.0" y="1318.0">io.netty.util.internal.OutOfDirectMemoryError</node>
+    <node x="425.0" y="1392.0">io.netty.util.ResourceLeakTracker</node>
+    <node x="322.0" y="1614.0">io.netty.util.internal.IntegerHolder</node>
+    <node x="781.0" y="1466.0">io.netty.util.internal.ConstantTimeUtils</node>
+    <node x="524.0" y="1688.0">io.netty.util.Timeout</node>
+    <node x="972.0" y="1466.0">io.netty.util.internal.logging.MessageFormatter</node>
+    <node x="1034.3750000000002" y="469.0">io.netty.util.concurrent.GenericFutureListener</node>
+    <node x="775.0" y="1688.0">io.netty.util.NetUtil</node>
+    <node x="483.0" y="1614.0">io.netty.util.internal.PendingWrite</node>
+    <node x="491.50000000000006" y="0.0">io.netty.util.concurrent.EventExecutorGroup</node>
+    <node x="1149.0" y="1318.0">io.netty.util.DomainMappingBuilder</node>
+    <node x="954.622807017544" y="158.0">io.netty.util.concurrent.DefaultEventExecutorChooserFactory</node>
+    <node x="611.0" y="938.0">io.netty.util.internal.logging.Log4J2LoggerFactory</node>
+    <node x="196.0" y="1466.0">io.netty.util.internal.SystemPropertyUtil</node>
+    <node x="704.0" y="1318.0">io.netty.util.concurrent.ThreadPerTaskExecutor</node>
+    <node x="162.0" y="938.0">io.netty.util.Signal</node>
+    <node x="332.375" y="706.0">io.netty.util.concurrent.FailedFuture</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.netty.util.internal.EmptyPriorityQueue" target="io.netty.util.internal.PriorityQueue">
+      <point x="0.0" y="-14.5" />
+      <point x="1079.5" y="913.0" />
+      <point x="1139.25" y="913.0" />
+      <point x="-29.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.SingleThreadEventExecutor" target="io.netty.util.concurrent.OrderedEventExecutor">
+      <point x="-50.5" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.UnaryPromiseNotifier" target="io.netty.util.concurrent.FutureListener">
+      <point x="1.1368683772161603E-13" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.DefaultPromise" target="io.netty.util.concurrent.Promise">
+      <point x="31.25" y="-14.5" />
+      <point x="-20.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.DefaultEventExecutorChooserFactory" target="io.netty.util.internal.UnstableApi">
+      <point x="66.0" y="-14.5" />
+      <point x="1152.622807017544" y="133.0" />
+      <point x="1146.872807017544" y="133.0" />
+      <point x="1146.872807017544" y="54.0" />
+      <point x="1042.6666666666667" y="54.0" />
+      <point x="35.666666666666686" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.UncheckedBooleanSupplier" target="io.netty.util.BooleanSupplier">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.ImmediateEventExecutor" target="io.netty.util.concurrent.AbstractEventExecutor">
+      <point x="0.0" y="-14.5" />
+      <point x="931.0" y="212.0" />
+      <point x="859.0" y="212.0" />
+      <point x="43.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.AbstractFuture" target="io.netty.util.concurrent.Future">
+      <point x="0.0" y="-14.5" />
+      <point x="344.5703125" y="528.0" />
+      <point x="438.6171875" y="528.0" />
+      <point x="-9.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.CleanerJava9" target="io.netty.util.internal.Cleaner">
+      <point x="0.0" y="-14.5" />
+      <point x="1439.0" y="913.0" />
+      <point x="1486.5" y="913.0" />
+      <point x="-19.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.CompleteFuture" target="io.netty.util.concurrent.AbstractFuture">
+      <point x="0.0" y="-14.5" />
+      <point x="-31.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.DefaultEventExecutorGroup" target="io.netty.util.concurrent.MultithreadEventExecutorGroup">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.ScheduledFuture" target="io.netty.util.concurrent.Future">
+      <point x="0.0" y="-14.5" />
+      <point x="159.5" y="518.0" />
+      <point x="420.6171875" y="518.0" />
+      <point x="-27.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.DefaultAttributeMap" target="io.netty.util.AttributeMap">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.logging.Log4J2LoggerFactory" target="io.netty.util.internal.logging.InternalLoggerFactory">
+      <point x="0.0" y="-14.5" />
+      <point x="694.5" y="918.0" />
+      <point x="627.875" y="918.0" />
+      <point x="20.875" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.FailedFuture" target="io.netty.util.concurrent.CompleteFuture">
+      <point x="0.0" y="-14.5" />
+      <point x="385.875" y="681.0" />
+      <point x="345.8203125" y="681.0" />
+      <point x="32.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.NonStickyEventExecutorGroup" target="io.netty.util.internal.UnstableApi">
+      <point x="56.00000000000006" y="-14.5" />
+      <point x="821.0000000000001" y="54.0" />
+      <point x="971.3333333333334" y="54.0" />
+      <point x="-35.66666666666666" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.ProgressivePromise" target="io.netty.util.concurrent.Promise">
+      <point x="-38.25" y="-14.5" />
+      <point x="698.875" y="602.0" />
+      <point x="617.375" y="602.0" />
+      <point x="20.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.AbstractReferenceCounted" target="io.netty.util.ReferenceCounted">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.PromiseTask" target="io.netty.util.concurrent.DefaultPromise">
+      <point x="0.0" y="-14.5" />
+      <point x="-31.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.OrderedEventExecutor" target="io.netty.util.concurrent.EventExecutor">
+      <point x="0.0" y="-14.5" />
+      <point x="337.00000000000006" y="133.0" />
+      <point x="531.3333333333333" y="133.0" />
+      <point x="-40.66666666666674" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.EventExecutor" target="io.netty.util.concurrent.EventExecutorGroup">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.FutureListener" target="io.netty.util.concurrent.GenericFutureListener">
+      <point x="0.0" y="-14.5" />
+      <point x="974.3750000000001" y="523.0" />
+      <point x="1062.3750000000002" y="523.0" />
+      <point x="-56.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.ProgressiveFuture" target="io.netty.util.concurrent.Future">
+      <point x="0.0" y="-14.5" />
+      <point x="775.375" y="518.0" />
+      <point x="474.6171875" y="518.0" />
+      <point x="27.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.DefaultEventExecutor" target="io.netty.util.concurrent.SingleThreadEventExecutor">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.NoOpTypeParameterMatcher" target="io.netty.util.internal.TypeParameterMatcher">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.AbstractScheduledEventExecutor" target="io.netty.util.concurrent.AbstractEventExecutor">
+      <point x="0.0" y="-14.5" />
+      <point x="699.5" y="212.0" />
+      <point x="771.5" y="212.0" />
+      <point x="-43.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.logging.Slf4JLoggerFactory" target="io.netty.util.internal.logging.InternalLoggerFactory">
+      <point x="0.0" y="-14.5" />
+      <point x="352.0" y="908.0" />
+      <point x="544.375" y="908.0" />
+      <point x="-62.625" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.UnorderedThreadPoolEventExecutor" target="io.netty.util.concurrent.EventExecutor">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.ProgressivePromise" target="io.netty.util.concurrent.ProgressiveFuture">
+      <point x="38.25" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.DefaultProgressivePromise" target="io.netty.util.concurrent.ProgressivePromise">
+      <point x="49.25" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.AttributeKey" target="io.netty.util.AbstractConstant">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.DefaultProgressivePromise" target="io.netty.util.concurrent.DefaultPromise">
+      <point x="-49.25" y="-14.5" />
+      <point x="638.625" y="681.0" />
+      <point x="576.875" y="681.0" />
+      <point x="31.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.ScheduledFutureTask" target="io.netty.util.concurrent.ScheduledFuture">
+      <point x="0.0" y="-14.5" />
+      <point x="164.71875" y="760.0" />
+      <point x="159.5" y="760.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.HashedWheelTimer" target="io.netty.util.Timer">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.MultithreadEventExecutorGroup" target="io.netty.util.concurrent.AbstractEventExecutorGroup">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.DefaultPromise" target="io.netty.util.concurrent.AbstractFuture">
+      <point x="-31.25" y="-14.5" />
+      <point x="514.375" y="602.0" />
+      <point x="375.8203125" y="602.0" />
+      <point x="31.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.AbstractConstant" target="io.netty.util.Constant">
+      <point x="0.0" y="-14.5" />
+      <point x="71.0" y="913.0" />
+      <point x="111.5" y="913.0" />
+      <point x="-22.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.AbstractEventExecutorGroup" target="io.netty.util.concurrent.EventExecutorGroup">
+      <point x="0.0" y="-14.5" />
+      <point x="115.5" y="54.0" />
+      <point x="518.3333333333335" y="54.0" />
+      <point x="-53.66666666666663" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.GenericProgressiveFutureListener" target="io.netty.util.concurrent.GenericFutureListener">
+      <point x="0.0" y="-14.5" />
+      <point x="1321.8750000000002" y="523.0" />
+      <point x="1174.3750000000002" y="523.0" />
+      <point x="56.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.NonStickyEventExecutorGroup" target="io.netty.util.concurrent.EventExecutorGroup">
+      <point x="-55.99999999999994" y="-14.5" />
+      <point x="709.0000000000001" y="54.0" />
+      <point x="625.6666666666667" y="54.0" />
+      <point x="53.66666666666663" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.Signal" target="io.netty.util.Constant">
+      <point x="0.0" y="-14.5" />
+      <point x="196.5" y="913.0" />
+      <point x="156.0" y="913.0" />
+      <point x="22.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.logging.JdkLogger" target="io.netty.util.internal.logging.AbstractInternalLogger">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.logging.Log4J2Logger" target="io.netty.util.internal.logging.InternalLogger">
+      <point x="0.0" y="-14.5" />
+      <point x="1828.875" y="523.0" />
+      <point x="1775.375" y="523.0" />
+      <point x="30.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.SingleThreadEventExecutor" target="io.netty.util.concurrent.AbstractScheduledEventExecutor">
+      <point x="50.5" y="-14.5" />
+      <point x="438.00000000000006" y="291.0" />
+      <point x="639.75" y="291.0" />
+      <point x="-59.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.ScheduledFutureTask" target="io.netty.util.concurrent.PromiseTask">
+      <point x="55.0" y="-14.5" />
+      <point x="219.71875" y="760.0" />
+      <point x="514.375" y="760.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.logging.Slf4JLogger" target="io.netty.util.internal.logging.AbstractInternalLogger">
+      <point x="0.0" y="-14.5" />
+      <point x="1539.875" y="602.0" />
+      <point x="1603.375" y="602.0" />
+      <point x="-58.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.LongAdderCounter" target="io.netty.util.internal.LongCounter">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.logging.Log4JLogger" target="io.netty.util.internal.logging.AbstractInternalLogger">
+      <point x="0.0" y="-14.5" />
+      <point x="1786.375" y="602.0" />
+      <point x="1719.375" y="602.0" />
+      <point x="58.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.PromiseNotifier" target="io.netty.util.concurrent.GenericFutureListener">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.SucceededFuture" target="io.netty.util.concurrent.CompleteFuture">
+      <point x="0.0" y="-14.5" />
+      <point x="242.875" y="681.0" />
+      <point x="280.8203125" y="681.0" />
+      <point x="-32.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.InternalThreadLocalMap" target="io.netty.util.internal.UnpaddedInternalThreadLocalMap">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.GlobalEventExecutor" target="io.netty.util.concurrent.AbstractScheduledEventExecutor">
+      <point x="0.0" y="-14.5" />
+      <point x="59.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.logging.AbstractInternalLogger" target="io.netty.util.internal.logging.InternalLogger">
+      <point x="0.0" y="-14.5" />
+      <point x="1661.375" y="523.0" />
+      <point x="1714.875" y="523.0" />
+      <point x="-30.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.ScheduledFutureTask" target="io.netty.util.internal.PriorityQueueNode">
+      <point x="-55.0" y="-14.5" />
+      <point x="109.71875" y="760.0" />
+      <point x="74.5" y="760.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.Promise" target="io.netty.util.concurrent.Future">
+      <point x="0.0" y="-14.5" />
+      <point x="597.125" y="528.0" />
+      <point x="456.6171875" y="528.0" />
+      <point x="9.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.logging.JdkLoggerFactory" target="io.netty.util.internal.logging.InternalLoggerFactory">
+      <point x="0.0" y="-14.5" />
+      <point x="519.5" y="918.0" />
+      <point x="586.125" y="918.0" />
+      <point x="-20.875" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.DefaultEventExecutorChooserFactory" target="io.netty.util.concurrent.EventExecutorChooserFactory">
+      <point x="-66.0" y="-14.5" />
+      <point x="1020.622807017544" y="133.0" />
+      <point x="1026.372807017544" y="133.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.AbstractEventExecutor" target="io.netty.util.concurrent.EventExecutor">
+      <point x="0.0" y="-14.5" />
+      <point x="815.25" y="133.0" />
+      <point x="612.6666666666667" y="133.0" />
+      <point x="40.66666666666674" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.logging.Log4JLoggerFactory" target="io.netty.util.internal.logging.InternalLoggerFactory">
+      <point x="0.0" y="-14.5" />
+      <point x="877.5" y="908.0" />
+      <point x="669.625" y="908.0" />
+      <point x="62.625" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.DefaultPriorityQueue" target="io.netty.util.internal.PriorityQueue">
+      <point x="0.0" y="-14.5" />
+      <point x="1257.0" y="913.0" />
+      <point x="1197.25" y="913.0" />
+      <point x="29.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.internal.CleanerJava6" target="io.netty.util.internal.Cleaner">
+      <point x="0.0" y="-14.5" />
+      <point x="1573.0" y="913.0" />
+      <point x="1525.5" y="913.0" />
+      <point x="19.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.DomainNameMapping" target="io.netty.util.Mapping">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.util.concurrent.EventExecutorChooserFactory" target="io.netty.util.internal.UnstableApi">
+      <point x="0.0" y="-14.5" />
+      <point x="1026.372807017544" y="54.0" />
+      <point x="1007.0" y="54.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="71.0" y="494.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
