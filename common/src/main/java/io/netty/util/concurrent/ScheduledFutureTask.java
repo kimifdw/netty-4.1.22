@@ -126,7 +126,7 @@ final class ScheduledFutureTask<V> extends PromiseTask<V> implements ScheduledFu
                     setSuccessInternal(result);
                 }
             } else {
-                // check if is done as it may was cancelled
+                // check if is done as it may was cancelled检查是否已完成，因为它可能被取消
                 if (!isCancelled()) {
                     task.call();
                     if (!executor().isShutdown()) {
@@ -137,7 +137,7 @@ final class ScheduledFutureTask<V> extends PromiseTask<V> implements ScheduledFu
                             deadlineNanos = nanoTime() - p;
                         }
                         if (!isCancelled()) {
-                            // scheduledTaskQueue can never be null as we lazy init it before submit the task!
+                            // scheduledTaskQueue can never be null as we lazy init it before submit the task!scheduledTaskQueue永远不可能是空的，因为我们在提交任务之前延迟初始化它!
                             Queue<ScheduledFutureTask<?>> scheduledTaskQueue =
                                     ((AbstractScheduledEventExecutor) executor()).scheduledTaskQueue;
                             assert scheduledTaskQueue != null;

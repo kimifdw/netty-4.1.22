@@ -24,7 +24,7 @@ public final class ReflectionUtil {
     /**
      * Try to call {@link AccessibleObject#setAccessible(boolean)} but will catch any {@link SecurityException} and
      * {@link java.lang.reflect.InaccessibleObjectException} and return it.
-     * The caller must check if it returns {@code null} and if not handle the returned exception.
+     * The caller must check if it returns {@code null} and if not handle the returned exception.尝试调用AccessibleObject.setAccessible(boolean)，但是会捕获任何SecurityException和java.lang.reflect。InaccessibleObjectException并返回它。调用者必须检查它是否返回null，如果不处理返回的异常。
      */
     public static Throwable trySetAccessible(AccessibleObject object, boolean checkAccessible) {
         if (checkAccessible && !PlatformDependent0.isExplicitTryReflectionSetAccessible()) {

@@ -316,6 +316,7 @@ public class ThreadPerChannelEventLoopGroup extends AbstractEventExecutorGroup i
 //        从队列中获取空闲的事件组
         EventLoop loop = idleChildren.poll();
         if (loop == null) {
+//            channel最大连接数限制
             if (maxChannels > 0 && activeChildren.size() >= maxChannels) {
                 throw tooManyChannels;
             }

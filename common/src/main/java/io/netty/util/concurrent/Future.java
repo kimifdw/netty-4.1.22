@@ -44,8 +44,8 @@ public interface Future<V> extends java.util.concurrent.Future<V> {
      *         {@code null} if succeeded or this future is not
      *         completed yet.
      */
-    Throwable cause();
 
+    Throwable cause();
     /**
      * Adds the specified listener to this future.  The
      * specified listener is notified when this future is

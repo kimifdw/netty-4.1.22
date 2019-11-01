@@ -52,10 +52,11 @@ public abstract class AbstractScheduledEventExecutor extends AbstractEventExecut
     }
 
     PriorityQueue<ScheduledFutureTask<?>> scheduledTaskQueue() {
+//        调度线程池使用优先级队列来管理任务的
         if (scheduledTaskQueue == null) {
             scheduledTaskQueue = new DefaultPriorityQueue<ScheduledFutureTask<?>>(
                     SCHEDULED_FUTURE_TASK_COMPARATOR,
-                    // Use same initial capacity as java.util.PriorityQueue
+                    // Use same initial capacity as java.util.PriorityQueue使用与java.util.PriorityQueue相同的初始容量
                     11);
         }
         return scheduledTaskQueue;
@@ -205,9 +206,12 @@ public abstract class AbstractScheduledEventExecutor extends AbstractEventExecut
     }
 
     <V> ScheduledFuture<V> schedule(final ScheduledFutureTask<V> task) {
+//        如果在事件循环中
         if (inEventLoop()) {
+//            添加任务到优先级队列
             scheduledTaskQueue().add(task);
         } else {
+//            从执行器中获取一个线程异步执行把任务添加到优先级队列
             execute(new Runnable() {
                 @Override
                 public void run() {
@@ -220,9 +224,12 @@ public abstract class AbstractScheduledEventExecutor extends AbstractEventExecut
     }
 
     final void removeScheduled(final ScheduledFutureTask<?> task) {
+//        当前线程在事件循环中
         if (inEventLoop()) {
+//            从优先级队列中删除任务
             scheduledTaskQueue().removeTyped(task);
         } else {
+//            从执行器中获取一个线程异步删除优先级队列中的任务
             execute(new Runnable() {
                 @Override
                 public void run() {

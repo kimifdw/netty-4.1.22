@@ -44,6 +44,7 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
     private static final CauseHolder CANCELLATION_CAUSE_HOLDER = new CauseHolder(ThrowableUtil.unknownStackTrace(
             new CancellationException(), DefaultPromise.class, "cancel(...)"));
 
+//    原子方式更改result字段值，volatile保证线程可见性并不是线程安全
     private volatile Object result;
     private final EventExecutor executor;
     /**
@@ -55,7 +56,7 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
      */
     private Object listeners;
     /**
-     * Threading - synchronized(this). We are required to hold the monitor to use Java's underlying wait()/notifyAll().
+     * Threading - synchronized(this). We are required to hold the monitor to use Java's underlying wait()/notifyAll().线程同步(这一点)。我们需要保持监视器以使用Java的底层wait()/notifyAll()。
      */
     private short waiters;
 
@@ -224,6 +225,7 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
             throw new InterruptedException(toString());
         }
 
+//        执行器在这个事件循环中报错
         checkDeadLock();
 
         synchronized (this) {
@@ -284,7 +286,7 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
         try {
             return await0(unit.toNanos(timeout), false);
         } catch (InterruptedException e) {
-            // Should not be raised at all.
+            // Should not be raised at all.根本不应该被提高。
             throw new InternalError();
         }
     }
@@ -452,6 +454,7 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
     private static void notifyListenerWithStackOverFlowProtection(final EventExecutor executor,
                                                                   final Future<?> future,
                                                                   final GenericFutureListener<?> listener) {
+//        在事件循环中就直接使用当前线程，避免线程上下文切换
         if (executor.inEventLoop()) {
             final InternalThreadLocalMap threadLocals = InternalThreadLocalMap.get();
             final int stackDepth = threadLocals.futureListenerStackDepth();
@@ -466,6 +469,7 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
             }
         }
 
+//        不在事件循环中就从执行器中查询线程执行
         safeExecute(executor, new Runnable() {
             @Override
             public void run() {
@@ -730,7 +734,7 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
         } else if (listeners instanceof GenericProgressiveFutureListener) {
             return listeners;
         } else {
-            // Only one listener was added and it's not a progressive listener.
+            // Only one listener was added and it's not a progressive listener.只添加了一个侦听器，它不是一个渐进侦听器。
             return null;
         }
     }

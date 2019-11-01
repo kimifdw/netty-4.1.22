@@ -18,7 +18,8 @@
     <orderEntry type="module" module-name="netty-handler-proxy" />
     <orderEntry type="module" module-name="netty-codec-http" />
     <orderEntry type="module" module-name="netty-codec-http2" />
-    <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.38.Final" level="project" />
+    <orderEntry type="module" module-name="netty-common" />
+    <orderEntry type="library" name="Maven: org.jctools:jctools-core:2.1.1" level="project" />
     <orderEntry type="module" module-name="netty-codec-memcache" />
     <orderEntry type="module" module-name="netty-codec-redis" />
     <orderEntry type="module" module-name="netty-codec-socks" />

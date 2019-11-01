@@ -87,7 +87,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
     private final Executor executor;
     private volatile boolean interrupted;
 
-    private final Semaphore threadLock = new Semaphore(0);
+    private final Semaphore threadLock = new Semaphore(0);//这里使用信号量作为互斥锁
     private final Set<Runnable> shutdownHooks = new LinkedHashSet<Runnable>();
     private final boolean addTaskWakesUp;
     private final int maxPendingTasks;
@@ -238,6 +238,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
             if (scheduledTask == null) {
                 Runnable task = null;
                 try {
+//                    从队列中查询任务找不到就阻塞
                     task = taskQueue.take();
                     if (task == WAKEUP_TASK) {
                         task = null;
@@ -281,7 +282,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
         Runnable scheduledTask  = pollScheduledTask(nanoTime);
         while (scheduledTask != null) {
             if (!taskQueue.offer(scheduledTask)) {
-                // No space left in the task queue add it back to the scheduledTaskQueue so we pick it up again.
+                // No space left in the task queue add it back to the scheduledTaskQueue so we pick it up again.任务队列中已经没有空间了，将它添加回scheduledTaskQueue，这样我们就可以再次获取它。
                 scheduledTaskQueue().add((ScheduledFutureTask<?>) scheduledTask);
                 return false;
             }
@@ -363,7 +364,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
             if (runAllTasksFrom(taskQueue)) {
                 ranAtLeastOne = true;
             }
-        } while (!fetchedAll); // keep on processing until we fetched all scheduled tasks.
+        } while (!fetchedAll); // keep on processing until we fetched all scheduled tasks.继续处理，直到获取所有计划的任务。
 
         if (ranAtLeastOne) {
             lastExecutionTime = ScheduledFutureTask.nanoTime();
@@ -530,7 +531,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
 
     private boolean runShutdownHooks() {
         boolean ran = false;
-        // Note shutdown hooks can add / remove shutdown hooks.
+        // Note shutdown hooks can add / remove shutdown hooks.注:关机挂钩可以添加/删除关机挂钩。
         while (!shutdownHooks.isEmpty()) {
             List<Runnable> copy = new ArrayList<Runnable>(shutdownHooks);
             shutdownHooks.clear();
@@ -710,6 +711,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
             throw new IllegalStateException("must be invoked from an event loop");
         }
 
+//        取消定时任务
         cancelScheduledTasks();
 
         if (gracefulShutdownStartTime == 0) {
@@ -718,12 +720,13 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
 
         if (runAllTasks() || runShutdownHooks()) {
             if (isShutdown()) {
-                // Executor shut down - no new tasks anymore.
+                // Executor shut down - no new tasks anymore.Executor关闭—不再有新任务。
                 return true;
             }
 
             // There were tasks in the queue. Wait a little bit more until no tasks are queued for the quiet period or
-            // terminate if the quiet period is 0.
+            // terminate if the quiet period is 0.//队列中有任务。再多等一会儿，直到没有任务排队等待安静时间
+//            如果安静期为0，则终止。
             // See https://github.com/netty/netty/issues/4241
             if (gracefulShutdownQuietPeriod == 0) {
                 return true;
@@ -739,8 +742,8 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
         }
 
         if (nanoTime - lastExecutionTime <= gracefulShutdownQuietPeriod) {
-            // Check if any tasks were added to the queue every 100ms.
-            // TODO: Change the behavior of takeTask() so that it returns on timeout.
+            // Check if any tasks were added to the queue every 100ms.每100毫秒检查是否有任何任务添加到队列中。
+            // TODO: Change the behavior of takeTask() so that it returns on timeout.更改takeTask()的行为，以便在超时时返回。
             wakeup(true);
             try {
                 Thread.sleep(100);
@@ -752,7 +755,8 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
         }
 
         // No tasks were added for last quiet period - hopefully safe to shut down.
-        // (Hopefully because we really cannot make a guarantee that there will be no execute() calls by a user.)
+        // (Hopefully because we really cannot make a guarantee that there will be no execute() calls by a user.)//在最后的安静期没有添加任何任务—希望可以安全关闭。
+//(希望如此，因为我们不能保证用户不会执行execute()调用。)
         return true;
     }
 
@@ -780,6 +784,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
         }
 
         boolean inEventLoop = inEventLoop();
+//        在事件循环中添加任务
         if (inEventLoop) {
             addTask(task);
         } else {
@@ -915,7 +920,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
                         }
                     }
 
-                    // Check if confirmShutdown() was called at the end of the loop.
+                    // Check if confirmShutdown() was called at the end of the loop.检查在循环结束时是否调用了confirmShutdown()。
                     if (success && gracefulShutdownStartTime == 0) {
                         logger.error("Buggy " + EventExecutor.class.getSimpleName() + " implementation; " +
                                 SingleThreadEventExecutor.class.getSimpleName() + ".confirmShutdown() must be called " +
@@ -923,7 +928,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
                     }
 
                     try {
-                        // Run all remaining tasks and shutdown hooks.
+                        // Run all remaining tasks and shutdown hooks.运行所有剩余的任务和关闭挂钩。
                         for (;;) {
                             if (confirmShutdown()) {
                                 break;

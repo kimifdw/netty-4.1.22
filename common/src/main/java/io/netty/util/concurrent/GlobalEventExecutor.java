@@ -81,10 +81,12 @@ public final class GlobalEventExecutor extends AbstractScheduledEventExecutor {
     Runnable takeTask() {
         BlockingQueue<Runnable> taskQueue = this.taskQueue;
         for (;;) {
+//            从队列中查询任务
             ScheduledFutureTask<?> scheduledTask = peekScheduledTask();
             if (scheduledTask == null) {
                 Runnable task = null;
                 try {
+//                    如果从队列中没找到任务就阻塞
                     task = taskQueue.take();
                 } catch (InterruptedException e) {
                     // Ignore
@@ -206,6 +208,7 @@ public final class GlobalEventExecutor extends AbstractScheduledEventExecutor {
         if (thread == null) {
             throw new IllegalStateException("thread was not started");
         }
+//        当前线程等待其他线程执行完毕后在执行
         thread.join(unit.toMillis(timeout));
         return !thread.isAlive();
     }
@@ -254,6 +257,7 @@ public final class GlobalEventExecutor extends AbstractScheduledEventExecutor {
         @Override
         public void run() {
             for (;;) {
+//                从队列中查询任务
                 Runnable task = takeTask();
                 if (task != null) {
                     try {
@@ -276,6 +280,7 @@ public final class GlobalEventExecutor extends AbstractScheduledEventExecutor {
                     //将当前线程标记为已停止。
 //以下的核证机关必须永远成功，必须不受竞争，
 //因为同一时间只有一个线程在运行。
+//                    自旋锁用做线程开关
                     boolean stopped = started.compareAndSet(true, false);
                     assert stopped;
 
