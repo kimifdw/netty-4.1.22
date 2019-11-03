@@ -88,6 +88,7 @@ final class PoolChunkList<T> implements PoolChunkListMetric {
         }
 
         for (PoolChunk<T> cur = head;;) {
+//           内存分配
             long handle = cur.allocate(normCapacity);
             if (handle < 0) {
                 cur = cur.next;
@@ -95,6 +96,7 @@ final class PoolChunkList<T> implements PoolChunkListMetric {
                     return false;
                 }
             } else {
+//                初始化buffer
                 cur.initBuf(buf, handle, reqCapacity);
                 if (cur.usage() >= maxUsage) {
                     remove(cur);
@@ -108,6 +110,7 @@ final class PoolChunkList<T> implements PoolChunkListMetric {
     boolean free(PoolChunk<T> chunk, long handle) {
         chunk.free(handle);
         if (chunk.usage() < minUsage) {
+//            删除poolChunkList中的poolChunk
             remove(chunk);
             // Move the PoolChunk down the PoolChunkList linked-list.将PoolChunk移动到PoolChunkList链表下。
             return move0(chunk);
@@ -118,6 +121,7 @@ final class PoolChunkList<T> implements PoolChunkListMetric {
     private boolean move(PoolChunk<T> chunk) {
         assert chunk.usage() < maxUsage;
 
+//        poolChunk的使用率小于最小使用率
         if (chunk.usage() < minUsage) {
             // Move the PoolChunk down the PoolChunkList linked-list.将PoolChunk移动到PoolChunkList链表下。
             return move0(chunk);

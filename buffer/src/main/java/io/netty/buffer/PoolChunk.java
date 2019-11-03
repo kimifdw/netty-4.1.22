@@ -291,6 +291,7 @@ final class PoolChunk<T> implements PoolChunkMetric {
     private int allocateNode(int d) {
         int id = 1;
         int initial = - (1 << d); // has last d bits = 0 and rest all = 1最后的d位是否为0，其余的都为1
+//        用byte数组维护叶子节点的索引，标识已分配内存或者未分配内存
         byte val = value(id);
         if (val > d) { // unusable
             return -1;
@@ -307,6 +308,7 @@ final class PoolChunk<T> implements PoolChunkMetric {
         assert value == d && (id & initial) == 1 << d : String.format("val = %d, id & initial = %d, d = %d",
                 value, id & initial, d);
         setValue(id, unusable); // mark as unusable
+//        更新树的父叶子节点在byte数组中的位置
         updateParentsAlloc(id);
         return id;
     }
@@ -319,6 +321,7 @@ final class PoolChunk<T> implements PoolChunkMetric {
      */
     private long allocateRun(int normCapacity) {
         int d = maxOrder - (log2(normCapacity) - pageShifts);
+//        分配树的节点并修改树的结构
         int id = allocateNode(d);
         if (id < 0) {
             return id;
@@ -352,6 +355,7 @@ final class PoolChunk<T> implements PoolChunkMetric {
 
             freeBytes -= pageSize;
 
+//            计算子叶子节点的index
             int subpageIdx = subpageIdx(id);
             PoolSubpage<T> subpage = subpages[subpageIdx];
             if (subpage == null) {
@@ -361,6 +365,7 @@ final class PoolChunk<T> implements PoolChunkMetric {
 //                初始化subpage
                 subpage.init(head, normCapacity);
             }
+//            子叶子节点分配
             return subpage.allocate();
         }
     }
@@ -403,9 +408,11 @@ final class PoolChunk<T> implements PoolChunkMetric {
         if (bitmapIdx == 0) {
             byte val = value(memoryMapIdx);
             assert val == unusable : String.valueOf(val);
+//            buffer初始化
             buf.init(this, handle, runOffset(memoryMapIdx) + offset, reqCapacity, runLength(memoryMapIdx),
                      arena.parent.threadCache());
         } else {
+//            初始化subpage的buffer
             initBufWithSubpage(buf, handle, bitmapIdx, reqCapacity);
         }
     }

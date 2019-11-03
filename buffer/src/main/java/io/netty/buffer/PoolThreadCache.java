@@ -271,7 +271,7 @@ final class PoolThreadCache {
         trim(smallSubPageDirectCaches);
 //        大于4096的直接缓冲区缓存
         trim(normalDirectCaches);
-//        小于512的堆缓冲区缓存 todo
+//        小于512的堆缓冲区缓存
         trim(tinySubPageHeapCaches);
 //        大于512小于4096的堆缓冲区缓存
         trim(smallSubPageHeapCaches);
@@ -416,10 +416,12 @@ final class PoolThreadCache {
         }
 
         private int free(int max) {
+//            释放的次数
             int numFreed = 0;
             for (; numFreed < max; numFreed++) {
                 Entry<T> entry = queue.poll();
                 if (entry != null) {
+//                    释放entry
                     freeEntry(entry);
                 } else {
                     // all cleared
@@ -450,6 +452,7 @@ final class PoolThreadCache {
             // recycle now so PoolChunk can be GC'ed.现在就进行回收，这样PoolChunk就可以被GC了。
             entry.recycle();
 
+//            释放内存区域的内存块
             chunk.arena.freeChunk(chunk, handle, sizeClass);
         }
 
@@ -465,6 +468,7 @@ final class PoolThreadCache {
             void recycle() {
                 chunk = null;
                 handle = -1;
+//                回收handler回收内存
                 recyclerHandle.recycle(this);
             }
         }

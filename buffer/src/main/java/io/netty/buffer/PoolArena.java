@@ -245,11 +245,13 @@ abstract class PoolArena<T> implements PoolArenaMetric {
             return;
         }
         if (normCapacity <= chunkSize) {
+//            如果分配的正常内存大小小于chunkSize从本地线程缓存中分配
             if (cache.allocateNormal(this, buf, reqCapacity, normCapacity)) {
                 // was able to allocate out of the cache so move on能够从缓存中进行分配吗
                 return;
             }
             synchronized (this) {
+//                不能从本地线程缓存中分配就直接分配
                 allocateNormal(buf, reqCapacity, normCapacity);
                 ++allocationsNormal;
             }
@@ -261,6 +263,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
 
     // Method must be called inside synchronized(this) { ... } block
     private void allocateNormal(PooledByteBuf<T> buf, int reqCapacity, int normCapacity) {
+//        poolArea中每个poolChunkList中poolChunk存储是有顺序的
         if (q050.allocate(buf, reqCapacity, normCapacity) || q025.allocate(buf, reqCapacity, normCapacity) ||
             q000.allocate(buf, reqCapacity, normCapacity) || qInit.allocate(buf, reqCapacity, normCapacity) ||
             q075.allocate(buf, reqCapacity, normCapacity)) {
@@ -269,8 +272,10 @@ abstract class PoolArena<T> implements PoolArenaMetric {
 
         // Add a new chunk. 添加一个chunk
         PoolChunk<T> c = newChunk(pageSize, maxOrder, pageShifts, chunkSize);
+//        内存分配
         long handle = c.allocate(normCapacity);
         assert handle > 0;
+//        初始化buffer
         c.initBuf(buf, handle, reqCapacity);
         qInit.add(c);
     }
@@ -330,6 +335,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
             default:
                 throw new Error();
             }
+//            删除poolChunkList中的poolChunk
             destroyChunk = !chunk.parent.free(chunk, handle);
         }
         if (destroyChunk) {

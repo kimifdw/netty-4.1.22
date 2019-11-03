@@ -262,14 +262,17 @@ public abstract class Recycler<T> {
 
             // Its important that we not store the Stack itself in the WeakOrderQueue as the Stack also is used in
             // the WeakHashMap as key. So just store the enclosed AtomicInteger which should allow to have the
-            // Stack itself GCed.
+            // Stack itself GCed.//重要的是，我们不能将堆栈本身存储在WeakOrderQueue中，因为堆栈也在WeakOrderQueue中使用
+// WeakHashMap作为键。因此，只需存储所包含的AtomicInteger，它应该允许有
+//堆栈本身GCed。
             availableSharedCapacity = stack.availableSharedCapacity;
         }
 
         static WeakOrderQueue newQueue(Stack<?> stack, Thread thread) {
             WeakOrderQueue queue = new WeakOrderQueue(stack, thread);
             // Done outside of the constructor to ensure WeakOrderQueue.this does not escape the constructor and so
-            // may be accessed while its still constructed.
+            // may be accessed while its still constructed.//在构造函数外部完成，以确保WeakOrderQueue。这并没有转义构造函数
+//可以在它仍然被构造的时候被访问。
             stack.setHead(queue);
             return queue;
         }
@@ -283,7 +286,7 @@ public abstract class Recycler<T> {
          * Allocate a new {@link WeakOrderQueue} or return {@code null} if not possible.
          */
         static WeakOrderQueue allocate(Stack<?> stack, Thread thread) {
-            // We allocated a Link so reserve the space
+            // We allocated a Link so reserve the space我们分配了一个链接来预留空间
             return reserveSpace(stack.availableSharedCapacity, LINK_CAPACITY)
                     ? newQueue(stack, thread) : null;
         }
