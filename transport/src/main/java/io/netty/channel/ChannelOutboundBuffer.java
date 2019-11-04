@@ -75,7 +75,7 @@ public final class ChannelOutboundBuffer {
 
     // Entry(flushedEntry) --> ... Entry(unflushedEntry) --> ... Entry(tailEntry)
     //
-    // The Entry that is the first in the linked-list structure that was flushed
+    // The Entry that is the first in the linked-list structure that was flushed被刷新的链表结构中的第一个项
     private Entry flushedEntry;
     // The Entry which is the first unflushed in the linked-list structure
     private Entry unflushedEntry;
@@ -195,6 +195,7 @@ public final class ChannelOutboundBuffer {
         }
 
         long newWriteBufferSize = TOTAL_PENDING_SIZE_UPDATER.addAndGet(this, -size);
+//        如果没有达到写的标识位就开始写
         if (notifyWritability && newWriteBufferSize < channel.config().getWriteBufferLowWaterMark()) {
             setWritable(invokeLater);
         }
@@ -295,14 +296,14 @@ public final class ChannelOutboundBuffer {
         removeEntry(e);
 
         if (!e.cancelled) {
-            // only release message, fail and decrement if it was not canceled before.
+            // only release message, fail and decrement if it was not canceled before.只有发布消息，失败和减量，如果它没有取消之前。
             ReferenceCountUtil.safeRelease(msg);
 
             safeFail(promise, cause);
             decrementPendingOutboundBytes(size, false, notifyWritability);
         }
 
-        // recycle the entry
+        // recycle the entry 回收 entry
         e.recycle();
 
         return true;
@@ -354,7 +355,7 @@ public final class ChannelOutboundBuffer {
         clearNioBuffers();
     }
 
-    // Clear all ByteBuffer from the array so these can be GC'ed.
+    // Clear all ByteBuffer from the array so these can be GC'ed.清除数组中所有的ByteBuffer，以便对它们进行GC'ed。
     // See https://github.com/netty/netty/issues/3837
     private void clearNioBuffers() {
         int count = nioBufferCount;
@@ -581,6 +582,7 @@ public final class ChannelOutboundBuffer {
             final int newValue = oldValue & ~1;
             if (UNWRITABLE_UPDATER.compareAndSet(this, oldValue, newValue)) {
                 if (oldValue != 0 && newValue == 0) {
+//                    出发写入事件
                     fireChannelWritabilityChanged(invokeLater);
                 }
                 break;
@@ -603,6 +605,7 @@ public final class ChannelOutboundBuffer {
 
     private void fireChannelWritabilityChanged(boolean invokeLater) {
         final ChannelPipeline pipeline = channel.pipeline();
+//        如果是延迟执行把任务加入到队列
         if (invokeLater) {
             Runnable task = fireChannelWritabilityChangedTask;
             if (task == null) {
@@ -614,6 +617,7 @@ public final class ChannelOutboundBuffer {
                 };
             }
             channel.eventLoop().execute(task);
+//            否则立即执行
         } else {
             pipeline.fireChannelWritabilityChanged();
         }
@@ -637,7 +641,9 @@ public final class ChannelOutboundBuffer {
     void failFlushed(Throwable cause, boolean notify) {
         // Make sure that this method does not reenter.  A listener added to the current promise can be notified by the
         // current thread in the tryFailure() call of the loop below, and the listener can trigger another fail() call
-        // indirectly (usually by closing the channel.)
+        // indirectly (usually by closing the channel.)请确保此方法不重新进入。方法可以通知添加到当前承诺的侦听器
+//当前线程在下面循环的tryFailure()调用中，监听器可以触发另一个fail()调用
+//间接地(通常通过关闭通道)。
         //
         // See https://github.com/netty/netty/issues/1501
         if (inFail) {
@@ -709,7 +715,8 @@ public final class ChannelOutboundBuffer {
 
     private static void safeFail(ChannelPromise promise, Throwable cause) {
         // Only log if the given promise is not of type VoidChannelPromise as tryFailure(...) is expected to return
-        // false.
+        // false.//只有当给定的承诺不是VoidChannelPromise类型时才进行日志记录，因为tryFailure(…)将返回
+//错误的。
         PromiseNotificationUtil.tryFailure(promise, cause, promise instanceof VoidChannelPromise ? null : logger);
     }
 

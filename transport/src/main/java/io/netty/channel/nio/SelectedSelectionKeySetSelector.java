@@ -52,6 +52,7 @@ final class SelectedSelectionKeySetSelector extends Selector {
 
     @Override
     public int selectNow() throws IOException {
+//        重置selectorKey，selectionKeys是一个selectKey数组实现
         selectionKeys.reset();
         return delegate.selectNow();
     }

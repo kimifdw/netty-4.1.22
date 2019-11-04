@@ -102,6 +102,9 @@ public final class NioEventLoop extends SingleThreadEventLoop {
             }
         }
 
+//        selector轮询次数阈值，避免linux的epoll bug
+//        nio中是通过selector轮询io事件，selector的select方法会一直阻塞或者超时，linux有时候会出现问题，有时候即使没有io事件到达或超时selector也会返回，这既是linux epoll的bug，会导致线程
+//        进入死循环导致cup load 100%，netty定义了一个selector空轮询的次数阈值512，超过这个阈值重新构建selector，将老的selector上的channel迁移到新的selector上，关闭老的selector
         int selectorAutoRebuildThreshold = SystemPropertyUtil.getInt("io.netty.selectorAutoRebuildThreshold", 512);
         if (selectorAutoRebuildThreshold < MIN_PREMATURE_SELECTOR_RETURNS) {
             selectorAutoRebuildThreshold = 0;
@@ -120,6 +123,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
      */
     private Selector selector;
     private Selector unwrappedSelector;
+//    selectKey数组实现
     private SelectedSelectionKeySet selectedKeys;
 
     private final SelectorProvider provider;
@@ -133,6 +137,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
      */
     private final AtomicBoolean wakenUp = new AtomicBoolean();
 
+//    selector选择器行为，默认实现有事件就开始事件监听，如果没有就阻塞等到事件到来
     private final SelectStrategy selectStrategy;
 
     private volatile int ioRatio = 50;
@@ -339,7 +344,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
      * 用新创建的选择器替换这个事件循环的当前选择器，以处理臭名昭著的epoll 100% CPU错误。
      */
     public void rebuildSelector() {
-//        当前线程是不在事件循环中
+//        当前线程是不在事件循环中，减少线程上下文切换
         if (!inEventLoop()) {
             execute(new Runnable() {
                 @Override
@@ -353,6 +358,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
         rebuildSelector0();
     }
 
+//    重新构造selector解决linux epoll的bug
     private void rebuildSelector0() {
         final Selector oldSelector = selector;
         final SelectorTuple newSelectorTuple;
@@ -420,6 +426,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
 
     @Override
     protected void run() {
+//        循环事件处理
         for (;;) {
             try {
                 switch (selectStrategy.calculateStrategy(selectNowSupplier, hasTasks())) {
@@ -493,6 +500,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
                 cancelledKeys = 0;
                 needsToSelectAgain = false;
                 final int ioRatio = this.ioRatio;
+//                io使用时间百分比
                 if (ioRatio == 100) {
                     try {
 //                        处理选择键
@@ -639,8 +647,10 @@ public final class NioEventLoop extends SingleThreadEventLoop {
             if (needsToSelectAgain) {
                 // null out entries in the array to allow to have it GC'ed once the Channel close空出数组中的条目，以便在通道关闭后对其进行GC'ed
                 // See https://github.com/netty/netty/issues/2363
+//                重置selectKey数组
                 selectedKeys.reset(i + 1);
 
+//                开始事件监听
                 selectAgain();
                 i = -1;
             }
@@ -670,7 +680,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
             if (eventLoop != this || eventLoop == null) {
                 return;
             }
-            // close the channel if the key is not valid anymore如果密钥不再有效，则关闭通道
+            // close the channel if the key is not valid anymore如果selectKey不再有效，则关闭通道
             unsafe.close(unsafe.voidPromise());
             return;
         }
@@ -779,6 +789,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
         } finally {
             // restore wakeup state if needed
             if (wakenUp.get()) {
+//                唤醒selector
                 selector.wakeup();
             }
         }
@@ -790,6 +801,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
         try {
             int selectCnt = 0;
             long currentTimeNanos = System.nanoTime();
+//            出来延迟队列中的任务
             long selectDeadLineNanos = currentTimeNanos + delayNanos(currentTimeNanos);
             for (;;) {
                 long timeoutMillis = (selectDeadLineNanos - currentTimeNanos + 500000L) / 1000000L;
@@ -862,6 +874,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
 
                     // Select again to populate selectedKeys.再次选择以填充selectedKeys。
                     selector.selectNow();
+//                    重置selector轮询次数
                     selectCnt = 1;
                     break;
                 }

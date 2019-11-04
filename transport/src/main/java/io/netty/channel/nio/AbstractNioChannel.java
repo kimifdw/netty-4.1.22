@@ -302,20 +302,22 @@ public abstract class AbstractNioChannel extends AbstractChannel {
 
         private void fulfillConnectPromise(ChannelPromise promise, boolean wasActive) {
             if (promise == null) {
-                // Closed via cancellation and the promise has been notified already.
+                // Closed via cancellation and the promise has been notified already.关闭通过取消和承诺已经通知。
                 return;
             }
 
             // Get the state as trySuccess() may trigger an ChannelFutureListener that will close the Channel.
-            // We still need to ensure we call fireChannelActive() in this case.
+            // We still need to ensure we call fireChannelActive() in this case.//获取trySuccess()的状态，可能触发一个ChannelFutureListener关闭该通道。
+//在这种情况下，我们仍然需要确保调用fireChannelActive()。
 //            通道状态
             boolean active = isActive();
 
-            // trySuccess() will return false if a user cancelled the connection attempt.
+            // trySuccess() will return false if a user cancelled the connection attempt.如果用户取消了连接尝试，trySuccess()将返回false。
             boolean promiseSet = promise.trySuccess();
 
             // Regardless if the connection attempt was cancelled, channelActive() event should be triggered,
-            // because what happened is what happened.
+            // because what happened is what happened.//不管连接尝试是否被取消，都会触发channelActive()事件，
+//因为已经发生的就是已经发生的。
             if (!wasActive && active) {
 //                管道触发渠道激活
                 pipeline().fireChannelActive();
@@ -341,7 +343,8 @@ public abstract class AbstractNioChannel extends AbstractChannel {
         @Override
         public final void finishConnect() {
             // Note this method is invoked by the event loop only if the connection attempt was
-            // neither cancelled nor timed out.
+            // neither cancelled nor timed out.//注意:这个方法只有在连接尝试时才会被事件循环调用
+//既没有取消也没有超时。
 
             assert eventLoop().inEventLoop();
 
@@ -375,7 +378,7 @@ public abstract class AbstractNioChannel extends AbstractChannel {
 
         @Override
         public final void forceFlush() {
-            // directly call super.flush0() to force a flush now
+            // directly call super.flush0() to force a flush now直接调用super.flush0()来强制刷新
             super.flush0();
         }
 

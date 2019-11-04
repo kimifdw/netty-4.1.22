@@ -935,13 +935,14 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
 
             inFlush0 = true;
 
-            // Mark all pending write requests as failure if the channel is inactive.
+            // Mark all pending write requests as failure if the channel is inactive.如果通道处于非活动状态，则将所有挂起的写请求标记为失败。
             if (!isActive()) {
                 try {
+//                    如果channel是打开的
                     if (isOpen()) {
                         outboundBuffer.failFlushed(FLUSH0_NOT_YET_CONNECTED_EXCEPTION, true);
                     } else {
-                        // Do not trigger channelWritabilityChanged because the channel is closed already.
+                        // Do not trigger channelWritabilityChanged because the channel is closed already.不要触发通道写性改变，因为通道已经关闭。
                         outboundBuffer.failFlushed(FLUSH0_CLOSED_CHANNEL_EXCEPTION, false);
                     }
                 } finally {
@@ -1132,6 +1133,7 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
     /**
      * Flush the content of the given buffer to the remote peer.将给定缓冲区的内容刷新到远程对等点。
      */
+//    todo
     protected abstract void doWrite(ChannelOutboundBuffer in) throws Exception;
 
     /**
