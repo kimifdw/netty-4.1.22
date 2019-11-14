@@ -125,7 +125,7 @@ public final class ChannelOutboundBuffer {
             unflushedEntry = entry;
         }
 
-        // increment pending bytes after adding message to the unflushed arrays.
+        // increment pending bytes after adding message to the unflushed arrays.向未刷新的数组添加消息后增加挂起字节。
         // See https://github.com/netty/netty/issues/1619
         incrementPendingOutboundBytes(entry.pendingSize, false);
     }
@@ -136,26 +136,27 @@ public final class ChannelOutboundBuffer {
      */
     public void addFlush() {
         // There is no need to process all entries if there was already a flush before and no new messages
-        // where added in the meantime.
+        // where added in the meantime.//如果之前已经有刷新，并且没有新消息，则不需要处理所有条目
+//在此期间增加了。
         //
         // See https://github.com/netty/netty/issues/2577
         Entry entry = unflushedEntry;
         if (entry != null) {
             if (flushedEntry == null) {
-                // there is no flushedEntry yet, so start with the entry
+                // there is no flushedEntry yet, so start with the entry还没有冲水阀，所以从入口开始
                 flushedEntry = entry;
             }
             do {
                 flushed ++;
                 if (!entry.promise.setUncancellable()) {
-                    // Was cancelled so make sure we free up memory and notify about the freed bytes
+                    // Was cancelled so make sure we free up memory and notify about the freed bytes已取消，因此请确保释放内存并通知释放的字节
                     int pending = entry.cancel();
                     decrementPendingOutboundBytes(pending, false, true);
                 }
                 entry = entry.next;
             } while (entry != null);
 
-            // All flushed so reset unflushedEntry
+            // All flushed so reset unflushedEntry所有刷新，所以重置unflushedEntry
             unflushedEntry = null;
         }
     }
@@ -175,6 +176,7 @@ public final class ChannelOutboundBuffer {
         }
 
         long newWriteBufferSize = TOTAL_PENDING_SIZE_UPDATER.addAndGet(this, size);
+//        如果大于64k设置不可写
         if (newWriteBufferSize > channel.config().getWriteBufferHighWaterMark()) {
             setUnwritable(invokeLater);
         }
@@ -260,7 +262,7 @@ public final class ChannelOutboundBuffer {
         removeEntry(e);
 
         if (!e.cancelled) {
-            // only release message, notify and decrement if it was not canceled before.
+            // only release message, notify and decrement if it was not canceled before.如果之前没有取消，则只释放消息、通知和减量。
             ReferenceCountUtil.safeRelease(msg);
             safeSuccess(promise);
             decrementPendingOutboundBytes(size, false, true);
@@ -300,6 +302,7 @@ public final class ChannelOutboundBuffer {
             ReferenceCountUtil.safeRelease(msg);
 
             safeFail(promise, cause);
+//            判断流量控制逻辑，channel是否可写
             decrementPendingOutboundBytes(size, false, notifyWritability);
         }
 
@@ -679,15 +682,16 @@ public final class ChannelOutboundBuffer {
             throw new IllegalStateException("close() must be invoked after the channel is closed.");
         }
 
+//        如果channelOutboundBuffer中有刷新消息
         if (!isEmpty()) {
             throw new IllegalStateException("close() must be invoked after all flushed writes are handled.");
         }
 
-        // Release all unflushed messages.
+        // Release all unflushed messages.释放所有未刷新的消息。
         try {
             Entry e = unflushedEntry;
             while (e != null) {
-                // Just decrease; do not trigger any events via decrementPendingOutboundBytes()
+                // Just decrease; do not trigger any events via decrementPendingOutboundBytes()只是减少;不要通过decrementPendingOutboundBytes()触发任何事件
                 int size = e.pendingSize;
                 TOTAL_PENDING_SIZE_UPDATER.addAndGet(this, -size);
 
@@ -695,6 +699,7 @@ public final class ChannelOutboundBuffer {
                     ReferenceCountUtil.safeRelease(e.msg);
                     safeFail(e.promise, cause);
                 }
+//                内存回收
                 e = e.recycleAndGetNext();
             }
         } finally {
@@ -709,7 +714,8 @@ public final class ChannelOutboundBuffer {
 
     private static void safeSuccess(ChannelPromise promise) {
         // Only log if the given promise is not of type VoidChannelPromise as trySuccess(...) is expected to return
-        // false.
+        // false.//只有当给定的承诺不是VoidChannelPromise类型时才记录，因为trySuccess(…)将返回
+//错误的。
         PromiseNotificationUtil.trySuccess(promise, null, promise instanceof VoidChannelPromise ? null : logger);
     }
 

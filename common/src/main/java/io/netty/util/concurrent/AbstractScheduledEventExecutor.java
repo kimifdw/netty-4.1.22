@@ -83,6 +83,7 @@ public abstract class AbstractScheduledEventExecutor extends AbstractEventExecut
                 scheduledTaskQueue.toArray(new ScheduledFutureTask<?>[scheduledTaskQueue.size()]);
 
         for (ScheduledFutureTask<?> task: scheduledTasks) {
+//            取消定时任务
             task.cancelWithoutRemove(false);
         }
 
@@ -102,6 +103,7 @@ public abstract class AbstractScheduledEventExecutor extends AbstractEventExecut
      * 返回Runnable，它可以在给定的nanoTime中执行。您应该使用nanoTime()来检索正确的nanoTime。
      */
     protected final Runnable pollScheduledTask(long nanoTime) {
+//        判断是否在事件循环中
         assert inEventLoop();
 
         Queue<ScheduledFutureTask<?>> scheduledTaskQueue = this.scheduledTaskQueue;
@@ -110,6 +112,7 @@ public abstract class AbstractScheduledEventExecutor extends AbstractEventExecut
             return null;
         }
 
+//        如果任务超时就删除
         if (scheduledTask.deadlineNanos() <= nanoTime) {
             scheduledTaskQueue.remove();
             return scheduledTask;

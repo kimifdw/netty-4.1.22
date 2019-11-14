@@ -253,7 +253,7 @@ public abstract class AbstractNioChannel extends AbstractChannel {
 
             try {
                 if (connectPromise != null) {
-                    // Already a connect in process.
+                    // Already a connect in process.已经在进行连接。
                     throw new ConnectionPendingException();
                 }
 
@@ -323,7 +323,7 @@ public abstract class AbstractNioChannel extends AbstractChannel {
                 pipeline().fireChannelActive();
             }
 
-            // If a user cancelled the connection attempt, close the channel, which is followed by channelInactive().
+            // If a user cancelled the connection attempt, close the channel, which is followed by channelInactive().如果用户取消了连接尝试，那么关闭通道，后面跟着channelInactive()。
             if (!promiseSet) {
                 close(voidPromise());
             }
@@ -405,14 +405,16 @@ public abstract class AbstractNioChannel extends AbstractChannel {
             } catch (CancelledKeyException e) {
                 if (!selected) {
                     // Force the Selector to select now as the "canceled" SelectionKey may still be
-                    // cached and not removed because no Select.select(..) operation was called yet.
+                    // cached and not removed because no Select.select(..) operation was called yet.//强制选择器现在选择，因为“已取消”的SelectionKey可能仍然是
+//缓存，未删除，因为没有Select.select(..)操作被调用。
 //                    开始监听
                     eventLoop().selectNow();
 //                    修改选择器的监听状态
                     selected = true;
                 } else {
                     // We forced a select operation on the selector before but the SelectionKey is still cached
-                    // for whatever reason. JDK bug ?
+                    // for whatever reason. JDK bug ?//我们之前在选择器上强制执行了select操作，但是SelectionKey仍然被缓存
+//不管什么原因。JDK错误?
                     throw e;
                 }
             }
@@ -525,7 +527,7 @@ public abstract class AbstractNioChannel extends AbstractChannel {
     protected void doClose() throws Exception {
         ChannelPromise promise = connectPromise;
         if (promise != null) {
-            // Use tryFailure() instead of setFailure() to avoid the race against cancel().
+            // Use tryFailure() instead of setFailure() to avoid the race against cancel().使用tryFailure()而不是setFailure()来避免与cancel()的竞争。
             promise.tryFailure(DO_CLOSE_CLOSED_CHANNEL_EXCEPTION);
             connectPromise = null;
         }

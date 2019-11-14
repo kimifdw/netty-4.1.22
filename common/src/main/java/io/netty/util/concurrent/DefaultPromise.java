@@ -101,8 +101,10 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
     }
 
     @Override
+//        设置promise 的result值
     public boolean trySuccess(V result) {
         if (setSuccess0(result)) {
+//            通知listener
             notifyListeners();
             return true;
         }
@@ -429,6 +431,7 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
             if (stackDepth < MAX_LISTENER_STACK_DEPTH) {
                 threadLocals.setFutureListenerStackDepth(stackDepth + 1);
                 try {
+//                    立即通知listener
                     notifyListenersNow();
                 } finally {
                     threadLocals.setFutureListenerStackDepth(stackDepth);
@@ -519,6 +522,7 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private static void notifyListener0(Future future, GenericFutureListener l) {
         try {
+//            genericFutureListener操作完成事件
             l.operationComplete(future);
         } catch (Throwable t) {
             logger.warn("An exception was thrown by " + l.getClass().getName() + ".operationComplete()", t);
@@ -552,8 +556,10 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
     }
 
     private boolean setValue0(Object objResult) {
+//        线程安全的修改result字段值
         if (RESULT_UPDATER.compareAndSet(this, null, objResult) ||
             RESULT_UPDATER.compareAndSet(this, UNCANCELLABLE, objResult)) {
+//            通知监听器
             checkNotifyWaiters();
             return true;
         }

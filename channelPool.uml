@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.netty.channel.pool.AbstractChannelPoolHandler</OriginalElement>
+  <nodes>
+    <node x="0.0" y="79.0">io.netty.channel.pool.SimpleChannelPool</node>
+    <node x="194.0" y="79.0">io.netty.channel.pool.AbstractChannelPoolHandler</node>
+    <node x="4.0" y="158.0">io.netty.channel.pool.FixedChannelPool</node>
+    <node x="220.5" y="0.0">io.netty.channel.pool.ChannelPoolHandler</node>
+    <node x="20.0" y="0.0">io.netty.channel.pool.ChannelPool</node>
+    <node x="26.5" y="232.0">io.netty.channel.pool.ChannelPoolMap</node>
+    <node x="0.0" y="311.0">io.netty.channel.pool.AbstractChannelPoolMap</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.netty.channel.pool.FixedChannelPool" target="io.netty.channel.pool.SimpleChannelPool">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.pool.AbstractChannelPoolHandler" target="io.netty.channel.pool.ChannelPoolHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.pool.SimpleChannelPool" target="io.netty.channel.pool.ChannelPool">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.pool.AbstractChannelPoolMap" target="io.netty.channel.pool.ChannelPoolMap">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="202.0" y="170.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

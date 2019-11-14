@@ -433,8 +433,8 @@ public final class NioEventLoop extends SingleThreadEventLoop {
                     case SelectStrategy.CONTINUE:
                         continue;
                     case SelectStrategy.SELECT:
-//                        监听事件
                         select(wakenUp.getAndSet(false));
+//                        监听事件
 
                         // 'wakenUp.compareAndSet(false, true)' is always evaluated
                         // before calling 'selector.wakeup()' to reduce the wake-up
@@ -524,6 +524,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
             }
             // Always handle shutdown even if the loop processing threw an exception.始终处理关闭，即使循环处理抛出异常。
             try {
+//                关闭事件循环
                 if (isShuttingDown()) {
                     closeAll();
                     if (confirmShutdown()) {
@@ -550,7 +551,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
 
     private void processSelectedKeys() {
         if (selectedKeys != null) {
-//            最大化处理选择键
+//           最selectionKey做优化
             processSelectedKeysOptimized();
         } else {
             processSelectedKeysPlain(selector.selectedKeys());
@@ -743,21 +744,26 @@ public final class NioEventLoop extends SingleThreadEventLoop {
     }
 
     private void closeAll() {
+//        立即事件监听
         selectAgain();
         Set<SelectionKey> keys = selector.keys();
         Collection<AbstractNioChannel> channels = new ArrayList<AbstractNioChannel>(keys.size());
         for (SelectionKey k: keys) {
             Object a = k.attachment();
             if (a instanceof AbstractNioChannel) {
+//                如果是netty的channel添加到集合
                 channels.add((AbstractNioChannel) a);
             } else {
+//                负责取消selectionKey
                 k.cancel();
                 @SuppressWarnings("unchecked")
                 NioTask<SelectableChannel> task = (NioTask<SelectableChannel>) a;
+//                执行NioTask的channel取消注册事件
                 invokeChannelUnregistered(task, k, null);
             }
         }
 
+//        关闭channel
         for (AbstractNioChannel ch: channels) {
             ch.unsafe().close(ch.unsafe().voidPromise());
         }

@@ -10,6 +10,8 @@ import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
+import java.net.InetSocketAddress;
+
 /**
  * @author: he.tian
  * @time: 2019-07-29 11:31
@@ -33,7 +35,7 @@ public class Server {
                         pipeline.addLast(new ServerHandler());
                     }
                 });
-        ChannelFuture channelFuture = serverBootstrap.bind(8080).sync();
+        ChannelFuture channelFuture = serverBootstrap.bind(new InetSocketAddress("172.28.86.151",8080)).sync();
         channelFuture.channel().closeFuture().sync();
         bossGroup.shutdownGracefully();
         workGroup.shutdownGracefully();

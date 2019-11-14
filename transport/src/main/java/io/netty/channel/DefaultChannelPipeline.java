@@ -622,13 +622,15 @@ public class DefaultChannelPipeline implements ChannelPipeline {
     private void callHandlerAdded0(final AbstractChannelHandlerContext ctx) {
         try {
             // We must call setAddComplete before calling handlerAdded. Otherwise if the handlerAdded method generates
-            // any pipeline events ctx.handler() will miss them because the state will not allow it.
+            // any pipeline events ctx.handler() will miss them because the state will not allow it.//在调用handleradd之前，我们必须调用setAddComplete。否则，如果handleradd方法生成
+//任何管道事件ctx.handler()都会错过它们，因为状态不允许。
             ctx.setAddComplete();
 //            执行将handler添加到handler上下文事件
             ctx.handler().handlerAdded(ctx);
         } catch (Throwable t) {
             boolean removed = false;
             try {
+//                出现异常删除pipeline中的handler
                 remove0(ctx);
                 try {
 //                    执行将handler从handler上下文删除事件
@@ -643,6 +645,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
                 }
             }
 
+//            出现异常向pipeline传播异常事件
             if (removed) {
                 fireExceptionCaught(new ChannelPipelineException(
                         ctx.handler().getClass().getName() +
@@ -676,7 +679,8 @@ public class DefaultChannelPipeline implements ChannelPipeline {
         if (firstRegistration) {
             firstRegistration = false;
             // We are now registered to the EventLoop. It's time to call the callbacks for the ChannelHandlers,
-            // that were added before the registration was done.
+            // that were added before the registration was done.//我们现在注册到EventLoop。是时候为ChannelHandlers调用回调了，
+//这些都是在注册之前添加的。
             callHandlerAddedForAllHandlers();
         }
     }
@@ -958,6 +962,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
 
     @Override
     public final ChannelPipeline fireExceptionCaught(Throwable cause) {
+//        从head节点往后开始传播
         AbstractChannelHandlerContext.invokeExceptionCaught(head, cause);
         return this;
     }
@@ -982,6 +987,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
 
     @Override
     public final ChannelPipeline fireChannelWritabilityChanged() {
+//        从head节点开始执行
         AbstractChannelHandlerContext.invokeChannelWritabilityChanged(head);
         return this;
     }
@@ -1024,6 +1030,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
 
     @Override
     public final ChannelFuture bind(SocketAddress localAddress, ChannelPromise promise) {
+//        tail节点绑定
         return tail.bind(localAddress, promise);
     }
 
@@ -1153,17 +1160,19 @@ public class DefaultChannelPipeline implements ChannelPipeline {
         synchronized (this) {
             assert !registered;
 
-            // This Channel itself was registered.
+            // This Channel itself was registered.该通道本身已注册。
             registered = true;
 
             pendingHandlerCallbackHead = this.pendingHandlerCallbackHead;
-            // Null out so it can be GC'ed.
+            // Null out so it can be GC'ed.空出，所以它可以GC'ed。
             this.pendingHandlerCallbackHead = null;
         }
 
         // This must happen outside of the synchronized(...) block as otherwise handlerAdded(...) may be called while
         // holding the lock and so produce a deadlock if handlerAdded(...) will try to add another handler from outside
-        // the EventLoop.
+        // the EventLoop.//这必须发生在synchronized(…)块之外，否则handlerAdded(…)可能会被调用
+//        如果handleradd(…)试图从外部添加另一个处理程序，则会持有锁并因此产生死锁
+                // EventLoop。
         PendingHandlerCallback task = pendingHandlerCallbackHead;
         while (task != null) {
             task.execute();
@@ -1247,7 +1256,8 @@ public class DefaultChannelPipeline implements ChannelPipeline {
      */
     protected void onUnhandledInboundUserEventTriggered(Object evt) {
         // This may not be a configuration error and so don't log anything.
-        // The event may be superfluous for the current pipeline configuration.
+        // The event may be superfluous for the current pipeline configuration.这可能不是配置错误，所以不要记录任何东西。
+//        对于当前的管道配置，该事件可能是多余的。
         ReferenceCountUtil.release(evt);
     }
 
@@ -1494,6 +1504,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
         void execute() {
             EventExecutor executor = ctx.executor();
             if (executor.inEventLoop()) {
+//                channelAdded事件
                 callHandlerAdded0(ctx);
             } else {
                 try {
@@ -1504,6 +1515,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
                                 "Can't invoke handlerAdded() as the EventExecutor {} rejected it, removing handler {}.",
                                 executor, ctx.name(), e);
                     }
+//                    删除pipeline中节点
                     remove0(ctx);
                     ctx.setRemoved();
                 }

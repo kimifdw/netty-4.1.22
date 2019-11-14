@@ -22,6 +22,7 @@ import java.util.Iterator;
 
 final class SelectedSelectionKeySet extends AbstractSet<SelectionKey> {
 
+//    这里用数组代替nio selector的hashSet，效率由o(n)优化到了o(1),hashSet存储要计算hash随着元素越多效率越低
     SelectionKey[] keys;
     int size;
 

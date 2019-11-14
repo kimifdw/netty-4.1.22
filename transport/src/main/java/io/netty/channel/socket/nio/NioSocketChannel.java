@@ -302,19 +302,23 @@ public class NioSocketChannel extends AbstractNioByteChannel implements io.netty
     @Override
     protected boolean doConnect(SocketAddress remoteAddress, SocketAddress localAddress) throws Exception {
         if (localAddress != null) {
+//            调用java底层的socketChannel的bind方法
             doBind0(localAddress);
         }
 
         boolean success = false;
         try {
+//            调用java底层的socketChannel的connect方法
             boolean connected = SocketUtils.connect(javaChannel(), remoteAddress);
             if (!connected) {
+//                如果没有连接成功注册OP_CONNECT事件
                 selectionKey().interestOps(SelectionKey.OP_CONNECT);
             }
             success = true;
             return connected;
         } finally {
             if (!success) {
+//                如果连接失败调用java底层channel close
                 doClose();
             }
         }
@@ -360,7 +364,9 @@ public class NioSocketChannel extends AbstractNioByteChannel implements io.netty
     private void adjustMaxBytesPerGatheringWrite(int attempted, int written, int oldMaxBytesPerGatheringWrite) {
         // By default we track the SO_SNDBUF when ever it is explicitly set. However some OSes may dynamically change
         // SO_SNDBUF (and other characteristics that determine how much data can be written at once) so we should try
-        // make a best effort to adjust as OS behavior changes.
+        // make a best effort to adjust as OS behavior changes.//默认情况下，当SO_SNDBUF被显式设置时，我们会跟踪它
+// SO_SNDBUF(以及决定一次可以写入多少数据的其他特性)，因此我们应该尝试一下
+//当操作系统的行为改变时，尽最大的努力去调整。
         if (attempted == written) {
             if (attempted << 1 > oldMaxBytesPerGatheringWrite) {
                 ((NioSocketChannelConfig) config).setMaxBytesPerGatheringWrite(attempted << 1);
@@ -372,32 +378,38 @@ public class NioSocketChannel extends AbstractNioByteChannel implements io.netty
 
     @Override
     protected void doWrite(ChannelOutboundBuffer in) throws Exception {
+//        获取java底层channel
         SocketChannel ch = javaChannel();
+//        写循环次数
         int writeSpinCount = config().getWriteSpinCount();
         do {
             if (in.isEmpty()) {
-                // All written so clear OP_WRITE
+                // All written so clear OP_WRITE都写得很清楚，OP_WRITE
+//                清楚写事件
                 clearOpWrite();
-                // Directly return here so incompleteWrite(...) is not called.
+                // Directly return here so incompleteWrite(...) is not called.直接返回这里，所以incompleteWrite(…)没有被调用。
                 return;
             }
 
-            // Ensure the pending writes are made of ByteBufs only.
+            // Ensure the pending writes are made of ByteBufs only.确保挂起的写操作仅由ByteBufs组成。
             int maxBytesPerGatheringWrite = ((NioSocketChannelConfig) config).getMaxBytesPerGatheringWrite();
             ByteBuffer[] nioBuffers = in.nioBuffers(1024, maxBytesPerGatheringWrite);
+//            有待处理的字节数
             int nioBufferCnt = in.nioBufferCount();
 
-            // Always us nioBuffers() to workaround data-corruption.
+            // Always us nioBuffers() to workaround data-corruption.总是使用nioBuffers()来解决数据损坏的问题。
             // See https://github.com/netty/netty/issues/2761
             switch (nioBufferCnt) {
                 case 0:
-                    // We have something else beside ByteBuffers to write so fallback to normal writes.
+                    // We have something else beside ByteBuffers to write so fallback to normal writes.除了ByteBuffers，我们还需要写些别的东西，这样就可以退回到正常的写操作
                     writeSpinCount -= doWrite0(in);
                     break;
                 case 1: {
                     // Only one ByteBuf so use non-gathering write
                     // Zero length buffers are not added to nioBuffers by ChannelOutboundBuffer, so there is no need
-                    // to check if the total size of all the buffers is non-zero.
+                    // to check if the total size of all the buffers is non-zero.//只有一个字节buf，所以使用非聚集写入
+// 0长度的缓冲区不是通过ChannelOutboundBuffer添加到nioBuffers的，所以没有必要这样做
+//检查所有缓冲区的总大小是否为非零。
                     ByteBuffer buffer = nioBuffers[0];
                     int attemptedBytes = buffer.remaining();
                     final int localWrittenBytes = ch.write(buffer);
@@ -413,7 +425,9 @@ public class NioSocketChannel extends AbstractNioByteChannel implements io.netty
                 default: {
                     // Zero length buffers are not added to nioBuffers by ChannelOutboundBuffer, so there is no need
                     // to check if the total size of all the buffers is non-zero.
-                    // We limit the max amount to int above so cast is safe
+                    // We limit the max amount to int above so cast is safe// 0长度的缓冲区不是通过ChannelOutboundBuffer添加到nioBuffers的，所以没有必要这样做
+//检查所有缓冲区的总大小是否为非零。
+//我们限制最大数量的int以上，以使铸造是安全的
                     long attemptedBytes = in.nioBufferSize();
                     final long localWrittenBytes = ch.write(nioBuffers, 0, nioBufferCnt);
                     if (localWrittenBytes <= 0) {

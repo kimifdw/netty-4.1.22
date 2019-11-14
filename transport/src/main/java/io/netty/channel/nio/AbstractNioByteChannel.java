@@ -186,7 +186,7 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
     protected final int doWrite0(ChannelOutboundBuffer in) throws Exception {
         Object msg = in.current();
         if (msg == null) {
-            // Directly return here so incompleteWrite(...) is not called.
+            // Directly return here so incompleteWrite(...) is not called.直接返回这里，所以incompleteWrite(…)没有被调用。
             return 0;
         }
         return doWriteInternal(in, in.current());
@@ -200,14 +200,17 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
                 return 0;
             }
 
+//            调用java底层api把数据写入byteBuf中
             final int localFlushedAmount = doWriteBytes(buf);
             if (localFlushedAmount > 0) {
+//                执行promise写进入事件
                 in.progress(localFlushedAmount);
                 if (!buf.isReadable()) {
                     in.remove();
                 }
                 return 1;
             }
+//            如果消息是0 copy传输类型
         } else if (msg instanceof FileRegion) {
             FileRegion region = (FileRegion) msg;
             if (region.transferred() >= region.count()) {
@@ -215,8 +218,10 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
                 return 0;
             }
 
+//            调用java底层api把消息直接传输到channel
             long localFlushedAmount = doWriteFileRegion(region);
             if (localFlushedAmount > 0) {
+//                执行promise写进度事件
                 in.progress(localFlushedAmount);
                 if (region.transferred() >= region.count()) {
                     in.remove();
@@ -267,17 +272,22 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
     }
 
     protected final void incompleteWrite(boolean setOpWrite) {
-        // Did not write completely.
+        // Did not write completely.没有写完。
         if (setOpWrite) {
+//            监听写事件
             setOpWrite();
         } else {
             // It is possible that we have set the write OP, woken up by NIO because the socket is writable, and then
             // use our write quantum. In this case we no longer want to set the write OP because the socket is still
             // writable (as far as we know). We will find out next time we attempt to write if the socket is writable
-            // and set the write OP if necessary.
+            // and set the write OP if necessary.//我们可能已经设置了写操作，由于套接字是可写的，所以被NIO唤醒，然后
+//使用我们的写量子。在本例中，我们不想再设置write OP，因为套接字仍然是
+//可写的(就我们所知)。我们将在下一次尝试写入套接字时确定它是否可写
+//如果需要设置写操作。
+//            清楚写操作
             clearOpWrite();
 
-            // Schedule flush again later so other tasks can be picked up in the meantime
+            // Schedule flush again later so other tasks can be picked up in the meantime稍后再次刷新时间表，以便可以同时处理其他任务
             eventLoop().execute(flushTask);
         }
     }
@@ -305,7 +315,8 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
     protected final void setOpWrite() {
         final SelectionKey key = selectionKey();
         // Check first if the key is still valid as it may be canceled as part of the deregistration
-        // from the EventLoop
+        // from the EventLoop//首先检查密钥是否仍然有效，因为它可能会作为注销的一部分被取消
+//来自EventLoop
         // See https://github.com/netty/netty/issues/2104
         if (!key.isValid()) {
             return;
@@ -319,7 +330,8 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
     protected final void clearOpWrite() {
         final SelectionKey key = selectionKey();
         // Check first if the key is still valid as it may be canceled as part of the deregistration
-        // from the EventLoop
+        // from the EventLoop//首先检查密钥是否仍然有效，因为它可能会作为注销的一部分被取消
+//来自EventLoop
         // See https://github.com/netty/netty/issues/2104
         if (!key.isValid()) {
             return;

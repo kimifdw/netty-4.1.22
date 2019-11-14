@@ -1,99 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Diagram>
   <ID>JAVA</ID>
-  <OriginalElement>io.netty.handler.flow.FlowControlHandler</OriginalElement>
+  <OriginalElement>io.netty.channel.ChannelHandler</OriginalElement>
   <nodes>
-    <node x="22.0" y="459.0">io.netty.handler.ipfilter.IpFilterRule</node>
-    <node x="407.0" y="686.0">io.netty.handler.logging.LoggingHandler</node>
-    <node x="0.0" y="612.0">io.netty.handler.flush.FlushConsolidationHandler</node>
-    <node x="208.0" y="686.0">io.netty.handler.flow.FlowControlHandler</node>
-    <node x="148.0" y="232.0">io.netty.handler.stream.ChunkedFile</node>
-    <node x="243.0" y="612.0">io.netty.handler.stream.ChunkedWriteHandler</node>
-    <node x="279.0" y="79.0">io.netty.handler.traffic.GlobalTrafficShapingHandler</node>
-    <node x="157.0" y="385.0">io.netty.handler.ipfilter.UniqueIpFilter</node>
-    <node x="0.0" y="538.0">io.netty.handler.ipfilter.IpSubnetFilterRule</node>
-    <node x="470.0" y="760.0">io.netty.handler.timeout.IdleState</node>
-    <node x="188.0" y="459.0">io.netty.handler.traffic.GlobalChannelTrafficCounter</node>
-    <node x="275.0" y="232.0">io.netty.handler.stream.ChunkedNioStream</node>
-    <node x="0.0" y="686.0">io.netty.handler.timeout.WriteTimeoutHandler</node>
-    <node x="174.0" y="760.0">io.netty.handler.timeout.IdleStateEvent</node>
-    <node x="272.0" y="0.0">io.netty.handler.traffic.AbstractTrafficShapingHandler</node>
-    <node x="508.0" y="79.0">io.netty.handler.traffic.ChannelTrafficShapingHandler</node>
-    <node x="319.0" y="385.0">io.netty.handler.timeout.ReadTimeoutHandler</node>
-    <node x="446.0" y="232.0">io.netty.handler.stream.ChunkedStream</node>
-    <node x="0.0" y="385.0">io.netty.handler.ipfilter.RuleBasedIpFilter</node>
-    <node x="0.0" y="232.0">io.netty.handler.stream.ChunkedNioFile</node>
-    <node x="332.5" y="306.0">io.netty.handler.timeout.IdleStateHandler</node>
-    <node x="0.0" y="79.0">io.netty.handler.traffic.GlobalChannelTrafficShapingHandler</node>
-    <node x="339.0" y="760.0">io.netty.handler.logging.LogLevel</node>
-    <node x="216.5" y="153.0">io.netty.handler.stream.ChunkedInput</node>
-    <node x="36.0" y="306.0">io.netty.handler.ipfilter.AbstractRemoteAddressFilter</node>
-    <node x="0.0" y="760.0">io.netty.handler.ipfilter.IpFilterRuleType</node>
+    <node x="241.0" y="237.0">io.netty.channel.ChannelDuplexHandler</node>
+    <node x="433.0" y="237.0">io.netty.channel.ChannelOutboundHandlerAdapter</node>
+    <node x="480.25" y="79.0">io.netty.channel.ChannelHandlerAdapter</node>
+    <node x="321.75" y="158.0">io.netty.channel.ChannelOutboundHandler</node>
+    <node x="0.0" y="237.0">io.netty.channel.SimpleChannelInboundHandler</node>
+    <node x="53.0" y="158.0">io.netty.channel.ChannelInboundHandlerAdapter</node>
+    <node x="20.0" y="79.0">io.netty.channel.ChannelInboundHandler</node>
+    <node x="353.25" y="0.0">io.netty.channel.ChannelHandler</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="io.netty.handler.traffic.ChannelTrafficShapingHandler" target="io.netty.handler.traffic.AbstractTrafficShapingHandler">
-      <point x="0.0" y="-14.5" />
-      <point x="618.0" y="54.0" />
-      <point x="457.8333333333333" y="54.0" />
-      <point x="74.33333333333331" y="14.5" />
+    <edge source="io.netty.channel.ChannelOutboundHandlerAdapter" target="io.netty.channel.ChannelHandlerAdapter">
+      <point x="60.5" y="-14.5" />
+      <point x="44.75" y="14.5" />
     </edge>
-    <edge source="io.netty.handler.timeout.ReadTimeoutHandler" target="io.netty.handler.timeout.IdleStateHandler">
+    <edge source="io.netty.channel.ChannelOutboundHandler" target="io.netty.channel.ChannelHandler">
       <point x="0.0" y="-14.5" />
       <point x="0.0" y="14.5" />
     </edge>
-    <edge source="io.netty.handler.ipfilter.IpSubnetFilterRule" target="io.netty.handler.ipfilter.IpFilterRule">
+    <edge source="io.netty.channel.SimpleChannelInboundHandler" target="io.netty.channel.ChannelInboundHandlerAdapter">
       <point x="0.0" y="-14.5" />
+      <point x="-57.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.ChannelOutboundHandlerAdapter" target="io.netty.channel.ChannelOutboundHandler">
+      <point x="-60.5" y="-14.5" />
+      <point x="493.5" y="212.0" />
+      <point x="466.5" y="212.0" />
+      <point x="48.25" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.ChannelInboundHandler" target="io.netty.channel.ChannelHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="110.5" y="54.0" />
+      <point x="374.9166666666667" y="54.0" />
+      <point x="-43.333333333333314" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.ChannelInboundHandlerAdapter" target="io.netty.channel.ChannelHandlerAdapter">
+      <point x="57.5" y="-14.5" />
+      <point x="225.5" y="133.0" />
+      <point x="525.0" y="133.0" />
+      <point x="-44.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.ChannelDuplexHandler" target="io.netty.channel.ChannelInboundHandlerAdapter">
+      <point x="-43.0" y="-14.5" />
+      <point x="284.0" y="212.0" />
+      <point x="225.5" y="212.0" />
+      <point x="57.5" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.ChannelInboundHandlerAdapter" target="io.netty.channel.ChannelInboundHandler">
+      <point x="-57.5" y="-14.5" />
       <point x="0.0" y="14.5" />
     </edge>
-    <edge source="io.netty.handler.stream.ChunkedStream" target="io.netty.handler.stream.ChunkedInput">
+    <edge source="io.netty.channel.ChannelHandlerAdapter" target="io.netty.channel.ChannelHandler">
       <point x="0.0" y="-14.5" />
-      <point x="511.0" y="202.0" />
-      <point x="320.625" y="202.0" />
-      <point x="44.625" y="14.5" />
+      <point x="569.75" y="54.0" />
+      <point x="461.58333333333337" y="54.0" />
+      <point x="43.33333333333337" y="14.5" />
     </edge>
-    <edge source="io.netty.handler.stream.ChunkedNioStream" target="io.netty.handler.stream.ChunkedInput">
-      <point x="0.0" y="-14.5" />
-      <point x="350.5" y="212.0" />
-      <point x="290.875" y="212.0" />
-      <point x="14.875" y="14.5" />
-    </edge>
-    <edge source="io.netty.handler.stream.ChunkedFile" target="io.netty.handler.stream.ChunkedInput">
-      <point x="0.0" y="-14.5" />
-      <point x="201.5" y="212.0" />
-      <point x="261.125" y="212.0" />
-      <point x="-14.875" y="14.5" />
-    </edge>
-    <edge source="io.netty.handler.ipfilter.RuleBasedIpFilter" target="io.netty.handler.ipfilter.AbstractRemoteAddressFilter">
-      <point x="0.0" y="-14.5" />
-      <point x="68.5" y="360.0" />
-      <point x="89.0" y="360.0" />
-      <point x="-53.0" y="14.5" />
-    </edge>
-    <edge source="io.netty.handler.traffic.GlobalChannelTrafficShapingHandler" target="io.netty.handler.traffic.AbstractTrafficShapingHandler">
-      <point x="0.0" y="-14.5" />
-      <point x="129.5" y="54.0" />
-      <point x="309.1666666666667" y="54.0" />
-      <point x="-74.33333333333331" y="14.5" />
-    </edge>
-    <edge source="io.netty.handler.traffic.GlobalTrafficShapingHandler" target="io.netty.handler.traffic.AbstractTrafficShapingHandler">
-      <point x="0.0" y="-14.5" />
-      <point x="0.0" y="14.5" />
-    </edge>
-    <edge source="io.netty.handler.ipfilter.UniqueIpFilter" target="io.netty.handler.ipfilter.AbstractRemoteAddressFilter">
-      <point x="0.0" y="-14.5" />
-      <point x="215.5" y="360.0" />
-      <point x="195.0" y="360.0" />
-      <point x="53.0" y="14.5" />
-    </edge>
-    <edge source="io.netty.handler.stream.ChunkedNioFile" target="io.netty.handler.stream.ChunkedInput">
-      <point x="0.0" y="-14.5" />
-      <point x="64.0" y="202.0" />
-      <point x="231.375" y="202.0" />
-      <point x="-44.625" y="14.5" />
+    <edge source="io.netty.channel.ChannelDuplexHandler" target="io.netty.channel.ChannelOutboundHandler">
+      <point x="43.0" y="-14.5" />
+      <point x="-48.25" y="14.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="297.0" y="473.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="337.5" y="133.0" />
   <SelectedNodes />
   <Categories />
   <SCOPE>All</SCOPE>

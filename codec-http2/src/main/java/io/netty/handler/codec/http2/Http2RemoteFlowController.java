@@ -51,7 +51,7 @@ public interface Http2RemoteFlowController extends Http2FlowController {
     boolean hasFlowControlled(Http2Stream stream);
 
     /**
-     * Write all data pending in the flow controller up to the flow-control limits.
+     * Write all data pending in the flow controller up to the flow-control limits.将流控制器中挂起的所有数据写入到流控制限制。
      *
      * @throws Http2Exception throws if a protocol-related error occurred.
      */

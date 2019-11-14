@@ -38,7 +38,7 @@ public interface Http2ConnectionEncoder extends Http2FrameWriter {
     Http2Connection connection();
 
     /**
-     * Provides the remote flow controller for managing outbound traffic.
+     * Provides the remote flow controller for managing outbound traffic.提供用于管理出站流量的远程流控制器。
      */
     Http2RemoteFlowController flowController();
 

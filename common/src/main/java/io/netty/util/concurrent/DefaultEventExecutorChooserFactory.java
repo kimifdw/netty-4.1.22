@@ -32,7 +32,9 @@ public final class DefaultEventExecutorChooserFactory implements EventExecutorCh
     @SuppressWarnings("unchecked")
     @Override
     public EventExecutorChooser newChooser(EventExecutor[] executors) {
+//        这里对excutor的轮询处理也做了优化
         if (isPowerOfTwo(executors.length)) {
+//            如果是2的幂就采用底层是采用&二进制操作
             return new PowerOfTwoEventExecutorChooser(executors);
         } else {
             return new GenericEventExecutorChooser(executors);

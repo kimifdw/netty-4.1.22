@@ -143,7 +143,9 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
             throw new NullPointerException("remoteAddress");
         }
 
+//        验证handler是否有效
         validate();
+//        连接服务端
         return doResolveAndConnect(remoteAddress, config.localAddress());
     }
 
@@ -173,20 +175,22 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
 //            创建连接
             return doResolveAndConnect0(channel, remoteAddress, localAddress, channel.newPromise());
         } else {
-            // Registration future is almost always fulfilled already, but just in case it's not.
+            // Registration future is almost always fulfilled already, but just in case it's not.注册的未来几乎总是已经完成了，但是以防万一。
             final PendingRegistrationPromise promise = new PendingRegistrationPromise(channel);
             regFuture.addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture future) throws Exception {
                     // Directly obtain the cause and do a null check so we only need one volatile read in case of a
-                    // failure.
+                    // failure.//直接获得原因，并做一个空检查，所以我们只需要一个volatile读在情况a
+//失败。
                     Throwable cause = future.cause();
                     if (cause != null) {
                         // Registration on the EventLoop failed so fail the ChannelPromise directly to not cause an
-                        // IllegalStateException once we try to access the EventLoop of the Channel.
+                        // IllegalStateException once we try to access the EventLoop of the Channel.//在EventLoop注册失败，所以失败的频道承诺直接不引起
+//                        当我们试图访问通道的EventLoop时。
                         promise.setFailure(cause);
                     } else {
-                        // Registration was successful, so set the correct executor to use.
+                        // Registration was successful, so set the correct executor to use.注册成功，所以设置正确的执行程序。
                         // See https://github.com/netty/netty/issues/2586
                         promise.registered();
                         doResolveAndConnect0(channel, remoteAddress, localAddress, promise);
@@ -204,7 +208,7 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
             final AddressResolver<SocketAddress> resolver = this.resolver.getResolver(eventLoop);
 
             if (!resolver.isSupported(remoteAddress) || resolver.isResolved(remoteAddress)) {
-                // Resolver has no idea about what to do with the specified remote address or it's resolved already.
+                // Resolver has no idea about what to do with the specified remote address or it's resolved already.解析器不知道如何处理指定的远程地址，或者它已经解析了。
 //                创建连接
                 doConnect(remoteAddress, localAddress, promise);
                 return promise;
@@ -216,17 +220,17 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
                 final Throwable resolveFailureCause = resolveFuture.cause();
 
                 if (resolveFailureCause != null) {
-                    // Failed to resolve immediately
+                    // Failed to resolve immediately 解析服务端地址失败关闭channel
                     channel.close();
                     promise.setFailure(resolveFailureCause);
                 } else {
-                    // Succeeded to resolve immediately; cached? (or did a blocking lookup)
+                    // Succeeded to resolve immediately; cached? (or did a blocking lookup)立即解决;缓存吗?(或者进行了阻塞查找)
                     doConnect(resolveFuture.getNow(), localAddress, promise);
                 }
                 return promise;
             }
 
-            // Wait until the name resolution is finished.
+            // Wait until the name resolution is finished.等待名称解析完成。
             resolveFuture.addListener(new FutureListener<SocketAddress>() {
                 @Override
                 public void operationComplete(Future<SocketAddress> future) throws Exception {
@@ -239,6 +243,7 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
                 }
             });
         } catch (Throwable cause) {
+//            连接失败发布失败事件
             promise.tryFailure(cause);
         }
         return promise;
@@ -248,14 +253,17 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
             final SocketAddress remoteAddress, final SocketAddress localAddress, final ChannelPromise connectPromise) {
 
         // This method is invoked before channelRegistered() is triggered.  Give user handlers a chance to set up
-        // the pipeline in its channelRegistered() implementation.
+        // the pipeline in its channelRegistered() implementation.//这个方法在触发channelRegistered()之前被调用。给用户处理程序一个设置的机会
+//管道的channelRegistered()实现。
         final Channel channel = connectPromise.channel();
         channel.eventLoop().execute(new Runnable() {
             @Override
             public void run() {
                 if (localAddress == null) {
+//                    远程连接
                     channel.connect(remoteAddress, connectPromise);
                 } else {
+//                    本地连接
                     channel.connect(remoteAddress, localAddress, connectPromise);
                 }
                 connectPromise.addListener(ChannelFutureListener.CLOSE_ON_FAILURE);

@@ -138,6 +138,7 @@ public abstract class SingleThreadEventLoop extends SingleThreadEventExecutor im
 
     @Override
     protected void afterRunningAllTasks() {
+//        运行失败的定时任务
         runAllTasksFrom(tailTasks);
     }
 

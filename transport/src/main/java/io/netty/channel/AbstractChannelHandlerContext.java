@@ -36,8 +36,8 @@ import java.net.SocketAddress;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
-        implements ChannelHandlerContext, ResourceLeakHint {
 
+        implements ChannelHandlerContext, ResourceLeakHint {
     private static final InternalLogger logger = InternalLoggerFactory.getInstance(AbstractChannelHandlerContext.class);
     volatile AbstractChannelHandlerContext next;
     volatile AbstractChannelHandlerContext prev;
@@ -306,6 +306,7 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
                 }
             }
         } else {
+//            出现异常把异常继续向pipeline的下个节点传播
             fireExceptionCaught(cause);
         }
     }
@@ -483,11 +484,13 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
         if (localAddress == null) {
             throw new NullPointerException("localAddress");
         }
+//        检查promise是否可用
         if (isNotValidPromise(promise, false)) {
             // cancelled
             return promise;
         }
 
+//        查询outBound事件传播类型的handler节点，outBound事件类型是pipeline的tail节点往前执行，这里找到tail节点的prev节点
         final AbstractChannelHandlerContext next = findContextOutbound();
         EventExecutor executor = next.executor();
         if (executor.inEventLoop()) {
@@ -506,6 +509,7 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
     private void invokeBind(SocketAddress localAddress, ChannelPromise promise) {
         if (invokeHandler()) {
             try {
+//                执行channelOutboundHandler的bind事件
                 ((ChannelOutboundHandler) handler()).bind(this, localAddress, promise);
             } catch (Throwable t) {
                 notifyOutboundHandlerException(t, promise);
@@ -532,9 +536,11 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
             return promise;
         }
 
+//        找到pipeline中tail节点的上一个节点
         final AbstractChannelHandlerContext next = findContextOutbound();
         EventExecutor executor = next.executor();
         if (executor.inEventLoop()) {
+//            执行connect
             next.invokeConnect(remoteAddress, localAddress, promise);
         } else {
             safeExecute(executor, new Runnable() {
@@ -550,6 +556,7 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
     private void invokeConnect(SocketAddress remoteAddress, SocketAddress localAddress, ChannelPromise promise) {
         if (invokeHandler()) {
             try {
+//                执行pipeline中handler的connect方法，最后会执行到head节点
                 ((ChannelOutboundHandler) handler()).connect(this, remoteAddress, localAddress, promise);
             } catch (Throwable t) {
                 notifyOutboundHandlerException(t, promise);
@@ -755,6 +762,7 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
 
     @Override
     public ChannelHandlerContext flush() {
+//        找到pipeline中上一个节点
         final AbstractChannelHandlerContext next = findContextOutbound();
         EventExecutor executor = next.executor();
         if (executor.inEventLoop()) {
@@ -793,10 +801,12 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
 
     @Override
     public ChannelFuture writeAndFlush(Object msg, ChannelPromise promise) {
+//        校验消息是否合法
         if (msg == null) {
             throw new NullPointerException("msg");
         }
 
+//        校验promise是否有效
         if (isNotValidPromise(promise, true)) {
             ReferenceCountUtil.release(msg);
             // cancelled
@@ -810,7 +820,9 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
 
     private void invokeWriteAndFlush(Object msg, ChannelPromise promise) {
         if (invokeHandler()) {
+//            执行handler的write方法
             invokeWrite0(msg, promise);
+//            执行handler的flush方法
             invokeFlush0();
         } else {
             writeAndFlush(msg, promise);
@@ -818,16 +830,20 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
     }
 
     private void write(Object msg, boolean flush, ChannelPromise promise) {
+//        找到pipeline的上一个节点
         AbstractChannelHandlerContext next = findContextOutbound();
         final Object m = pipeline.touch(msg, next);
         EventExecutor executor = next.executor();
+//        如果是当前的NioEventLoop
         if (executor.inEventLoop()) {
             if (flush) {
+//                如果是write和flush
                 next.invokeWriteAndFlush(m, promise);
             } else {
                 next.invokeWrite(m, promise);
             }
         } else {
+//            创建WriteAndFlushTask
             AbstractWriteTask task;
             if (flush) {
                 task = WriteAndFlushTask.newInstance(next, m, promise);
@@ -845,7 +861,8 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
 
     private static void notifyOutboundHandlerException(Throwable cause, ChannelPromise promise) {
         // Only log if the given promise is not of type VoidChannelPromise as tryFailure(...) is expected to return
-        // false.
+        // false.//只有当给定的承诺不是VoidChannelPromise类型时才进行日志记录，因为tryFailure(…)将返回
+//错误的。
         PromiseNotificationUtil.tryFailure(promise, cause, promise instanceof VoidChannelPromise ? null : logger);
     }
 

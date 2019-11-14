@@ -154,6 +154,7 @@ public class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerCh
             for (Entry<AttributeKey<?>, Object> e: attrs.entrySet()) {
                 @SuppressWarnings("unchecked")
                 AttributeKey<Object> key = (AttributeKey<Object>) e.getKey();
+//                服务创建的时候绑定的参数值
                 channel.attr(key).set(e.getValue());
             }
         }
@@ -175,6 +176,7 @@ public class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerCh
             @Override
             public void initChannel(final Channel ch) throws Exception {
                 final ChannelPipeline pipeline = ch.pipeline();
+//                这里先添加服务端创建的时候handler()方法添加的handler，比childHandler()先添加到pipeline中
                 ChannelHandler handler = config.handler();
                 if (handler != null) {
 //                    把handler加入到责任链的最后端
@@ -184,6 +186,7 @@ public class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerCh
                 ch.eventLoop().execute(new Runnable() {
                     @Override
                     public void run() {
+//                        在pipeline最后添加ServerBootstrapAcceptor
                         pipeline.addLast(new ServerBootstrapAcceptor(
                                 ch, currentChildGroup, currentChildHandler, currentChildOptions, currentChildAttrs));
                     }
@@ -233,7 +236,9 @@ public class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerCh
 
             // Task which is scheduled to re-enable auto-read.
             // It's important to create this Runnable before we try to submit it as otherwise the URLClassLoader may
-            // not be able to load the class because of the file limit it already reached.
+            // not be able to load the class because of the file limit it already reached.//任务，计划重新启用自动读取。
+//在提交之前创建这个Runnable是很重要的，否则URLClassLoader可能会提交它
+//无法加载该类，因为它已经达到了文件限制。
             //
             // See https://github.com/netty/netty/issues/1328
             enableAutoReadTask = new Runnable() {

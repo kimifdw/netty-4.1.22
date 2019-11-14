@@ -2,6 +2,7 @@ package io.netty.example.test;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.ReferenceCountUtil;
 
 /**
  * @author: he.tian
@@ -12,6 +13,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         System.out.println("服务端收到消息 "+msg);
+        ReferenceCountUtil.release(msg);
     }
 
     @Override

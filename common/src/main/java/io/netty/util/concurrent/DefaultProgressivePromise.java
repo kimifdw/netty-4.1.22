@@ -66,6 +66,7 @@ public class DefaultProgressivePromise<V> extends DefaultPromise<V> implements P
             return false;
         }
 
+//        通知写进度的事件监听器
         notifyProgressiveListeners(progress, total);
         return true;
     }

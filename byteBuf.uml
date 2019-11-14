@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.netty.buffer.PoolArena</OriginalElement>
+  <nodes>
+    <node x="178.0" y="385.0">io.netty.buffer.UnpooledByteBufAllocator</node>
+    <node x="19.0" y="464.0">io.netty.buffer.PoolArena</node>
+    <node x="104.91666666666663" y="79.0">io.netty.buffer.PooledByteBuf</node>
+    <node x="0.0" y="232.0">io.netty.buffer.PoolSubpageMetric</node>
+    <node x="19.0" y="311.0">io.netty.buffer.PoolSubpage</node>
+    <node x="0.0" y="385.0">io.netty.buffer.PoolArenaMetric</node>
+    <node x="185.0" y="538.0">io.netty.buffer.Unpooled</node>
+    <node x="0.0" y="538.0">io.netty.buffer.PoolThreadCache</node>
+    <node x="179.99999999999997" y="158.0">io.netty.buffer.PooledHeapByteBuf</node>
+    <node x="196.0" y="232.0">io.netty.buffer.PoolChunkMetric</node>
+    <node x="215.0" y="311.0">io.netty.buffer.PoolChunk</node>
+    <node x="248.91666666666663" y="79.0">io.netty.buffer.UnpooledDirectByteBuf</node>
+    <node x="215.49999999999997" y="0.0">io.netty.buffer.AbstractReferenceCountedByteBuf</node>
+    <node x="0.0" y="158.0">io.netty.buffer.PooledDirectByteBuf</node>
+    <node x="446.91666666666663" y="79.0">io.netty.buffer.UnpooledHeapByteBuf</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.netty.buffer.UnpooledHeapByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="533.9166666666666" y="54.0" />
+      <point x="423.0" y="54.0" />
+      <point x="83.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PooledDirectByteBuf" target="io.netty.buffer.PooledByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="80.0" y="133.0" />
+      <point x="135.91666666666663" y="133.0" />
+      <point x="-31.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PoolArena" target="io.netty.buffer.PoolArenaMetric">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PoolSubpage" target="io.netty.buffer.PoolSubpageMetric">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PooledHeapByteBuf" target="io.netty.buffer.PooledByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="258.0" y="133.0" />
+      <point x="197.91666666666663" y="133.0" />
+      <point x="31.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PooledByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="166.91666666666663" y="54.0" />
+      <point x="257.0" y="54.0" />
+      <point x="-83.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.PoolChunk" target="io.netty.buffer.PoolChunkMetric">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.buffer.UnpooledDirectByteBuf" target="io.netty.buffer.AbstractReferenceCountedByteBuf">
+      <point x="0.0" y="-14.5" />
+      <point x="337.91666666666663" y="54.0" />
+      <point x="340.0" y="54.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="310.5" y="283.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

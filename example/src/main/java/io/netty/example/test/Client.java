@@ -27,7 +27,7 @@ public class Client {
                         pipeline.addLast(new ClientHandler());
                     }
                 });
-        ChannelFuture channelFuture = bootstrap.connect("localhost", 8080).sync();
+        ChannelFuture channelFuture = bootstrap.connect("172.28.86.151", 8080).sync();
         channelFuture.channel().closeFuture().sync();
         workGroup.shutdownGracefully();
     }
