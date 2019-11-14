@@ -17,15 +17,15 @@
       <point x="0.0" y="-14.5" />
       <point x="0.0" y="14.5" />
     </edge>
+    <edge source="io.netty.channel.pool.AbstractChannelPoolMap" target="io.netty.channel.pool.ChannelPoolMap">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
     <edge source="io.netty.channel.pool.AbstractChannelPoolHandler" target="io.netty.channel.pool.ChannelPoolHandler">
       <point x="0.0" y="-14.5" />
       <point x="0.0" y="14.5" />
     </edge>
     <edge source="io.netty.channel.pool.SimpleChannelPool" target="io.netty.channel.pool.ChannelPool">
-      <point x="0.0" y="-14.5" />
-      <point x="0.0" y="14.5" />
-    </edge>
-    <edge source="io.netty.channel.pool.AbstractChannelPoolMap" target="io.netty.channel.pool.ChannelPoolMap">
       <point x="0.0" y="-14.5" />
       <point x="0.0" y="14.5" />
     </edge>

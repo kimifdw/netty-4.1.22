@@ -172,13 +172,16 @@ public class SimpleChannelPool implements ChannelPool {
      */
     private Future<Channel> acquireHealthyFromPoolOrNew(final Promise<Channel> promise) {
         try {
+//            从deque中获取一个channel，这里是用双端队列存储的channel
             final Channel ch = pollChannel();
             if (ch == null) {
-                // No Channel left in the pool bootstrap a new Channel
+                // No Channel left in the pool bootstrap a new Channel池中没有剩余通道引导新通道
                 Bootstrap bs = bootstrap.clone();
                 bs.attr(POOL_KEY, this);
+//                如果channel不存在就创建一个
                 ChannelFuture f = connectChannel(bs);
                 if (f.isDone()) {
+//                    promise发布连接成功事件
                     notifyConnect(f, promise);
                 } else {
                     f.addListener(new ChannelFutureListener() {
@@ -211,7 +214,8 @@ public class SimpleChannelPool implements ChannelPool {
         if (future.isSuccess()) {
             Channel channel = future.channel();
             if (!promise.trySuccess(channel)) {
-                // Promise was completed in the meantime (like cancelled), just release the channel again
+                // Promise was completed in the meantime (like cancelled), just release the channel again承诺完成的同时(如取消)，只是释放渠道再次
+//                如果没有连接成功释放channel
                 release(channel);
             }
         } else {
@@ -239,20 +243,27 @@ public class SimpleChannelPool implements ChannelPool {
         assert ch.eventLoop().inEventLoop();
 
         if (future.isSuccess()) {
+//            如果future执行完毕
             if (future.getNow()) {
                 try {
                     ch.attr(POOL_KEY).set(this);
+//                    执行channelPoolHandler的acquire方法
                     handler.channelAcquired(ch);
                     promise.setSuccess(ch);
                 } catch (Throwable cause) {
+//                    异常关闭channel发布promise失败事件
                     closeAndFail(ch, cause, promise);
                 }
             } else {
+//                如果future没有执行完毕关闭channel
                 closeChannel(ch);
+//                获取一个channel
                 acquireHealthyFromPoolOrNew(promise);
             }
         } else {
+//            关闭channel
             closeChannel(ch);
+//            获取一个channel
             acquireHealthyFromPoolOrNew(promise);
         }
     }
@@ -286,11 +297,13 @@ public class SimpleChannelPool implements ChannelPool {
                 loop.execute(new Runnable() {
                     @Override
                     public void run() {
+//                        释放channel
                         doReleaseChannel(channel, promise);
                     }
                 });
             }
         } catch (Throwable cause) {
+//            关闭channel，发布promise失败事件
             closeAndFail(channel, cause, promise);
         }
         return promise;
@@ -298,18 +311,20 @@ public class SimpleChannelPool implements ChannelPool {
 
     private void doReleaseChannel(Channel channel, Promise<Void> promise) {
         assert channel.eventLoop().inEventLoop();
-        // Remove the POOL_KEY attribute from the Channel and check if it was acquired from this pool, if not fail.
+        // Remove the POOL_KEY attribute from the Channel and check if it was acquired from this pool, if not fail.从通道中删除POOL_KEY属性，如果没有失败，则检查它是否从这个池中获得。
         if (channel.attr(POOL_KEY).getAndSet(null) != this) {
             closeAndFail(channel,
-                         // Better include a stacktrace here as this is an user error.
+                         // Better include a stacktrace here as this is an user error.最好在这里包含一个stacktrace，因为这是一个用户错误。
                          new IllegalArgumentException(
                                  "Channel " + channel + " was not acquired from this ChannelPool"),
                          promise);
         } else {
             try {
+//                健康检查并释放
                 if (releaseHealthCheck) {
                     doHealthCheckOnRelease(channel, promise);
                 } else {
+//                    直接释放
                     releaseAndOffer(channel, promise);
                 }
             } catch (Throwable cause) {
@@ -341,25 +356,30 @@ public class SimpleChannelPool implements ChannelPool {
      */
     private void releaseAndOfferIfHealthy(Channel channel, Promise<Void> promise, Future<Boolean> future)
             throws Exception {
-        if (future.getNow()) { //channel turns out to be healthy, offering and releasing it.
+        if (future.getNow()) { //channel turns out to be healthy, offering and releasing it.频道被证明是健康的，提供和释放它。
             releaseAndOffer(channel, promise);
-        } else { //channel not healthy, just releasing it.
+        } else { //channel not healthy, just releasing it.通道不健康，只是释放它。
             handler.channelReleased(channel);
             promise.setSuccess(null);
         }
     }
 
     private void releaseAndOffer(Channel channel, Promise<Void> promise) throws Exception {
+//        把channel添加到deque中
         if (offerChannel(channel)) {
+//            执行channelPoolHandler的释放逻辑
             handler.channelReleased(channel);
             promise.setSuccess(null);
         } else {
+//            如果把channel添加到deque中失败就关闭channel并发布promise失败事件
             closeAndFail(channel, FULL_EXCEPTION, promise);
         }
     }
 
     private static void closeChannel(Channel channel) {
+//        删除channel绑定的channelPool
         channel.attr(POOL_KEY).getAndSet(null);
+//        关闭channel
         channel.close();
     }
 

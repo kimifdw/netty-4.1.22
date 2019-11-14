@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.netty.channel.socket.nio.NioServerSocketChannel.NioServerSocketChannelConfig</OriginalElement>
+  <nodes>
+    <node x="187.0" y="79.0">io.netty.channel.socket.ServerSocketChannelConfig</node>
+    <node x="73.75" y="237.0">io.netty.channel.socket.nio.NioServerSocketChannel.NioServerSocketChannelConfig</node>
+    <node x="124.75" y="0.0">io.netty.channel.ChannelConfig</node>
+    <node x="0.0" y="79.0">io.netty.channel.DefaultChannelConfig</node>
+    <node x="62.25" y="158.0">io.netty.channel.socket.DefaultServerSocketChannelConfig</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.netty.channel.socket.ServerSocketChannelConfig" target="io.netty.channel.ChannelConfig">
+      <point x="0.0" y="-14.5" />
+      <point x="289.0" y="54.0" />
+      <point x="217.0" y="54.0" />
+      <point x="30.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.DefaultChannelConfig" target="io.netty.channel.ChannelConfig">
+      <point x="0.0" y="-14.5" />
+      <point x="83.5" y="54.0" />
+      <point x="155.5" y="54.0" />
+      <point x="-30.75" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.socket.DefaultServerSocketChannelConfig" target="io.netty.channel.socket.ServerSocketChannelConfig">
+      <point x="62.0" y="-14.5" />
+      <point x="248.25" y="133.0" />
+      <point x="289.0" y="133.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.socket.nio.NioServerSocketChannel.NioServerSocketChannelConfig" target="io.netty.channel.socket.DefaultServerSocketChannelConfig">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.channel.socket.DefaultServerSocketChannelConfig" target="io.netty.channel.DefaultChannelConfig">
+      <point x="-62.0" y="-14.5" />
+      <point x="124.25" y="133.0" />
+      <point x="83.5" y="133.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="195.5" y="133.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

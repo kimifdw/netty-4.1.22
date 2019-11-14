@@ -118,6 +118,7 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
             throw new IllegalStateException("remoteAddress not set");
         }
 
+//        解析address并创建channel连接
         return doResolveAndConnect(remoteAddress, config.localAddress());
     }
 
@@ -292,7 +293,9 @@ public class Bootstrap extends AbstractBootstrap<Bootstrap, Channel> {
 
     @Override
     public Bootstrap validate() {
+//        验证group、channelFactory参数是否合法
         super.validate();
+//        验证handler是否合法
         if (config.handler() == null) {
             throw new IllegalStateException("handler not set");
         }

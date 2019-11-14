@@ -232,6 +232,7 @@ public class FixedChannelPool extends SimpleChannelPool {
     public Future<Channel> acquire(final Promise<Channel> promise) {
         try {
             if (executor.inEventLoop()) {
+//                获取channel
                 acquire0(promise);
             } else {
                 executor.execute(new Runnable() {
@@ -251,27 +252,36 @@ public class FixedChannelPool extends SimpleChannelPool {
         assert executor.inEventLoop();
 
         if (closed) {
+//            如果channelPool关闭了发布promise channelPool关闭异常
             promise.setFailure(POOL_CLOSED_ON_ACQUIRE_EXCEPTION);
             return;
         }
+//        如果获取的channel数量小于最大连接数
         if (acquiredChannelCount < maxConnections) {
             assert acquiredChannelCount >= 0;
 
             // We need to create a new promise as we need to ensure the AcquireListener runs in the correct
-            // EventLoop
+            // EventLoop//我们需要创建一个新的承诺，因为我们需要确保AcquireListener以正确的方式运行
+// EventLoop
             Promise<Channel> p = executor.newPromise();
             AcquireListener l = new AcquireListener(promise);
+//            增加获取的channel数量
             l.acquired();
             p.addListener(l);
+//            调用SimpleChannelPool的acquire方法
             super.acquire(p);
         } else {
+//            如果获取的channel数量大于最大数量
             if (pendingAcquireCount >= maxPendingAcquires) {
                 promise.setFailure(FULL_EXCEPTION);
             } else {
+//                创建AcquireTask添加到arrayDeque中
                 AcquireTask task = new AcquireTask(promise);
                 if (pendingAcquireQueue.offer(task)) {
+//                    增加获取的pending channel计数
                     ++pendingAcquireCount;
 
+//                    如果配置的有超时定时任务检查就执行，发布promise超时异常
                     if (timeoutTask != null) {
                         task.timeoutFuture = executor.schedule(timeoutTask, acquireTimeoutNanos, TimeUnit.NANOSECONDS);
                     }
@@ -294,8 +304,9 @@ public class FixedChannelPool extends SimpleChannelPool {
             public void operationComplete(Future<Void> future) throws Exception {
                 assert executor.inEventLoop();
 
+//                如果channelPool关闭了就执行channel连接关闭，发布promise channelPool关闭异常事件
                 if (closed) {
-                    // Since the pool is closed, we have no choice but to close the channel
+                    // Since the pool is closed, we have no choice but to close the channel由于游泳池关闭了，我们别无选择，只能关闭水道
                     channel.close();
                     promise.setFailure(POOL_CLOSED_ON_RELEASE_EXCEPTION);
                     return;
@@ -306,7 +317,7 @@ public class FixedChannelPool extends SimpleChannelPool {
                     promise.setSuccess(null);
                 } else {
                     Throwable cause = future.cause();
-                    // Check if the exception was not because of we passed the Channel to the wrong pool.
+                    // Check if the exception was not because of we passed the Channel to the wrong pool.检查异常是否因为我们将通道传递给了错误的池。
                     if (!(cause instanceof IllegalArgumentException)) {
                         decrementAndRunTaskQueue();
                     }
@@ -318,38 +329,46 @@ public class FixedChannelPool extends SimpleChannelPool {
     }
 
     private void decrementAndRunTaskQueue() {
+//        减少获取的channel计数
         --acquiredChannelCount;
 
-        // We should never have a negative value.
+        // We should never have a negative value.我们不应该取负值。
         assert acquiredChannelCount >= 0;
 
         // Run the pending acquire tasks before notify the original promise so if the user would
         // try to acquire again from the ChannelFutureListener and the pendingAcquireCount is >=
         // maxPendingAcquires we may be able to run some pending tasks first and so allow to add
-        // more.
+        // more.//运行挂起的获取任务，然后通知原始承诺，如果用户愿意
+//再次尝试获得频道futurelistener和pendingacquiis >=
+// maxpendingacquire我们可以先运行一些挂起的任务，这样就可以添加了
+//更多。
         runTaskQueue();
     }
 
     private void runTaskQueue() {
         while (acquiredChannelCount < maxConnections) {
+//            从arrayDeque中获取等待获取channel的任务
             AcquireTask task = pendingAcquireQueue.poll();
             if (task == null) {
                 break;
             }
 
-            // Cancel the timeout if one was scheduled
+            // Cancel the timeout if one was scheduled如果计划了超时，则取消超时
             ScheduledFuture<?> timeoutFuture = task.timeoutFuture;
             if (timeoutFuture != null) {
                 timeoutFuture.cancel(false);
             }
 
+//            减少等待获取channel的计数
             --pendingAcquireCount;
+//            增加获取channel的计数
             task.acquired();
 
+//            调用父类SimpleChannelPool的release方法
             super.acquire(task.promise);
         }
 
-        // We should never have a negative value.
+        // We should never have a negative value.我们不应该取负值。
         assert pendingAcquireCount >= 0;
         assert acquiredChannelCount >= 0;
     }
@@ -363,7 +382,8 @@ public class FixedChannelPool extends SimpleChannelPool {
         public AcquireTask(Promise<Channel> promise) {
             super(promise);
             // We need to create a new promise as we need to ensure the AcquireListener runs in the correct
-            // EventLoop.
+            // EventLoop.//我们需要创建一个新的承诺，因为我们需要确保AcquireListener以正确的方式运行
+// EventLoop。
             this.promise = executor.<Channel>newPromise().addListener(this);
         }
     }
