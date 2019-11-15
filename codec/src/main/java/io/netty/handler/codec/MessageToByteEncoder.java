@@ -100,20 +100,27 @@ public abstract class MessageToByteEncoder<I> extends ChannelOutboundHandlerAdap
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         ByteBuf buf = null;
         try {
+//            如果是OutboundMessage类型消息
             if (acceptOutboundMessage(msg)) {
                 @SuppressWarnings("unchecked")
                 I cast = (I) msg;
+//                分配内存
                 buf = allocateBuffer(ctx, cast, preferDirect);
                 try {
+//                    对消息进行编码
                     encode(ctx, cast, buf);
                 } finally {
+//                    最后释放消息
                     ReferenceCountUtil.release(cast);
                 }
 
+//                如果buf是可读的就调用pipeline的write方法
                 if (buf.isReadable()) {
                     ctx.write(buf, promise);
                 } else {
+//                    如果buf不可读释放buf
                     buf.release();
+//                    向pipeline写一个EMPTY_BUFFER
                     ctx.write(Unpooled.EMPTY_BUFFER, promise);
                 }
                 buf = null;

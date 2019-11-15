@@ -88,7 +88,9 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
                     || cumulation.refCnt() > 1 || cumulation.isReadOnly()) {
                 // Expand cumulation (by replace it) when either there is not more room in the buffer
                 // or if the refCnt is greater then 1 which may happen when the user use slice().retain() or
-                // duplicate().retain() or if its read-only.
+                // duplicate().retain() or if its read-only.//当缓冲区中没有更多空间时，扩展累积(替换它)
+//如果refCnt大于1，那么当用户使用slice().retain()或
+// duplicate().retain()或者它是只读的。
                 //
                 // See:
                 // - https://github.com/netty/netty/issues/2327
@@ -239,7 +241,7 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
         }
         ByteBuf buf = cumulation;
         if (buf != null) {
-            // Directly set this to null so we are sure we not access it in any other method here anymore.
+            // Directly set this to null so we are sure we not access it in any other method here anymore.直接将这个设为null，这样我们就能确保不再在其它方法中访问它。
             cumulation = null;
 
 //            可读取的字节数
@@ -247,14 +249,17 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
             if (readable > 0) {
                 ByteBuf bytes = buf.readBytes(readable);
                 buf.release();
+//                触发pipeline的channelRead方法
                 ctx.fireChannelRead(bytes);
             } else {
                 buf.release();
             }
 
             numReads = 0;
+//            触发pipeline的channelReadComplete方法
             ctx.fireChannelReadComplete();
         }
+//        删除handler
         handlerRemoved0(ctx);
     }
 
@@ -274,8 +279,10 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
                 if (first) {
                     cumulation = data;
                 } else {
+//                    记录byteBuf的字节数，如果byteBuf的字节数写完了就释放
                     cumulation = cumulator.cumulate(ctx.alloc(), cumulation, data);
                 }
+//                decode逻辑
                 callDecode(ctx, cumulation, out);
             } catch (DecoderException e) {
                 throw e;
@@ -287,7 +294,7 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
                     cumulation.release();
                     cumulation = null;
                 } else if (++ numReads >= discardAfterReads) {
-                    // We did enough reads already try to discard some bytes so we not risk to see a OOME.
+                    // We did enough reads already try to discard some bytes so we not risk to see a OOME.我们已经做了足够多的读取，试图丢弃一些字节，这样我们就不会有看到OOME的风险。
                     // See https://github.com/netty/netty/issues/4275
                     numReads = 0;
                     discardSomeReadBytes();
@@ -295,6 +302,7 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
 
                 int size = out.size();
                 decodeWasNull = !out.insertSinceRecycled();
+//                触发pipeline的channelRead方法
                 fireChannelRead(ctx, out, size);
                 out.recycle();
             }
@@ -308,6 +316,7 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
      */
     static void fireChannelRead(ChannelHandlerContext ctx, List<Object> msgs, int numElements) {
         if (msgs instanceof CodecOutputList) {
+//            触发pipeline的channelRead方法
             fireChannelRead(ctx, (CodecOutputList) msgs, numElements);
         } else {
             for (int i = 0; i < numElements; i++) {
@@ -342,7 +351,9 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
         if (cumulation != null && !first && cumulation.refCnt() == 1) {
             // discard some bytes if possible to make more room in the
             // buffer but only if the refCnt == 1  as otherwise the user may have
-            // used slice().retain() or duplicate().retain().
+            // used slice().retain() or duplicate().retain().//如果可能的话，丢弃一些字节以腾出更多的空间
+//缓冲区，但只有当refCnt == 1，否则用户可能有
+//使用的slice().retain()或duplicate().retain()。
             //
             // See:
             // - https://github.com/netty/netty/issues/2327
@@ -429,10 +440,12 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
                     out.clear();
 
                     // Check if this handler was removed before continuing with decoding.
-                    // If it was removed, it is not safe to continue to operate on the buffer.
+                    // If it was removed, it is not safe to continue to operate on the buffer.//在继续解码之前，检查这个处理程序是否已被删除。
+//如果它被移除，继续对缓冲区进行操作是不安全的
                     //
                     // See:
                     // - https://github.com/netty/netty/issues/4635
+//                    检查pipeline中handler是否花已移除
                     if (ctx.isRemoved()) {
                         break;
                     }
@@ -440,12 +453,15 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
                 }
 
                 int oldInputLength = in.readableBytes();
+//                对byteBuf的数据进行解码
                 decodeRemovalReentryProtection(ctx, in, out);
 
                 // Check if this handler was removed before continuing the loop.
-                // If it was removed, it is not safe to continue to operate on the buffer.
+                // If it was removed, it is not safe to continue to operate on the buffer.//在继续循环之前，检查这个处理程序是否被删除。
+//如果它被移除，继续对缓冲区进行操作是不安全的。
                 //
                 // See https://github.com/netty/netty/issues/1664
+//                handler是否被删除
                 if (ctx.isRemoved()) {
                     break;
                 }
@@ -503,11 +519,14 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
             throws Exception {
         decodeState = STATE_CALLING_CHILD_DECODE;
         try {
+//            执行自己实现的解码器的decode方法
             decode(ctx, in, out);
         } finally {
+//            如果解码状态是handler等待删除
             boolean removePending = decodeState == STATE_HANDLER_REMOVED_PENDING;
             decodeState = STATE_INIT;
             if (removePending) {
+//                删除handler
                 handlerRemoved(ctx);
             }
         }

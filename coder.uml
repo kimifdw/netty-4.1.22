@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.netty.handler.codec.MessageToByteEncoder</OriginalElement>
+  <nodes>
+    <node x="29.0" y="232.0">io.netty.handler.codec.serialization.ObjectEncoder</node>
+    <node x="173.0" y="79.0">io.netty.handler.codec.LineBasedFrameDecoder</node>
+    <node x="282.5" y="0.0">io.netty.handler.codec.ByteToMessageDecoder</node>
+    <node x="607.0" y="79.0">io.netty.handler.codec.FixedLengthFrameDecoder</node>
+    <node x="376.0" y="79.0">io.netty.handler.codec.DelimiterBasedFrameDecoder</node>
+    <node x="0.0" y="79.0">io.netty.handler.codec.json.JsonObjectDecoder</node>
+    <node x="0.0" y="153.0">io.netty.handler.codec.MessageToByteEncoder</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.netty.handler.codec.FixedLengthFrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="704.5" y="49.0" />
+      <point x="440.875" y="49.0" />
+      <point x="67.875" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.json.JsonObjectDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="76.5" y="49.0" />
+      <point x="305.125" y="49.0" />
+      <point x="-67.875" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.DelimiterBasedFrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="481.5" y="59.0" />
+      <point x="395.625" y="59.0" />
+      <point x="22.625" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.serialization.ObjectEncoder" target="io.netty.handler.codec.MessageToByteEncoder">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="io.netty.handler.codec.LineBasedFrameDecoder" target="io.netty.handler.codec.ByteToMessageDecoder">
+      <point x="0.0" y="-14.5" />
+      <point x="264.5" y="59.0" />
+      <point x="350.375" y="59.0" />
+      <point x="-22.625" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="401.0" y="130.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
