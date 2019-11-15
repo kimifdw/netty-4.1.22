@@ -60,6 +60,7 @@ final class EpollEventLoop extends SingleThreadEventLoop {
     private final FileDescriptor epollFd;
     private final FileDescriptor eventFd;
     private final FileDescriptor timerFd;
+//    如果这里报编译错误需要先install netty-common
     private final IntObjectMap<AbstractEpollChannel> channels = new IntObjectHashMap<AbstractEpollChannel>(4096);
     private final boolean allowGrowing;
     private final EpollEventArray events;
