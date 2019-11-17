@@ -114,7 +114,7 @@ public class ChunkedWriteHandler extends ChannelDuplexHandler {
                 }
             }
         } else {
-            // let the transfer resume on the next event loop round
+            // let the transfer resume on the next event loop round让传输在下一次事件循环时继续
             ctx.executor().execute(new Runnable() {
 
                 @Override
@@ -150,7 +150,7 @@ public class ChunkedWriteHandler extends ChannelDuplexHandler {
     @Override
     public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {
         if (ctx.channel().isWritable()) {
-            // channel is writable again try to continue flushing
+            // channel is writable again try to continue flushing通道再次写入，请尝试继续刷新
             doFlush(ctx);
         }
         ctx.fireChannelWritabilityChanged();
@@ -185,6 +185,7 @@ public class ChunkedWriteHandler extends ChannelDuplexHandler {
                     } else {
                         currentWrite.success(in.length());
                     }
+//                    关闭输入
                     closeInput(in);
                 } catch (Exception e) {
                     currentWrite.fail(e);
@@ -211,7 +212,7 @@ public class ChunkedWriteHandler extends ChannelDuplexHandler {
 
         boolean requiresFlush = true;
         ByteBufAllocator allocator = ctx.alloc();
-//        如果通道不可写，所有写请求阻塞
+//        如果通道可写
         while (channel.isWritable()) {
             if (currentWrite == null) {
 //                从队列中获取写的内容
@@ -237,7 +238,7 @@ public class ChunkedWriteHandler extends ChannelDuplexHandler {
                     endOfInput = chunks.isEndOfInput();
 
                     if (message == null) {
-                        // No need to suspend when reached at the end.
+                        // No need to suspend when reached at the end.到达终点时不需要挂起。
                         suspend = !endOfInput;
                     } else {
                         suspend = false;
@@ -257,23 +258,28 @@ public class ChunkedWriteHandler extends ChannelDuplexHandler {
                 if (suspend) {
                     // ChunkedInput.nextChunk() returned null and it has
                     // not reached at the end of input. Let's wait until
-                    // more chunks arrive. Nothing to write or notify.
+                    // more chunks arrive. Nothing to write or notify.// chunkedinpu . nextchunk()返回null，它有
+//未到达输入端。让我们等到
+//更多的块到达。没有东西要写，也没有东西要通知。
                     break;
                 }
 
                 if (message == null) {
-                    // If message is null write an empty ByteBuf.
+                    // If message is null write an empty ByteBuf.如果消息为空，则写一个空的ByteBuf。
                     // See https://github.com/netty/netty/issues/1671
                     message = Unpooled.EMPTY_BUFFER;
                 }
 
+//                把消息写到pipeline
                 ChannelFuture f = ctx.write(message);
                 if (endOfInput) {
                     this.currentWrite = null;
 
                     // Register a listener which will close the input once the write is complete.
                     // This is needed because the Chunk may have some resource bound that can not
-                    // be closed before its not written.
+                    // be closed before its not written.//注册一个监听器，一旦写入完成，它将关闭输入。
+//这是必需的，因为块可能有一些不能绑定的资源
+//在未写之前关闭。
                     //
                     // See https://github.com/netty/netty/issues/303
                     f.addListener(new ChannelFutureListener() {
@@ -313,7 +319,8 @@ public class ChunkedWriteHandler extends ChannelDuplexHandler {
                         }
                     });
                 }
-                // Flush each chunk to conserve memory
+                // Flush each chunk to conserve memory刷新每个块以保存内存
+//                调用pipeline刷新
                 ctx.flush();
                 requiresFlush = false;
             } else {
@@ -359,7 +366,7 @@ public class ChunkedWriteHandler extends ChannelDuplexHandler {
 
         void success(long total) {
             if (promise.isDone()) {
-                // No need to notify the progress or fulfill the promise because it's done already.
+                // No need to notify the progress or fulfill the promise because it's done already.不需要通知进度或履行承诺，因为它已经完成了。
                 return;
             }
 

@@ -77,11 +77,11 @@ public class ChunkedNioStream implements ChunkedInput<ByteBuf> {
     @Override
     public boolean isEndOfInput() throws Exception {
         if (byteBuffer.position() > 0) {
-            // A previous read was not over, so there is a next chunk in the buffer at least
+            // A previous read was not over, so there is a next chunk in the buffer at least前一次读取未结束，因此至少缓冲区中还有下一个块
             return false;
         }
         if (in.isOpen()) {
-            // Try to read a new part, and keep this part (no rewind)
+            // Try to read a new part, and keep this part (no rewind)试着读一个新的部分，保持这个部分(不要倒带)
             int b = in.read(byteBuffer);
             if (b < 0) {
                 return true;
@@ -109,7 +109,7 @@ public class ChunkedNioStream implements ChunkedInput<ByteBuf> {
         if (isEndOfInput()) {
             return null;
         }
-        // buffer cannot be not be empty from there
+        // buffer cannot be not be empty from there缓冲区不能从那里不为空
         int readBytes = byteBuffer.position();
         for (;;) {
             int localReadBytes = in.read(byteBuffer);

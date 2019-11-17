@@ -154,7 +154,7 @@ public class ChunkedFile implements ChunkedInput<ByteBuf> {
         }
 
         int chunkSize = (int) Math.min(this.chunkSize, endOffset - offset);
-        // Check if the buffer is backed by an byte array. If so we can optimize it a bit an safe a copy
+        // Check if the buffer is backed by an byte array. If so we can optimize it a bit an safe a copy检查缓冲区是否由字节数组备份。如果是这样的话，我们可以对它进行优化，使其安全一点
 
         ByteBuf buf = allocator.heapBuffer(chunkSize);
         boolean release = true;

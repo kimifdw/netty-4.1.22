@@ -36,6 +36,7 @@ import java.io.PushbackInputStream;
  */
 public class ChunkedStream implements ChunkedInput<ByteBuf> {
 
+//    默认数据块长度8192
     static final int DEFAULT_CHUNK_SIZE = 8192;
 
     private final PushbackInputStream in;
@@ -114,6 +115,7 @@ public class ChunkedStream implements ChunkedInput<ByteBuf> {
             return null;
         }
 
+//        输出流可用字节数
         final int availableBytes = in.available();
         final int chunkSize;
         if (availableBytes <= 0) {

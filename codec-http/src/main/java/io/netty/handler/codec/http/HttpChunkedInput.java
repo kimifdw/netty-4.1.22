@@ -43,6 +43,7 @@ import io.netty.handler.stream.ChunkedInput;
  输入数据中的每个块都将包装在HttpContent中。在输入数据的末尾，将写入LastHttpContent。
  确保您的HTTP响应头包含传输编码:分块。
  */
+//实现接口的方式适配器模式实现
 public class HttpChunkedInput implements ChunkedInput<HttpContent> {
 
     private final ChunkedInput<ByteBuf> input;
