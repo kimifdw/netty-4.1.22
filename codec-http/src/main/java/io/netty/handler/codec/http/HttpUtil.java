@@ -257,7 +257,7 @@ public final class HttpUtil {
         }
 
         final String expectValue = message.headers().get(HttpHeaderNames.EXPECT);
-        // unquoted tokens in the expect header are case-insensitive, thus 100-continue is case insensitive
+        // unquoted tokens in the expect header are case-insensitive, thus 100-continue is case insensitiveexpect标头中未引用的标记不区分大小写，因此100-continue不区分大小写
         return HttpHeaderValues.CONTINUE.toString().equalsIgnoreCase(expectValue);
     }
 
@@ -283,7 +283,9 @@ public final class HttpUtil {
         /*
          * Expect: 100-continue is for requests only and it works only on HTTP/1.1 or later. Note further that RFC 7231
          * section 5.1.1 says "A server that receives a 100-continue expectation in an HTTP/1.0 request MUST ignore
-         * that expectation."
+         * that expectation."* Expect: 100-continue仅用于请求，它仅在HTTP/1.1或更高版本上工作。请进一步注意RFC 7231
+*章节5.1.1说“一个服务器如果在HTTP/1.0请求中接收到100个持续的期望，则必须忽略
+*期望。”
          */
         return message instanceof HttpRequest &&
                 message.protocolVersion().compareTo(HttpVersion.HTTP_1_1) >= 0;

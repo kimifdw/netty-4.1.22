@@ -14,9 +14,6 @@
  */
 package io.netty.handler.codec.http;
 
-import static io.netty.util.AsciiString.containsContentEqualsIgnoreCase;
-import static io.netty.util.AsciiString.containsAllContentEqualsIgnoreCase;
-
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -30,6 +27,8 @@ import java.util.List;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.SWITCHING_PROTOCOLS;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
+import static io.netty.util.AsciiString.containsAllContentEqualsIgnoreCase;
+import static io.netty.util.AsciiString.containsContentEqualsIgnoreCase;
 import static io.netty.util.internal.ObjectUtil.checkNotNull;
 
 /**
@@ -212,10 +211,10 @@ public class HttpServerUpgradeHandler extends HttpObjectAggregator {
     @Override
     protected void decode(ChannelHandlerContext ctx, HttpObject msg, List<Object> out)
             throws Exception {
-        // Determine if we're already handling an upgrade request or just starting a new one.
+        // Determine if we're already handling an upgrade request or just starting a new one.确定我们是否已经在处理一个升级请求，还是刚刚开始一个新的。
         handlingUpgrade |= isUpgradeRequest(msg);
         if (!handlingUpgrade) {
-            // Not handling an upgrade request, just pass it to the next handler.
+            // Not handling an upgrade request, just pass it to the next handler.不处理升级请求，只需将其传递给下一个处理程序。
             ReferenceCountUtil.retain(msg);
             out.add(msg);
             return;
@@ -227,14 +226,14 @@ public class HttpServerUpgradeHandler extends HttpObjectAggregator {
             ReferenceCountUtil.retain(msg);
             out.add(msg);
         } else {
-            // Call the base class to handle the aggregation of the full request.
+            // Call the base class to handle the aggregation of the full request.调用基类来处理完整请求的聚合。
             super.decode(ctx, msg, out);
             if (out.isEmpty()) {
-                // The full request hasn't been created yet, still awaiting more data.
+                // The full request hasn't been created yet, still awaiting more data.完整的请求尚未创建，仍在等待更多的数据。
                 return;
             }
 
-            // Finished aggregating the full request, get it from the output list.
+            // Finished aggregating the full request, get it from the output list.完成聚合完整请求后，从输出列表获取它。
             assert out.size() == 1;
             handlingUpgrade = false;
             fullRequest = (FullHttpRequest) out.get(0);
@@ -243,12 +242,15 @@ public class HttpServerUpgradeHandler extends HttpObjectAggregator {
         if (upgrade(ctx, fullRequest)) {
             // The upgrade was successful, remove the message from the output list
             // so that it's not propagated to the next handler. This request will
-            // be propagated as a user event instead.
+            // be propagated as a user event instead.//升级成功，从输出列表中删除消息
+//            这样它就不会传播到下一个处理程序。将此请求
+//            而是作为用户事件传播。
             out.clear();
         }
 
         // The upgrade did not succeed, just allow the full request to propagate to the
-        // next handler.
+        // next handler.//升级没有成功，只允许完整的请求传播到
+//下一个处理程序。
     }
 
     /**
@@ -267,7 +269,7 @@ public class HttpServerUpgradeHandler extends HttpObjectAggregator {
      * @return {@code true} if the upgrade occurred, otherwise {@code false}.
      */
     private boolean upgrade(final ChannelHandlerContext ctx, final FullHttpRequest request) {
-        // Select the best protocol based on those requested in the UPGRADE header.
+        // Select the best protocol based on those requested in the UPGRADE header.根据升级报头中的请求选择最佳协议。
         final List<CharSequence> requestedProtocols = splitHeader(request.headers().get(HttpHeaderNames.UPGRADE));
         final int numRequestedProtocols = requestedProtocols.size();
         UpgradeCodec upgradeCodec = null;
@@ -283,17 +285,17 @@ public class HttpServerUpgradeHandler extends HttpObjectAggregator {
         }
 
         if (upgradeCodec == null) {
-            // None of the requested protocols are supported, don't upgrade.
+            // None of the requested protocols are supported, don't upgrade.不支持所请求的任何协议，请不要升级。
             return false;
         }
 
-        // Make sure the CONNECTION header is present.
+        // Make sure the CONNECTION header is present.确保连接头是存在的。
         CharSequence connectionHeader = request.headers().get(HttpHeaderNames.CONNECTION);
         if (connectionHeader == null) {
             return false;
         }
 
-        // Make sure the CONNECTION header contains UPGRADE as well as all protocol-specific headers.
+        // Make sure the CONNECTION header contains UPGRADE as well as all protocol-specific headers.确保连接头包含升级以及所有协议特定的头。
         Collection<CharSequence> requiredHeaders = upgradeCodec.requiredUpgradeHeaders();
         List<CharSequence> values = splitHeader(connectionHeader);
         if (!containsContentEqualsIgnoreCase(values, HttpHeaderNames.UPGRADE) ||
@@ -301,7 +303,7 @@ public class HttpServerUpgradeHandler extends HttpObjectAggregator {
             return false;
         }
 
-        // Ensure that all required protocol-specific headers are found in the request.
+        // Ensure that all required protocol-specific headers are found in the request.确保在请求中找到所有必需的协议特定的标头
         for (CharSequence requiredHeader : requiredHeaders) {
             if (!request.headers().contains(requiredHeader)) {
                 return false;
@@ -309,13 +311,14 @@ public class HttpServerUpgradeHandler extends HttpObjectAggregator {
         }
 
         // Prepare and send the upgrade response. Wait for this write to complete before upgrading,
-        // since we need the old codec in-place to properly encode the response.
+        // since we need the old codec in-place to properly encode the response.//准备并发送升级响应。等待这写完成之前，升级，
+//因为我们需要旧的编解码器来正确地对响应进行编码。
         final FullHttpResponse upgradeResponse = createUpgradeResponse(upgradeProtocol);
         if (!upgradeCodec.prepareUpgradeResponse(ctx, request, upgradeResponse.headers())) {
             return false;
         }
 
-        // Create the user event to be fired once the upgrade completes.
+        // Create the user event to be fired once the upgrade completes.创建要在升级完成后触发的用户事件。
         final UpgradeEvent event = new UpgradeEvent(upgradeProtocol, request);
 
         final UpgradeCodec finalUpgradeCodec = upgradeCodec;
@@ -324,21 +327,22 @@ public class HttpServerUpgradeHandler extends HttpObjectAggregator {
             public void operationComplete(ChannelFuture future) throws Exception {
                 try {
                     if (future.isSuccess()) {
-                        // Perform the upgrade to the new protocol.
+                        // Perform the upgrade to the new protocol.执行对新协议的升级。
                         sourceCodec.upgradeFrom(ctx);
                         finalUpgradeCodec.upgradeTo(ctx, request);
 
                         // Notify that the upgrade has occurred. Retain the event to offset
-                        // the release() in the finally block.
+                        // the release() in the finally block.//通知升级已经发生。保留事件以进行抵消
+//                        最后一个块中的release()。
                         ctx.fireUserEventTriggered(event.retain());
 
-                        // Remove this handler from the pipeline.
+                        // Remove this handler from the pipeline.从管道中删除此处理程序。
                         ctx.pipeline().remove(HttpServerUpgradeHandler.this);
                     } else {
                         future.channel().close();
                     }
                 } finally {
-                    // Release the event if the upgrade event wasn't fired.
+                    // Release the event if the upgrade event wasn't fired.如果没有触发升级事件，则释放该事件。
                     event.release();
                 }
             }
@@ -367,11 +371,11 @@ public class HttpServerUpgradeHandler extends HttpObjectAggregator {
         for (int i = 0; i < header.length(); ++i) {
             char c = header.charAt(i);
             if (Character.isWhitespace(c)) {
-                // Don't include any whitespace.
+                // Don't include any whitespace.不要包含任何空白。
                 continue;
             }
             if (c == ',') {
-                // Add the string and reset the builder for the next protocol.
+                // Add the string and reset the builder for the next protocol.添加字符串并为下一个协议重置生成器。
                 protocols.add(builder.toString());
                 builder.setLength(0);
             } else {

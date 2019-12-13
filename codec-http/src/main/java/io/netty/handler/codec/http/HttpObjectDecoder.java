@@ -262,7 +262,7 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
                 if (!chunkedSupported) {
                     throw new IllegalArgumentException("Chunked messages not supported");
                 }
-                // Chunked encoding - generate HttpMessage first.  HttpChunks will follow.
+                // Chunked encoding - generate HttpMessage first.  HttpChunks will follow.分块编码——首先生成HttpMessage。HttpChunks会随之而来。
                 out.add(message);
                 return;
             default:
@@ -270,7 +270,10 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
                  * <a href="https://tools.ietf.org/html/rfc7230#section-3.3.3">RFC 7230, 3.3.3</a> states that if a
                  * request does not have either a transfer-encoding or a content-length header then the message body
                  * length is 0. However for a response the body length is the number of octets received prior to the
-                 * server closing the connection. So we treat this as variable length chunked encoding.
+                 * server closing the connection. So we treat this as variable length chunked encoding.声明如果a
+                 *请求既没有传输编码也没有内容长度的头，然后是消息体
+                 *长度是0。但是，对于一个响应，体长是在之前接收到的八位元数
+                 服务器关闭连接。所以我们把它当作可变长度分块编码。
                  */
                 long contentLength = contentLength();
                 if (contentLength == 0 || contentLength == -1 && isDecodingRequest()) {
@@ -286,11 +289,11 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
                 out.add(message);
 
                 if (nextState == State.READ_FIXED_LENGTH_CONTENT) {
-                    // chunkSize will be decreased as the READ_FIXED_LENGTH_CONTENT state reads data chunk by chunk.
+                    // chunkSize will be decreased as the READ_FIXED_LENGTH_CONTENT state reads data chunk by chunk.当READ_FIXED_LENGTH_CONTENT状态逐块读取数据时，chunkSize将减小。
                     chunkSize = contentLength;
                 }
 
-                // We return here, this forces decode to be called again where we will decode the content
+                // We return here, this forces decode to be called again where we will decode the content我们回到这里，这迫使解码被再次调用，我们将解码的内容
                 return;
             }
         } catch (Exception e) {
@@ -298,7 +301,7 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
             return;
         }
         case READ_VARIABLE_LENGTH_CONTENT: {
-            // Keep reading data as a chunk until the end of connection is reached.
+            // Keep reading data as a chunk until the end of connection is reached.保持以块的形式读取数据，直到连接结束。
             int toRead = Math.min(buffer.readableBytes(), maxChunkSize);
             if (toRead > 0) {
                 ByteBuf content = buffer.readRetainedSlice(toRead);
@@ -312,7 +315,10 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
             // Check if the buffer is readable first as we use the readable byte count
             // to create the HttpChunk. This is needed as otherwise we may end up with
             // create a HttpChunk instance that contains an empty buffer and so is
-            // handled like it is the last HttpChunk.
+            // handled like it is the last HttpChunk.//首先检查缓冲区是否可读，因为我们使用了可读字节数
+//创建HttpChunk。这是必要的，否则我们可能会以失败告终
+//            创建一个包含空缓冲区的HttpChunk实例
+//处理就像它是最后一个HttpChunk。
             //
             // See https://github.com/netty/netty/issues/433
             if (readLimit == 0) {
@@ -337,7 +343,8 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
         }
         /**
          * everything else after this point takes care of reading chunked content. basically, read chunk size,
-         * read chunk, read and ignore the CRLF and repeat until 0
+         * read chunk, read and ignore the CRLF and repeat until 0这一点之后的所有事情都要注意阅读成组的内容。基本上，读取数据块大小，
+         *读取数据块，读取并忽略CRLF，直到0
          */
         case READ_CHUNK_SIZE: try {
             AppendableCharSequence line = lineParser.parse(buffer);
@@ -400,7 +407,7 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
             return;
         }
         case BAD_MESSAGE: {
-            // Keep discarding until disconnection.
+            // Keep discarding until disconnection.保持丢弃直到断开连接。
             buffer.skipBytes(buffer.readableBytes());
             break;
         }
@@ -409,7 +416,9 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
             if (readableBytes > 0) {
                 // Keep on consuming as otherwise we may trigger an DecoderException,
                 // other handler will replace this codec with the upgraded protocol codec to
-                // take the traffic over at some point then.
+                // take the traffic over at some point then.//继续消费，否则我们可能触发一个DecoderException，
+//其他处理程序将把这个编解码器替换为升级后的协议编解码器
+//到时候把交通接管过来。
                 // See https://github.com/netty/netty/issues/2173
                 out.add(buffer.readBytes(readableBytes));
             }
@@ -424,7 +433,8 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
 
         if (resetRequested) {
             // If a reset was requested by decodeLast() we need to do it now otherwise we may produce a
-            // LastHttpContent while there was already one.
+            // LastHttpContent while there was already one.//如果decodeLast()请求重置，我们现在就需要做，否则可能会产生a
+// LastHttpContent已经有一个了。
             resetNow();
         }
         // Handle the last unfinished message.
@@ -439,22 +449,25 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
 
             if (currentState == State.READ_HEADER) {
                 // If we are still in the state of reading headers we need to create a new invalid message that
-                // signals that the connection was closed before we received the headers.
+                // signals that the connection was closed before we received the headers.//如果我们仍然处于读取header的状态，我们需要创建一个新的无效消息
+//在我们收到报头之前，连接已经关闭的信号。
                 out.add(invalidMessage(Unpooled.EMPTY_BUFFER,
                         new PrematureChannelClosureException("Connection closed before received headers")));
                 resetNow();
                 return;
             }
 
-            // Check if the closure of the connection signifies the end of the content.
+            // Check if the closure of the connection signifies the end of the content.检查连接的关闭是否意味着内容的结束。
             boolean prematureClosure;
             if (isDecodingRequest() || chunked) {
-                // The last request did not wait for a response.
+                // The last request did not wait for a response.最后一个请求没有等待响应。
                 prematureClosure = true;
             } else {
                 // Compare the length of the received content and the 'Content-Length' header.
                 // If the 'Content-Length' header is absent, the length of the content is determined by the end of the
-                // connection, so it is perfectly fine.
+                // connection, so it is perfectly fine.//比较接收内容的长度和“content - length”标题。
+//如果没有“content - length”标头，则内容的长度由
+//连接，所以它是完美的。
                 prematureClosure = contentLength() > 0;
             }
 
@@ -486,13 +499,13 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
             HttpResponse res = (HttpResponse) msg;
             int code = res.status().code();
 
-            // Correctly handle return codes of 1xx.
+            // Correctly handle return codes of 1xx.正确处理1xx的返回码。
             //
             // See:
             //     - http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html Section 4.4
             //     - https://github.com/netty/netty/issues/222
             if (code >= 100 && code < 200) {
-                // One exception: Hixie 76 websocket handshake response
+                // One exception: Hixie 76 websocket handshake response一个例外:Hixie 76 websocket握手响应
                 return !(code == 101 && !res.headers().contains(HttpHeaderNames.SEC_WEBSOCKET_ACCEPT)
                          && res.headers().contains(HttpHeaderNames.UPGRADE, HttpHeaderValues.WEBSOCKET, true));
             }
@@ -522,7 +535,7 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
 
     /**
      * Resets the state of the decoder so that it is ready to decode a new message.
-     * This method is useful for handling a rejected request with {@code Expect: 100-continue} header.
+     * This method is useful for handling a rejected request with {@code Expect: 100-continue} header.重置解码器的状态，以便它准备解码新消息。此方法对于处理带有Expect: 100-continue头的被拒绝请求非常有用。
      */
     public void reset() {
         resetRequested = true;
@@ -553,7 +566,8 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
         currentState = State.BAD_MESSAGE;
 
         // Advance the readerIndex so that ByteToMessageDecoder does not complain
-        // when we produced an invalid message without consuming anything.
+        // when we produced an invalid message without consuming anything.//提升readerIndex，这样ByteToMessageDecoder就不会报错了
+//当我们产生了一个无效的消息而没有消耗任何东西。
         in.skipBytes(in.readableBytes());
 
         if (message != null) {
@@ -572,7 +586,8 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
         currentState = State.BAD_MESSAGE;
 
         // Advance the readerIndex so that ByteToMessageDecoder does not complain
-        // when we produced an invalid message without consuming anything.
+        // when we produced an invalid message without consuming anything.//提升readerIndex，这样ByteToMessageDecoder就不会报错了
+//当我们产生了一个无效的消息而没有消耗任何东西。
         in.skipBytes(in.readableBytes());
 
         HttpContent chunk = new DefaultLastHttpContent(Unpooled.EMPTY_BUFFER);
@@ -611,7 +626,8 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
                 char firstChar = line.charAt(0);
                 if (name != null && (firstChar == ' ' || firstChar == '\t')) {
                     //please do not make one line from below code
-                    //as it breaks +XX:OptimizeStringConcat optimization
+                    //as it breaks +XX:OptimizeStringConcat optimization//请不要从下面的代码中写一行
+//当它中断时+XX:OptimizeStringConcat优化
                     String trimmedLine = line.toString().trim();
                     String valueStr = String.valueOf(value);
                     value = valueStr + ' ' + trimmedLine;
@@ -677,7 +693,8 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
                     if (!current.isEmpty()) {
                         int lastPos = current.size() - 1;
                         //please do not make one line from below code
-                        //as it breaks +XX:OptimizeStringConcat optimization
+                        //as it breaks +XX:OptimizeStringConcat optimization//请不要从下面的代码中写一行
+//当它中断时+XX:OptimizeStringConcat优化
                         String lineTrimmed = line.toString().trim();
                         String currentLastPos = current.get(lastPos);
                         current.set(lastPos, currentLastPos + lineTrimmed);
@@ -846,10 +863,12 @@ public abstract class HttpObjectDecoder extends ByteToMessageDecoder {
             }
 
             if (++ size > maxLength) {
-                // TODO: Respond with Bad Request and discard the traffic
+                // TODO: Respond with Bad Request and discard the traffic请求错误，请放弃当前的流量
                 //    or close the connection.
                 //       No need to notify the upstream handlers - just log.
-                //       If decoding a response, just throw an exception.
+                //       If decoding a response, just throw an exception.//或关闭连接。
+//不需要通知上游处理程序，只需要记录日志。
+//如果解码一个响应，抛出一个异常。
                 throw newException(maxLength);
             }
 

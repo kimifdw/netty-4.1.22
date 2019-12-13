@@ -15,14 +15,11 @@
  */
 package io.netty.handler.codec.http;
 
-import static io.netty.handler.codec.http.HttpHeaderValues.DEFLATE;
-import static io.netty.handler.codec.http.HttpHeaderValues.GZIP;
-import static io.netty.handler.codec.http.HttpHeaderValues.X_DEFLATE;
-import static io.netty.handler.codec.http.HttpHeaderValues.X_GZIP;
-
 import io.netty.channel.embedded.EmbeddedChannel;
 import io.netty.handler.codec.compression.ZlibCodecFactory;
 import io.netty.handler.codec.compression.ZlibWrapper;
+
+import static io.netty.handler.codec.http.HttpHeaderValues.*;
 
 /**
  * Decompresses an {@link HttpMessage} and an {@link HttpContent} compressed in
@@ -32,6 +29,7 @@ import io.netty.handler.codec.compression.ZlibWrapper;
  */
 public class HttpContentDecompressor extends HttpContentDecoder {
 
+//    是否使用严格的deflate处理
     private final boolean strict;
 
     /**
@@ -61,12 +59,12 @@ public class HttpContentDecompressor extends HttpContentDecoder {
         if (DEFLATE.contentEqualsIgnoreCase(contentEncoding) ||
             X_DEFLATE.contentEqualsIgnoreCase(contentEncoding)) {
             final ZlibWrapper wrapper = strict ? ZlibWrapper.ZLIB : ZlibWrapper.ZLIB_OR_NONE;
-            // To be strict, 'deflate' means ZLIB, but some servers were not implemented correctly.
+            // To be strict, 'deflate' means ZLIB, but some servers were not implemented correctly.严格来说，“deflate”是指ZLIB，但是有些服务器没有正确实现。
             return new EmbeddedChannel(ctx.channel().id(), ctx.channel().metadata().hasDisconnect(),
                     ctx.channel().config(), ZlibCodecFactory.newZlibDecoder(wrapper));
         }
 
-        // 'identity' or unsupported
+        // 'identity' or unsupported“身份”或不受支持的
         return null;
     }
 }

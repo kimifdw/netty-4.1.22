@@ -64,7 +64,7 @@ public class DefaultHttpHeaders extends HttpHeaders {
                     PlatformDependent.throwException(e);
                 }
             } else {
-                // Go through each character in the name
+                // Go through each character in the name检查名称中的每个字符
                 for (int index = 0; index < name.length(); ++index) {
                     validateHeaderNameElement(name.charAt(index));
                 }
@@ -370,7 +370,7 @@ public class DefaultHttpHeaders extends HttpHeaders {
                "a header name cannot contain the following prohibited characters: =,;: \\t\\r\\n\\v\\f: " +
                        value);
         default:
-            // Check to see if the character is not an ASCII character, or invalid
+            // Check to see if the character is not an ASCII character, or invalid检查该字符是否不是ASCII字符，或无效
             if (value < 0) {
                 throw new IllegalArgumentException("a header name cannot contain non-ASCII character: " +
                         value);
@@ -395,7 +395,7 @@ public class DefaultHttpHeaders extends HttpHeaders {
                "a header name cannot contain the following prohibited characters: =,;: \\t\\r\\n\\v\\f: " +
                        value);
         default:
-            // Check to see if the character is not an ASCII character, or invalid
+            // Check to see if the character is not an ASCII character, or invalid检查该字符是否不是ASCII字符，或无效
             if (value > 127) {
                 throw new IllegalArgumentException("a header name cannot contain non-ASCII character: " +
                         value);
@@ -437,7 +437,7 @@ public class DefaultHttpHeaders extends HttpHeaders {
         public CharSequence convertObject(Object value) {
             CharSequence seq = super.convertObject(value);
             int state = 0;
-            // Start looping through each of the character
+            // Start looping through each of the character开始遍历每个角色
             for (int index = 0; index < seq.length(); index++) {
                 state = validateValueChar(seq, state, seq.charAt(index));
             }
@@ -456,7 +456,7 @@ public class DefaultHttpHeaders extends HttpHeaders {
              * 2: The previous character was LF
              */
             if ((character & HIGHEST_INVALID_VALUE_CHAR_MASK) == 0) {
-                // Check the absolutely prohibited characters.
+                // Check the absolutely prohibited characters.检查绝对禁止的字符。
                 switch (character) {
                 case 0x0: // NULL
                     throw new IllegalArgumentException("a header value contains a prohibited character '\0': " + seq);
@@ -467,7 +467,7 @@ public class DefaultHttpHeaders extends HttpHeaders {
                 }
             }
 
-            // Check the CRLF (HT | SP) pattern
+            // Check the CRLF (HT | SP) pattern检查CRLF (HT | SP)模式
             switch (state) {
                 case 0:
                     switch (character) {

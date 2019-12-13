@@ -162,11 +162,11 @@ public class HttpObjectAggregator
 
     private static Object continueResponse(HttpMessage start, int maxContentLength, ChannelPipeline pipeline) {
         if (HttpUtil.isUnsupportedExpectation(start)) {
-            // if the request contains an unsupported expectation, we return 417
+            // if the request contains an unsupported expectation, we return 417 如果请求包含不支持的期望，则返回417
             pipeline.fireUserEventTriggered(HttpExpectationFailedEvent.INSTANCE);
             return EXPECTATION_FAILED.retainedDuplicate();
         } else if (HttpUtil.is100ContinueExpected(start)) {
-            // if the request contains 100-continue but the content-length is too large, we return 413
+            // if the request contains 100-continue but the content-length is too large, we return 413如果请求包含100-continue，但内容长度太大，则返回413
             if (getContentLength(start, -1L) <= maxContentLength) {
                 return CONTINUE.retainedDuplicate();
             }
@@ -181,7 +181,8 @@ public class HttpObjectAggregator
     protected Object newContinueResponse(HttpMessage start, int maxContentLength, ChannelPipeline pipeline) {
         Object response = continueResponse(start, maxContentLength, pipeline);
         // we're going to respond based on the request expectation so there's no
-        // need to propagate the expectation further.
+        // need to propagate the expectation further.//我们将根据请求期望进行响应，所以没有
+//需要进一步宣传这种期望。
         if (response != null) {
             start.headers().remove(EXPECT);
         }
@@ -222,7 +223,7 @@ public class HttpObjectAggregator
     @Override
     protected void aggregate(FullHttpMessage aggregated, HttpContent content) throws Exception {
         if (content instanceof LastHttpContent) {
-            // Merge trailing headers into the message.
+            // Merge trailing headers into the message.将尾标头合并到消息中。
             ((AggregatedFullHttpMessage) aggregated).setTrailingHeaders(((LastHttpContent) content).trailingHeaders());
         }
     }
@@ -232,7 +233,10 @@ public class HttpObjectAggregator
         // Set the 'Content-Length' header. If one isn't already set.
         // This is important as HEAD responses will use a 'Content-Length' header which
         // does not match the actual body, but the number of bytes that would be
-        // transmitted if a GET would have been used.
+        // transmitted if a GET would have been used.//设置“Content-Length”标头。如果还没有设置。
+//这很重要，因为HEAD响应将使用一个“Content-Length”标头
+//不匹配实际的主体，而是匹配的字节数
+//如果使用了GET，则进行传输。
         //
         // See rfc2616 14.13 Content-Length
         if (!HttpUtil.isContentLengthSet(aggregated)) {
@@ -245,10 +249,11 @@ public class HttpObjectAggregator
     @Override
     protected void handleOversizedMessage(final ChannelHandlerContext ctx, HttpMessage oversized) throws Exception {
         if (oversized instanceof HttpRequest) {
-            // send back a 413 and close the connection
+            // send back a 413 and close the connection发送回一个413并关闭连接
 
             // If the client started to send data already, close because it's impossible to recover.
-            // If keep-alive is off and 'Expect: 100-continue' is missing, no need to leave the connection open.
+            // If keep-alive is off and 'Expect: 100-continue' is missing, no need to leave the connection open.//如果客户端已经开始发送数据，关闭，因为不可能恢复。
+//如果keepi -alive关闭，“Expect: 100-continue”丢失，则无需打开连接。
             if (oversized instanceof FullHttpMessage ||
                 !HttpUtil.is100ContinueExpected(oversized) && !HttpUtil.isKeepAlive(oversized)) {
                 ChannelFuture future = ctx.writeAndFlush(TOO_LARGE_CLOSE.retainedDuplicate());
@@ -274,7 +279,8 @@ public class HttpObjectAggregator
             }
 
             // If an oversized request was handled properly and the connection is still alive
-            // (i.e. rejected 100-continue). the decoder should prepare to handle a new message.
+            // (i.e. rejected 100-continue). the decoder should prepare to handle a new message.//如果处理过大的请求是正确的，并且连接仍然是活动的
+//(即拒绝100-continue)。解码器应准备处理新消息。
             HttpObjectDecoder decoder = ctx.pipeline().get(HttpObjectDecoder.class);
             if (decoder != null) {
                 decoder.reset();

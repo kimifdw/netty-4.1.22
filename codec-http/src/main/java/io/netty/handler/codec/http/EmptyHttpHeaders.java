@@ -33,7 +33,7 @@ public class EmptyHttpHeaders extends HttpHeaders {
      * @deprecated Use {@link EmptyHttpHeaders#INSTANCE}
      * <p>
      * This is needed to break a cyclic static initialization loop between {@link HttpHeaders} and {@link
-     * EmptyHttpHeaders}.
+     * EmptyHttpHeaders}.这需要打破HttpHeaders和EmptyHttpHeaders之间的循环静态初始化循环。
      */
     @Deprecated
     static EmptyHttpHeaders instance() {
@@ -170,7 +170,7 @@ public class EmptyHttpHeaders extends HttpHeaders {
 
     /**
      * This class is needed to break a cyclic static initialization loop between {@link HttpHeaders} and
-     * {@link EmptyHttpHeaders}.
+     * {@link EmptyHttpHeaders}.需要这个类来打破HttpHeaders和EmptyHttpHeaders之间的循环静态初始化循环。
      */
     @Deprecated
     private static final class InstanceInitializer {

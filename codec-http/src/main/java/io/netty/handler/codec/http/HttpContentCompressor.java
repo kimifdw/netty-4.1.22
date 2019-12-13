@@ -105,7 +105,8 @@ public class HttpContentCompressor extends HttpContentEncoder {
         String contentEncoding = headers.headers().get(HttpHeaderNames.CONTENT_ENCODING);
         if (contentEncoding != null) {
             // Content-Encoding was set, either as something specific or as the IDENTITY encoding
-            // Therefore, we should NOT encode here
+            // Therefore, we should NOT encode here// Content-Encoding被设置为特定的内容编码或标识编码
+//因此，我们不应该在这里编码
             return null;
         }
 

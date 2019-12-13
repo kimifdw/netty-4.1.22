@@ -40,10 +40,11 @@ public class HttpRequestEncoder extends HttpObjectEncoder<HttpRequest> {
     protected void encodeInitialLine(ByteBuf buf, HttpRequest request) throws Exception {
         ByteBufUtil.copy(request.method().asciiName(), buf);
 
+//        获取请求资源路径
         String uri = request.uri();
 
         if (uri.isEmpty()) {
-            // Add " / " as absolute path if uri is not present.
+            // Add " / " as absolute path if uri is not present.如果uri不存在，则添加“/”作为绝对路径。
             // See http://tools.ietf.org/html/rfc2616#section-5.1.2
             ByteBufUtil.writeMediumBE(buf, SPACE_SLASH_AND_SPACE_MEDIUM);
         } else {
@@ -52,7 +53,7 @@ public class HttpRequestEncoder extends HttpObjectEncoder<HttpRequest> {
             int start = uri.indexOf("://");
             if (start != -1 && uri.charAt(0) != SLASH) {
                 start += 3;
-                // Correctly handle query params.
+                // Correctly handle query params.正确处理查询参数。
                 // See https://github.com/netty/netty/issues/2732
                 int index = uri.indexOf(QUESTION_MARK, start);
                 if (index == -1) {

@@ -113,16 +113,16 @@ public class CombinedHttpHeaders extends DefaultHttpHeaders {
 
         @Override
         public CombinedHttpHeadersImpl add(Headers<? extends CharSequence, ? extends CharSequence, ?> headers) {
-            // Override the fast-copy mechanism used by DefaultHeaders
+            // Override the fast-copy mechanism used by DefaultHeaders覆盖默认的快速复制机制
             if (headers == this) {
                 throw new IllegalArgumentException("can't add to itself.");
             }
             if (headers instanceof CombinedHttpHeadersImpl) {
                 if (isEmpty()) {
-                    // Can use the fast underlying copy
+                    // Can use the fast underlying copy可以使用快速的底层拷贝吗
                     addImpl(headers);
                 } else {
-                    // Values are already escaped so don't escape again
+                    // Values are already escaped so don't escape again值已经转义，所以不要再次转义
                     for (Map.Entry<? extends CharSequence, ? extends CharSequence> header : headers) {
                         addEscapedValue(header.getKey(), header.getValue());
                     }

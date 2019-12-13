@@ -51,12 +51,12 @@ public class HttpServerKeepAliveHandler extends ChannelDuplexHandler {
     private static final String MULTIPART_PREFIX = "multipart";
 
     private boolean persistentConnection = true;
-    // Track pending responses to support client pipelining: https://tools.ietf.org/html/rfc7230#section-6.3.2
+    // Track pending responses to support client pipelining: https://tools.ietf.org/html/rfc7230#section-6.3.2跟踪挂起响应以支持客户端管道
     private int pendingResponses;
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        // read message and track if it was keepAlive
+        // read message and track if it was keepAlive读取信息并跟踪它是否保持存活
         if (msg instanceof HttpRequest) {
             final HttpRequest request = (HttpRequest) msg;
             if (persistentConnection) {
@@ -69,17 +69,17 @@ public class HttpServerKeepAliveHandler extends ChannelDuplexHandler {
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        // modify message on way out to add headers if needed
+        // modify message on way out to add headers if needed修改消息的方式，如果需要添加标题
         if (msg instanceof HttpResponse) {
             final HttpResponse response = (HttpResponse) msg;
             trackResponse(response);
-            // Assume the response writer knows if they can persist or not and sets isKeepAlive on the response
+            // Assume the response writer knows if they can persist or not and sets isKeepAlive on the response假设响应写入器知道它们是否可以持久化，并将isKeepAlive设置为响应
             if (!isKeepAlive(response) || !isSelfDefinedMessageLength(response)) {
-                // No longer keep alive as the client can't tell when the message is done unless we close connection
+                // No longer keep alive as the client can't tell when the message is done unless we close connection不再保持活动，因为客户端不能告诉什么时候完成的消息，除非我们关闭连接
                 pendingResponses = 0;
                 persistentConnection = false;
             }
-            // Server might think it can keep connection alive, but we should fix response header if we know better
+            // Server might think it can keep connection alive, but we should fix response header if we know better服务器可能认为它可以保持连接活动，但我们应该修复响应头，如果我们知道更多
             if (!shouldKeepAlive()) {
                 setKeepAlive(response, false);
             }

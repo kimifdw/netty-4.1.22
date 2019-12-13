@@ -46,11 +46,11 @@ public class HttpResponseEncoder extends HttpObjectEncoder<HttpResponse> {
             if (status.codeClass() == HttpStatusClass.INFORMATIONAL ||
                     status.code() == HttpResponseStatus.NO_CONTENT.code()) {
 
-                // Stripping Content-Length:
+                // Stripping Content-Length:剥离内容长度:
                 // See https://tools.ietf.org/html/rfc7230#section-3.3.2
                 msg.headers().remove(HttpHeaderNames.CONTENT_LENGTH);
 
-                // Stripping Transfer-Encoding:
+                // Stripping Transfer-Encoding:剥离传输编码:
                 // See https://tools.ietf.org/html/rfc7230#section-3.3.1
                 msg.headers().remove(HttpHeaderNames.TRANSFER_ENCODING);
             }
@@ -59,7 +59,7 @@ public class HttpResponseEncoder extends HttpObjectEncoder<HttpResponse> {
 
     @Override
     protected boolean isContentAlwaysEmpty(HttpResponse msg) {
-        // Correctly handle special cases as stated in:
+        // Correctly handle special cases as stated in:正确处理特殊情况，如:
         // https://tools.ietf.org/html/rfc7230#section-3.3.3
         HttpResponseStatus status = msg.status();
 
@@ -67,7 +67,8 @@ public class HttpResponseEncoder extends HttpObjectEncoder<HttpResponse> {
 
             if (status.code() == HttpResponseStatus.SWITCHING_PROTOCOLS.code()) {
                 // We need special handling for WebSockets version 00 as it will include an body.
-                // Fortunally this version should not really be used in the wild very often.
+                // Fortunally this version should not really be used in the wild very often.//我们需要特别处理WebSockets版本00，因为它将包括一个主体。
+//很幸运，这个版本不应该经常在野外使用。
                 // See https://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-00#section-1.2
                 return msg.headers().contains(HttpHeaderNames.SEC_WEBSOCKET_VERSION);
             }

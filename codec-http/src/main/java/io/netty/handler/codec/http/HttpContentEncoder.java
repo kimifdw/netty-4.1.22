@@ -104,10 +104,11 @@ public abstract class HttpContentEncoder extends MessageToMessageCodec<HttpReque
                 final CharSequence acceptEncoding;
                 if (code == CONTINUE_CODE) {
                     // We need to not poll the encoding when response with CONTINUE as another response will follow
-                    // for the issued request. See https://github.com/netty/netty/issues/4079
+                    // for the issued request. See https://github.com/netty/netty/issues/4079//我们不需要轮询编码时，响应与继续，因为另一个响应将跟进
+//对于发出的请求。
                     acceptEncoding = null;
                 } else {
-                    // Get the list of encodings accepted by the peer.
+                    // Get the list of encodings accepted by the peer.获取对等方接受的编码列表。
                     acceptEncoding = acceptEncodingQueue.poll();
                     if (acceptEncoding == null) {
                         throw new IllegalStateException("cannot send more responses than requests");
@@ -117,13 +118,18 @@ public abstract class HttpContentEncoder extends MessageToMessageCodec<HttpReque
                 /*
                  * per rfc2616 4.3 Message Body
                  * All 1xx (informational), 204 (no content), and 304 (not modified) responses MUST NOT include a
-                 * message-body. All other responses do include a message-body, although it MAY be of zero length.
+                 * message-body. All other responses do include a message-body, although it MAY be of zero length.*根据rfc2616 4.3消息体
+*所有1xx(信息)、204(无内容)和304(未修改)响应都不能包含a
+*消息体。所有其他响应都包含一个消息体，尽管它的长度可能为零。
                  *
                  * 9.4 HEAD
                  * The HEAD method is identical to GET except that the server MUST NOT return a message-body
                  * in the response.
                  *
-                 * Also we should pass through HTTP/1.0 as transfer-encoding: chunked is not supported.
+                 * Also we should pass through HTTP/1.0 as transfer-encoding: chunked is not supported.HEAD方法与GET方法相同，只是服务器不能返回消息体
+*在回应中。
+*
+*我们也应该通过HTTP/1.0作为传输编码:块是不支持的。
                  *
                  * See https://github.com/netty/netty/issues/5382
                  */
@@ -132,30 +138,30 @@ public abstract class HttpContentEncoder extends MessageToMessageCodec<HttpReque
                         out.add(ReferenceCountUtil.retain(res));
                     } else {
                         out.add(res);
-                        // Pass through all following contents.
+                        // Pass through all following contents.浏览以下所有内容。
                         state = State.PASS_THROUGH;
                     }
                     break;
                 }
 
                 if (isFull) {
-                    // Pass through the full response with empty content and continue waiting for the next resp.
+                    // Pass through the full response with empty content and continue waiting for the next resp.传递包含空内容的完整响应，并继续等待下一个resp。
                     if (!((ByteBufHolder) res).content().isReadable()) {
                         out.add(ReferenceCountUtil.retain(res));
                         break;
                     }
                 }
 
-                // Prepare to encode the content.
+                // Prepare to encode the content.准备对内容进行编码。
                 final Result result = beginEncode(res, acceptEncoding.toString());
 
-                // If unable to encode, pass through.
+                // If unable to encode, pass through.如果无法编码，则通过。
                 if (result == null) {
                     if (isFull) {
                         out.add(ReferenceCountUtil.retain(res));
                     } else {
                         out.add(res);
-                        // Pass through all following contents.
+                        // Pass through all following contents.浏览以下所有内容。
                         state = State.PASS_THROUGH;
                     }
                     break;
@@ -164,12 +170,13 @@ public abstract class HttpContentEncoder extends MessageToMessageCodec<HttpReque
                 encoder = result.contentEncoder();
 
                 // Encode the content and remove or replace the existing headers
-                // so that the message looks like a decoded message.
+                // so that the message looks like a decoded message.//对内容进行编码，并删除或替换现有的标头
+//                使消息看起来像解码的消息。
                 res.headers().set(HttpHeaderNames.CONTENT_ENCODING, result.targetContentEncoding());
 
-                // Output the rewritten response.
+                // Output the rewritten response.输出重写的响应。
                 if (isFull) {
-                    // Convert full message into unfull one.
+                    // Convert full message into unfull one.将完整的消息转换为不完整的消息。
                     HttpResponse newRes = new DefaultHttpResponse(res.protocolVersion(), res.status());
                     newRes.headers().set(res.headers());
                     out.add(newRes);
@@ -178,18 +185,18 @@ public abstract class HttpContentEncoder extends MessageToMessageCodec<HttpReque
                     encodeFullResponse(newRes, (HttpContent) res, out);
                     break;
                 } else {
-                    // Make the response chunked to simplify content transformation.
+                    // Make the response chunked to simplify content transformation.将响应分块以简化内容转换。
                     res.headers().remove(HttpHeaderNames.CONTENT_LENGTH);
                     res.headers().set(HttpHeaderNames.TRANSFER_ENCODING, HttpHeaderValues.CHUNKED);
 
                     out.add(res);
                     state = State.AWAIT_CONTENT;
                     if (!(msg instanceof HttpContent)) {
-                        // only break out the switch statement if we have not content to process
+                        // only break out the switch statement if we have not content to process只有当我们不满足于处理时，才中断switch语句
                         // See https://github.com/netty/netty/issues/2006
                         break;
                     }
-                    // Fall through to encode the content
+                    // Fall through to encode the content对内容进行编码
                 }
             }
             case AWAIT_CONTENT: {
@@ -202,7 +209,7 @@ public abstract class HttpContentEncoder extends MessageToMessageCodec<HttpReque
             case PASS_THROUGH: {
                 ensureContent(msg);
                 out.add(ReferenceCountUtil.retain(msg));
-                // Passed through all following contents of the current response.
+                // Passed through all following contents of the current response.遍历当前响应的所有以下内容。
                 if (msg instanceof LastHttpContent) {
                     state = State.AWAIT_HEADERS;
                 }
@@ -216,7 +223,7 @@ public abstract class HttpContentEncoder extends MessageToMessageCodec<HttpReque
         encodeContent(content, out);
 
         if (HttpUtil.isContentLengthSet(newRes)) {
-            // adjust the content-length header
+            // adjust the content-length header调整内容长度标题
             int messageSize = 0;
             for (int i = existingMessages; i < out.size(); i++) {
                 Object item = out.get(i);
@@ -262,7 +269,8 @@ public abstract class HttpContentEncoder extends MessageToMessageCodec<HttpReque
             LastHttpContent last = (LastHttpContent) c;
 
             // Generate an additional chunk if the decoder produced
-            // the last product on closure,
+            // the last product on closure,//如果解码器产生，则生成一个附加块
+//关闭的最后一个产品，
             HttpHeaders headers = last.trailingHeaders();
             if (headers.isEmpty()) {
                 out.add(LastHttpContent.EMPTY_LAST_CONTENT);
@@ -304,7 +312,7 @@ public abstract class HttpContentEncoder extends MessageToMessageCodec<HttpReque
 
     private void cleanup() {
         if (encoder != null) {
-            // Clean-up the previous encoder if not cleaned up correctly.
+            // Clean-up the previous encoder if not cleaned up correctly.清理前一个编码器，如果没有正确清理。
             encoder.finishAndReleaseAll();
             encoder = null;
         }
@@ -315,13 +323,14 @@ public abstract class HttpContentEncoder extends MessageToMessageCodec<HttpReque
             cleanup();
         } catch (Throwable cause) {
             // If cleanup throws any error we need to propagate it through the pipeline
-            // so we don't fail to propagate pipeline events.
+            // so we don't fail to propagate pipeline events.//如果清理抛出任何错误，我们需要通过管道传播它
+//            这样我们就不会传播管道事件失败。
             ctx.fireExceptionCaught(cause);
         }
     }
 
     private void encode(ByteBuf in, List<Object> out) {
-        // call retain here as it will call release after its written to the channel
+        // call retain here as it will call release after its written to the channel在这里调用retain，因为它将在写入通道后调用release
         encoder.writeOutbound(in.retain());
         fetchEncoderOutput(out);
     }

@@ -84,7 +84,7 @@ public class HttpServerExpectContinueHandler extends ChannelInboundHandlerAdapte
                 HttpResponse accept = acceptMessage(req);
 
                 if (accept == null) {
-                    // the expectation failed so we refuse the request.
+                    // the expectation failed so we refuse the request.期望落空了，所以我们拒绝了这个要求。
                     HttpResponse rejection = rejectResponse(req);
                     ReferenceCountUtil.release(msg);
                     ctx.writeAndFlush(rejection).addListener(ChannelFutureListener.CLOSE_ON_FAILURE);

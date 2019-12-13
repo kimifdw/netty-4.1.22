@@ -93,7 +93,7 @@ public abstract class HttpObjectEncoder<H extends HttpMessage> extends MessageTo
             H m = (H) msg;
 
             buf = ctx.alloc().buffer((int) headersEncodedSizeAccumulator);
-            // Encode the message.
+            // Encode the message.模板方法
             encodeInitialLine(buf, m);
             state = isContentAlwaysEmpty(m) ? ST_CONTENT_ALWAYS_EMPTY :
                     HttpUtil.isTransferEncodingChunked(m) ? ST_CONTENT_CHUNK : ST_CONTENT_NON_CHUNK;
@@ -107,7 +107,7 @@ public abstract class HttpObjectEncoder<H extends HttpMessage> extends MessageTo
                                             HEADERS_WEIGHT_HISTORICAL * headersEncodedSizeAccumulator;
         }
 
-        // Bypass the encoder in case of an empty buffer, so that the following idiom works:
+        // Bypass the encoder in case of an empty buffer, so that the following idiom works:绕过编码器的情况下，一个空的缓冲区
         //
         //     ch.write(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
         //
@@ -128,7 +128,7 @@ public abstract class HttpObjectEncoder<H extends HttpMessage> extends MessageTo
                     final long contentLength = contentLength(msg);
                     if (contentLength > 0) {
                         if (buf != null && buf.writableBytes() >= contentLength && msg instanceof HttpContent) {
-                            // merge into other buffer for performance reasons
+                            // merge into other buffer for performance reasons出于性能原因，合并到其他缓冲区
                             buf.writeBytes(((HttpContent) msg).content());
                             out.add(buf);
                         } else {
@@ -149,7 +149,7 @@ public abstract class HttpObjectEncoder<H extends HttpMessage> extends MessageTo
                 case ST_CONTENT_ALWAYS_EMPTY:
 
                     if (buf != null) {
-                        // We allocated a buffer so add it now.
+                        // We allocated a buffer so add it now.我们分配了一个缓冲区，所以现在添加它。
                         out.add(buf);
                     } else {
                         // Need to produce some output otherwise an
@@ -158,14 +158,20 @@ public abstract class HttpObjectEncoder<H extends HttpMessage> extends MessageTo
                         // propagated as the caller of the encode(...) method will release the original
                         // buffer.
                         // Writing an empty buffer will not actually write anything on the wire, so if there is a user
-                        // error with msg it will not be visible externally
+                        // error with msg it will not be visible externally//需要产生一些输出，否则
+// IllegalStateException将被抛出，因为我们没有写任何东西
+//                        只写一个EMPTY_BUFFER是可以的，就像有引用计数问题一样
+//作为encode(…)方法的调用者传播，将释放原始的
+                                //缓冲区。
+//写一个空缓冲区实际上不会写任何东西，所以如果有用户的话
+//                        它将不可见的外部
                         out.add(Unpooled.EMPTY_BUFFER);
                     }
 
                     break;
                 case ST_CONTENT_CHUNK:
                     if (buf != null) {
-                        // We allocated a buffer so add it now.
+                        // We allocated a buffer so add it now.我们分配了一个缓冲区，所以现在添加它。
                         out.add(buf);
                     }
                     encodeChunkedContent(ctx, msg, contentLength(msg), out);
@@ -220,7 +226,8 @@ public abstract class HttpObjectEncoder<H extends HttpMessage> extends MessageTo
             }
         } else if (contentLength == 0) {
             // Need to produce some output otherwise an
-            // IllegalStateException will be thrown
+            // IllegalStateException will be thrown//需要产生一些输出，否则
+//            将抛出IllegalStateException
             out.add(encodeAndRetain(msg));
         }
     }

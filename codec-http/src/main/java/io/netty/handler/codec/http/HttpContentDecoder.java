@@ -61,7 +61,7 @@ public abstract class HttpContentDecoder extends MessageToMessageDecoder<HttpObj
             if (!(msg instanceof LastHttpContent)) {
                 continueResponse = true;
             }
-            // 100-continue response must be passed through.
+            // 100-continue response must be passed through.必须通过100-continue响应。
             out.add(ReferenceCountUtil.retain(msg));
             return;
         }
@@ -70,7 +70,7 @@ public abstract class HttpContentDecoder extends MessageToMessageDecoder<HttpObj
             if (msg instanceof LastHttpContent) {
                 continueResponse = false;
             }
-            // 100-continue response must be passed through.
+            // 100-continue response must be passed through.必须通过100-continue响应。
             out.add(ReferenceCountUtil.retain(msg));
             return;
         }
@@ -216,7 +216,7 @@ public abstract class HttpContentDecoder extends MessageToMessageDecoder<HttpObj
 
     private void cleanup() {
         if (decoder != null) {
-            // Clean-up the previous decoder if not cleaned up correctly.
+            // Clean-up the previous decoder if not cleaned up correctly.清理前一个解码器，如果没有正确清理。
             decoder.finishAndReleaseAll();
             decoder = null;
         }
@@ -227,13 +227,14 @@ public abstract class HttpContentDecoder extends MessageToMessageDecoder<HttpObj
             cleanup();
         } catch (Throwable cause) {
             // If cleanup throws any error we need to propagate it through the pipeline
-            // so we don't fail to propagate pipeline events.
+            // so we don't fail to propagate pipeline events.//如果清理抛出任何错误，我们需要通过管道传播它
+//            这样我们就不会传播管道事件失败。
             ctx.fireExceptionCaught(cause);
         }
     }
 
     private void decode(ByteBuf in, List<Object> out) {
-        // call retain here as it will call release after its written to the channel
+        // call retain here as it will call release after its written to the channel在这里调用retain，因为它将在写入通道后调用release
         decoder.writeInbound(in.retain());
         fetchDecoderOutput(out);
     }

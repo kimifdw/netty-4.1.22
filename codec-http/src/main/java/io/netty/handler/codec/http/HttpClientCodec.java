@@ -169,9 +169,9 @@ public final class HttpClientCodec extends CombinedChannelDuplexHandler<HttpResp
             super.encode(ctx, msg, out);
 
             if (failOnMissingResponse && !done) {
-                // check if the request is chunked if so do not increment
+                // check if the request is chunked if so do not increment检查请求是否分块，如果是，则不增加
                 if (msg instanceof LastHttpContent) {
-                    // increment as its the last chunk
+                    // increment as its the last chunk增量作为最后一个块
                     requestResponseCounter.incrementAndGet();
                 }
             }
@@ -194,7 +194,7 @@ public final class HttpClientCodec extends CombinedChannelDuplexHandler<HttpResp
             if (done) {
                 int readable = actualReadableBytes();
                 if (readable == 0) {
-                    // if non is readable just return null
+                    // if non is readable just return null如果不可读，则返回null
                     // https://github.com/netty/netty/issues/1159
                     return;
                 }
@@ -216,7 +216,7 @@ public final class HttpClientCodec extends CombinedChannelDuplexHandler<HttpResp
                 return;
             }
 
-            // check if it's an Header and its transfer encoding is not chunked.
+            // check if it's an Header and its transfer encoding is not chunked.检查它是否是一个头，它的传输编码没有分块。
             if (msg instanceof LastHttpContent) {
                 requestResponseCounter.decrementAndGet();
             }
@@ -227,12 +227,14 @@ public final class HttpClientCodec extends CombinedChannelDuplexHandler<HttpResp
             final int statusCode = ((HttpResponse) msg).status().code();
             if (statusCode == 100 || statusCode == 101) {
                 // 100-continue and 101 switching protocols response should be excluded from paired comparison.
-                // Just delegate to super method which has all the needed handling.
+                // Just delegate to super method which has all the needed handling.100-continue和101交换协议响应应排除在配对比较之外。
+//只是委托给超级方法，它有所有需要的处理。
                 return super.isContentAlwaysEmpty(msg);
             }
 
             // Get the getMethod of the HTTP request that corresponds to the
-            // current response.
+            // current response.//获取对应于。的HTTP请求的getMethod
+//当前响应。
             HttpMethod method = queue.poll();
 
             char firstChar = method.name().charAt(0);
@@ -241,7 +243,9 @@ public final class HttpClientCodec extends CombinedChannelDuplexHandler<HttpResp
                 // According to 4.3, RFC2616:
                 // All responses to the HEAD request method MUST NOT include a
                 // message-body, even though the presence of entity-header fields
-                // might lead one to believe they do.
+                // might lead one to believe they do.//所有对HEAD请求方法的响应都不能包含a
+//消息体，即使存在实体头字段
+//可能会使人相信他们是这样做的。
                 if (HttpMethod.HEAD.equals(method)) {
                     return true;
 
@@ -254,17 +258,27 @@ public final class HttpClientCodec extends CombinedChannelDuplexHandler<HttpResp
                     //
                     //// Interesting edge case:
                     //// Some poorly implemented servers will send a zero-byte
-                    //// chunk if Transfer-Encoding of the response is 'chunked'.
+                    //// chunk if Transfer-Encoding of the response is 'chunked'.//为了绕过服务器，插入了以下代码
+//行为不正确。它已被注释掉了
+//因为它不能与运行良好的服务器一起工作。
+//请注意，即使“传输编码:分块”
+//                    header存在于HEAD响应中，响应应该存在
+//绝对没有内容。
+//
+////有趣的边缘案例:
+////一些实现不佳的服务器会发送一个零字节
+//// chunk如果响应的传输编码是“chunked”。
                     ////
                     //// return !msg.isChunked();
                 }
                 break;
             case 'C':
-                // Successful CONNECT request results in a response with empty body.
+                // Successful CONNECT request results in a response with empty body.成功的连接请求将导致响应为空体。
                 if (statusCode == 200) {
                     if (HttpMethod.CONNECT.equals(method)) {
                         // Proxy connection established - Parse HTTP only if configured by parseHttpAfterConnectRequest,
-                        // else pass through.
+                        // else pass through.//建立代理连接-解析HTTP只有在配置parseHttpAfterConnectRequest，
+//否则请通过。
                         if (!parseHttpAfterConnectRequest) {
                             done = true;
                             queue.clear();

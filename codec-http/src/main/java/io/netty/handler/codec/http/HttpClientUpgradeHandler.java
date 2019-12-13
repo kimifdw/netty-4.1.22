@@ -177,9 +177,9 @@ public class HttpClientUpgradeHandler extends HttpObjectAggregator implements Ch
         // Continue writing the request.
         ctx.write(msg, promise);
 
-        // Notify that the upgrade request was issued.
+        // Notify that the upgrade request was issued.通知已发出升级请求。
         ctx.fireUserEventTriggered(UpgradeEvent.UPGRADE_ISSUED);
-        // Now we wait for the next HTTP response to see if we switch protocols.
+        // Now we wait for the next HTTP response to see if we switch protocols.现在我们等待下一个HTTP响应，看看是否切换协议。
     }
 
     @Override
@@ -202,7 +202,10 @@ public class HttpClientUpgradeHandler extends HttpObjectAggregator implements Ch
                     // The server does not support the requested protocol, just remove this handler
                     // and continue processing HTTP.
                     // NOTE: not releasing the response since we're letting it propagate to the
-                    // next handler.
+                    // next handler.//服务器不支持请求的协议，删除这个处理程序
+//并继续处理HTTP。
+//注意:不释放响应，因为我们让它传播到
+//下一个处理程序。
                     ctx.fireUserEventTriggered(UpgradeEvent.UPGRADE_REJECTED);
                     removeThisHandler(ctx);
                     ctx.fireChannelRead(msg);
@@ -212,14 +215,14 @@ public class HttpClientUpgradeHandler extends HttpObjectAggregator implements Ch
 
             if (msg instanceof FullHttpResponse) {
                 response = (FullHttpResponse) msg;
-                // Need to retain since the base class will release after returning from this method.
+                // Need to retain since the base class will release after returning from this method.需要保留，因为基类将在从这个方法返回后释放。
                 response.retain();
                 out.add(response);
             } else {
-                // Call the base class to handle the aggregation of the full request.
+                // Call the base class to handle the aggregation of the full request.调用基类来处理完整请求的聚合。
                 super.decode(ctx, msg, out);
                 if (out.isEmpty()) {
-                    // The full request hasn't been created yet, still awaiting more data.
+                    // The full request hasn't been created yet, still awaiting more data.完整的请求尚未创建，仍在等待更多的数据。
                     return;
                 }
 
@@ -237,15 +240,17 @@ public class HttpClientUpgradeHandler extends HttpObjectAggregator implements Ch
             sourceCodec.prepareUpgradeFrom(ctx);
             upgradeCodec.upgradeTo(ctx, response);
 
-            // Notify that the upgrade to the new protocol completed successfully.
+            // Notify that the upgrade to the new protocol completed successfully.通知新协议的升级成功完成。
             ctx.fireUserEventTriggered(UpgradeEvent.UPGRADE_SUCCESSFUL);
 
             // We guarantee UPGRADE_SUCCESSFUL event will be arrived at the next handler
-            // before http2 setting frame and http response.
+            // before http2 setting frame and http response.//我们保证UPGRADE_SUCCESSFUL事件会在下一个处理程序到达
+//在http2设置帧和http响应之前。
             sourceCodec.upgradeFrom(ctx);
 
             // We switched protocols, so we're done with the upgrade response.
-            // Release it and clear it from the output.
+            // Release it and clear it from the output.//我们交换了协议，所以我们完成了升级响应。
+//释放它并从输出中清除它。
             response.release();
             out.clear();
             removeThisHandler(ctx);
@@ -264,14 +269,14 @@ public class HttpClientUpgradeHandler extends HttpObjectAggregator implements Ch
      * Adds all upgrade request headers necessary for an upgrade to the supported protocols.将升级所需的所有升级请求标头添加到支持的协议。
      */
     private void setUpgradeRequestHeaders(ChannelHandlerContext ctx, HttpRequest request) {
-        // Set the UPGRADE header on the request.
+        // Set the UPGRADE header on the request.设置请求的升级标题。
         request.headers().set(HttpHeaderNames.UPGRADE, upgradeCodec.protocol());
 
-        // Add all protocol-specific headers to the request.
+        // Add all protocol-specific headers to the request.将所有协议特定的标头添加到请求中。
         Set<CharSequence> connectionParts = new LinkedHashSet<CharSequence>(2);
         connectionParts.addAll(upgradeCodec.setUpgradeHeaders(ctx, request));
 
-        // Set the CONNECTION header from the set of all protocol-specific headers that were added.
+        // Set the CONNECTION header from the set of all protocol-specific headers that were added.从所添加的所有协议特定的标头集设置连接标头。
         StringBuilder builder = new StringBuilder();
         for (CharSequence part : connectionParts) {
             builder.append(part);

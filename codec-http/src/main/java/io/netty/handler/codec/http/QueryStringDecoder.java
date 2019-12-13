@@ -113,7 +113,7 @@ public class QueryStringDecoder {
         this.charset = checkNotNull(charset, "charset");
         this.maxParams = checkPositive(maxParams, "maxParams");
 
-        // `-1` means that path end index will be initialized lazily
+        // `-1` means that path end index will be initialized lazily“-1”表示路径结束索引将延迟初始化
         pathEndIdx = hasPath ? -1 : 0;
     }
 
@@ -143,7 +143,7 @@ public class QueryStringDecoder {
             rawPath = EMPTY_STRING;
         }
         String rawQuery = uri.getRawQuery();
-        // Also take care of cut of things like "http://localhost"
+        // Also take care of cut of things like "http://localhost"还要注意“http://localhost”之类的内容
         this.uri = rawQuery == null? rawPath : rawPath + '?' + rawQuery;
         this.charset = checkNotNull(charset, "charset");
         this.maxParams = checkPositive(maxParams, "maxParams");
@@ -333,7 +333,7 @@ public class QueryStringDecoder {
 
         CharsetDecoder decoder = CharsetUtil.decoder(charset);
 
-        // Each encoded byte takes 3 characters (e.g. "%20")
+        // Each encoded byte takes 3 characters (e.g. "%20")每个已编码的字节需要3个字符(例如:“% 20”)
         int decodedCapacity = (toExcluded - firstEscaped) / 3;
         ByteBuffer byteBuf = ByteBuffer.allocate(decodedCapacity);
         CharBuffer charBuf = CharBuffer.allocate(decodedCapacity);

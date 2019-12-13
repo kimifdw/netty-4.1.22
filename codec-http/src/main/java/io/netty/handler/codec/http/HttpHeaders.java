@@ -513,7 +513,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      * Returns {@code true} if and only if the connection can remain open and
      * thus 'kept alive'.  This methods respects the value of the
      * {@code "Connection"} header first and then the return value of
-     * {@link HttpVersion#isKeepAliveDefault()}.
+     * {@link HttpVersion#isKeepAliveDefault()}.不赞成使用HttpUtil.isKeepAlive(HttpMessage)。当且仅当连接可以保持打开并因此“保持活动”时，返回true。这个方法首先考虑“Connection”头的值，然后是HttpVersion.isKeepAliveDefault()的返回值。
      */
     @Deprecated
     public static boolean isKeepAlive(HttpMessage message) {
@@ -539,7 +539,13 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      *     <li>set to {@code "keep-alive"} if {@code keepAlive} is {@code true}.</li>
      *     <li>remove otherwise.</li>
      *     </ul></li>
-     * </ul>
+     * </ul>不赞成使用HttpUtil。setKeepAlive (HttpMessage,布尔型)。根据指定消息的协议版本设置“连接”标头的值。根据HttpVersion.isKeepAliveDefault()所指定的消息协议版本的默认keep alive模式，此getMethod设置或删除“Connection”标头。
+    如果连接在默认情况下保持为活动状态:
+    如果keepAlive为假，则设置为“关闭”。
+    否则删除。
+    如果连接默认关闭:
+    如果keepAlive为真，则设置为“keepAlive”。
+    否则删除。
      */
     @Deprecated
     public static void setKeepAlive(HttpMessage message, boolean keepAlive) {
@@ -559,7 +565,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      *
      * Returns the header value with the specified header name.  If there are
      * more than one header value for the specified header name, the first
-     * value is returned.
+     * value is returned.不赞成使用get(CharSequence)。返回具有指定标题名称的标题值。如果指定的标题名称有多个标题值，则返回第一个值。
      *
      * @return the header value or {@code null} if there is no such header
      */
@@ -586,7 +592,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      * value is returned.
      *
      * @return the header value or the {@code defaultValue} if there is no such
-     *         header
+     *         header不赞成使用get(CharSequence、String)。返回具有指定标题名称的标题值。如果指定的标题名称有多个标题值，则返回第一个值。
      */
     @Deprecated
     public static String getHeader(HttpMessage message, CharSequence name, String defaultValue) {
@@ -611,7 +617,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      * If the specified value is not a {@link String}, it is converted into a
      * {@link String} by {@link Object#toString()}, except for {@link Date}
      * and {@link Calendar} which are formatted to the date format defined in
-     * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3.1">RFC2616</a>.
+     * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3.1">RFC2616</a>.不推荐使用set(CharSequence, Object)。设置具有指定名称和值的新标头。如果存在具有相同名称的现有标头，则删除现有标头。如果指定的值不是字符串，则由Object.toString()将其转换为字符串，但日期和日历将按照RFC2616中定义的日期格式进行格式化。
      */
     @Deprecated
     public static void setHeader(HttpMessage message, CharSequence name, Object value) {
@@ -642,7 +648,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      *     }
      *     addHeader(message, name, v);
      * }
-     * </pre>
+     * </pre>不推荐使用set(CharSequence, Iterable)。设置具有指定名称和值的新标头。如果存在具有相同名称的现有标头，则删除现有标头。
      */
     @Deprecated
     public static void setHeader(HttpMessage message, CharSequence name, Iterable<?> values) {
@@ -666,7 +672,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      * If the specified value is not a {@link String}, it is converted into a
      * {@link String} by {@link Object#toString()}, except for {@link Date}
      * and {@link Calendar} which are formatted to the date format defined in
-     * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3.1">RFC2616</a>.
+     * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3.1">RFC2616</a>.不推荐使用add(CharSequence, Object)。添加具有指定名称和值的新标头。如果指定的值不是字符串，则由Object.toString()将其转换为字符串，但日期和日历将按照RFC2616中定义的日期格式进行格式化。
      */
     @Deprecated
     public static void addHeader(HttpMessage message, CharSequence name, Object value) {
@@ -965,7 +971,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      *
      * @throws NumberFormatException
      *         if the message does not have the {@code "Content-Length"} header
-     *         or its value is not a number
+     *         or its value is not a number不赞成使用HttpUtil.getContentLength(HttpMessage)。返回内容的长度。请注意，这个值不是从HttpContent.content()检索的，而是从“Content-Length”报头检索的，因此它们彼此独立。
      */
     @Deprecated
     public static long getContentLength(HttpMessage message) {
@@ -978,7 +984,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      * Returns the length of the content.  Please note that this value is
      * not retrieved from {@link HttpContent#content()} but from the
      * {@code "Content-Length"} header, and thus they are independent from each
-     * other.
+     * other.不赞成使用HttpUtil。getContentLength (HttpMessage长)。返回内容的长度。请注意，这个值不是从HttpContent.content()检索的，而是从“Content-Length”报头检索的，因此它们彼此独立。
      *
      * @return the content length or {@code defaultValue} if this message does
      *         not have the {@code "Content-Length"} header or its value is not
@@ -1011,7 +1017,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      * @deprecated Use {@link #get(CharSequence, String)} instead.
      *
      * Returns the value of the {@code "Host"} header.  If there is no such
-     * header, the {@code defaultValue} is returned.
+     * header, the {@code defaultValue} is returned.不赞成使用get(CharSequence、String)。返回“Host”报头的值。如果没有这样的标头，则返回defaultValue。
      */
     @Deprecated
     public static String getHost(HttpMessage message, String defaultValue) {
@@ -1077,7 +1083,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      * @deprecated Use {@link HttpUtil#is100ContinueExpected(HttpMessage)} instead.
      *
      * Returns {@code true} if and only if the specified message contains the
-     * {@code "Expect: 100-continue"} header.
+     * {@code "Expect: 100-continue"} header.不赞成使用HttpUtil.is100ContinueExpected(HttpMessage)。当且仅当指定的消息包含“Expect: 100-continue”报头时，返回true。
      */
     @Deprecated
     public static boolean is100ContinueExpected(HttpMessage message) {
@@ -1089,7 +1095,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      *
      * Sets the {@code "Expect: 100-continue"} header to the specified message.
      * If there is any existing {@code "Expect"} header, they are replaced with
-     * the new one.
+     * the new one.不赞成使用HttpUtil。set100ContinueExpected (HttpMessage,布尔型)。将“Expect: 100-continue”标头设置为指定的消息。如果存在任何现有的“Expect”标头，则将它们替换为新的标头
      */
     @Deprecated
     public static void set100ContinueExpected(HttpMessage message) {
@@ -1103,7 +1109,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      * specified message.  If {@code set} is {@code true},
      * the {@code "Expect: 100-continue"} header is set and all other previous
      * {@code "Expect"} headers are removed.  Otherwise, all {@code "Expect"}
-     * headers are removed completely.
+     * headers are removed completely.不赞成使用HttpUtil。set100ContinueExpected (HttpMessage,布尔型)。从指定的消息中设置或删除“Expect: 100-continue”标头。如果set为真，则设置“Expect: 100-continue”标头，并删除所有其他以前的“Expect”标头。否则，所有“Expect”标头将被完全删除。
      */
     @Deprecated
     public static void set100ContinueExpected(HttpMessage message, boolean set) {
@@ -1113,7 +1119,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
     /**
      * @deprecated Use {@link HttpUtil#isTransferEncodingChunked(HttpMessage)} instead.
      *
-     * Checks to see if the transfer encoding in a specified {@link HttpMessage} is chunked
+     * Checks to see if the transfer encoding in a specified {@link HttpMessage} is chunked不赞成使用HttpUtil.isTransferEncodingChunked(HttpMessage)。检查指定HttpMessage中的传输编码是否分块
      *
      * @param message The message to check
      * @return True if transfer encoding is chunked, otherwise false
@@ -1168,7 +1174,8 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      * @deprecated Use {@link AsciiString} instead.
      * <p>
      * Create a new {@link CharSequence} which is optimized for reuse as {@link HttpHeaders} name or value.
-     * So if you have a Header name or value that you want to reuse you should make use of this.
+     * So if you have a Header name or value that you want to reuse you should make use of this.不推荐使用AsciiString。
+    创建一个新的CharSequence，它经过优化可以重用为HttpHeaders名称或值。如果你有一个你想要重用的标题名或值，你应该利用这个。
      */
     @Deprecated
     public static CharSequence newEntity(String name) {
@@ -1196,7 +1203,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
 
     /**
      * Returns the value of a header with the specified name.  If there are
-     * more than one values for the specified name, the first value is returned.
+     * more than one values for the specified name, the first value is returned.返回具有指定名称的标头的值。如果指定名称有多个值，则返回第一个值。
      *
      * @param name The name of the header to search
      * @return The first header value or {@code defaultValue} if there is no such header
@@ -1211,7 +1218,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
 
     /**
      * Returns the integer value of a header with the specified name. If there are more than one values for the
-     * specified name, the first value is returned.
+     * specified name, the first value is returned.返回具有指定名称的标题的整数值。如果指定名称有多个值，则返回第一个值。
      *
      * @param name the name of the header to search
      * @return the first header value if the header is found and its value is an integer. {@code null} if there's no
@@ -1221,7 +1228,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
 
     /**
      * Returns the integer value of a header with the specified name. If there are more than one values for the
-     * specified name, the first value is returned.
+     * specified name, the first value is returned.返回具有指定名称的标题的整数值。如果指定名称有多个值，则返回第一个值。
      *
      * @param name the name of the header to search
      * @param defaultValue the default value
@@ -1232,7 +1239,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
 
     /**
      * Returns the short value of a header with the specified name. If there are more than one values for the
-     * specified name, the first value is returned.
+     * specified name, the first value is returned.返回具有指定名称的标头的短值。如果指定名称有多个值，则返回第一个值。
      *
      * @param name the name of the header to search
      * @return the first header value if the header is found and its value is a short. {@code null} if there's no
@@ -1242,7 +1249,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
 
     /**
      * Returns the short value of a header with the specified name. If there are more than one values for the
-     * specified name, the first value is returned.
+     * specified name, the first value is returned.返回具有指定名称的标头的短值。如果指定名称有多个值，则返回第一个值。
      *
      * @param name the name of the header to search
      * @param defaultValue the default value
@@ -1294,6 +1301,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
      * returned {@link List} will not affect the state of this object.  If you intend to enumerate over the header
      * entries only, use {@link #iterator()} instead, which has much less overhead.
      * @see #iteratorCharSequence()
+     * 返回包含此对象中所有标题的新列表。注意，修改返回的列表不会影响这个对象的状态。如果您只打算枚举头条目，那么应该使用iterator()，它的开销要小得多。
      */
     public abstract List<Map.Entry<String, String>> entries();
 
@@ -1356,7 +1364,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
     /**
      * Returns a new {@link Set} that contains the names of all headers in this object.  Note that modifying the
      * returned {@link Set} will not affect the state of this object.  If you intend to enumerate over the header
-     * entries only, use {@link #iterator()} instead, which has much less overhead.
+     * entries only, use {@link #iterator()} instead, which has much less overhead.返回一个新集合，该集合包含此对象中所有标头的名称。注意，修改返回的集合不会影响这个对象的状态。如果您只打算枚举头条目，那么应该使用iterator()，它的开销要小得多。
      */
     public abstract Set<String> names();
 
@@ -1512,7 +1520,7 @@ public abstract class HttpHeaders implements Iterable<Map.Entry<String, String>>
     }
 
     /**
-     * Retains all current headers but calls {@link #set(String, Object)} for each entry in {@code headers}
+     * Retains all current headers but calls {@link #set(String, Object)} for each entry in {@code headers}保留所有当前标题，但调用集(字符串，对象)为标题中的每个条目
      *
      * @param headers The headers used to {@link #set(String, Object)} values in this instance
      * @return {@code this}

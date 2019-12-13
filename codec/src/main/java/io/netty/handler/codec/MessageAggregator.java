@@ -93,7 +93,7 @@ public abstract class MessageAggregator<I, S, C extends ByteBufHolder, O extends
 
     @Override
     public boolean acceptInboundMessage(Object msg) throws Exception {
-        // No need to match last and full types because they are subset of first and middle types.
+        // No need to match last and full types because they are subset of first and middle types.不需要匹配last和full类型，因为它们是first和middle类型的子集。
         if (!super.acceptInboundMessage(msg)) {
             return false;
         }
@@ -221,10 +221,11 @@ public abstract class MessageAggregator<I, S, C extends ByteBufHolder, O extends
             S m = (S) msg;
 
             // Send the continue response if necessary (e.g. 'Expect: 100-continue' header)
-            // Check before content length. Failing an expectation may result in a different response being sent.
+            // Check before content length. Failing an expectation may result in a different response being sent.//如果有必要，发送继续响应。“预计:100 -继续”头)
+//内容长度前检查。预期失败可能会导致发送不同的响应。
             Object continueResponse = newContinueResponse(m, maxContentLength, ctx.pipeline());
             if (continueResponse != null) {
-                // Cache the write listener for reuse.
+                // Cache the write listener for reuse.缓存写侦听器以便重用。
                 ChannelFutureListener listener = continueResponseWriteListener;
                 if (listener == null) {
                     continueResponseWriteListener = listener = new ChannelFutureListener() {
@@ -237,7 +238,7 @@ public abstract class MessageAggregator<I, S, C extends ByteBufHolder, O extends
                     };
                 }
 
-                // Make sure to call this before writing, otherwise reference counts may be invalid.
+                // Make sure to call this before writing, otherwise reference counts may be invalid.在写之前一定要调用它，否则引用计数可能无效。
                 boolean closeAfterWrite = closeAfterContinueResponse(continueResponse);
                 handlingOversizedMessage = ignoreContentAfterContinueResponse(continueResponse);
 
@@ -251,7 +252,7 @@ public abstract class MessageAggregator<I, S, C extends ByteBufHolder, O extends
                     return;
                 }
             } else if (isContentLengthInvalid(m, maxContentLength)) {
-                // if content length is set, preemptively close if it's too large
+                // if content length is set, preemptively close if it's too large如果设置了内容长度，如果它太大，则先关闭
                 invokeHandleOversizedMessage(ctx, m);
                 return;
             }
@@ -268,7 +269,7 @@ public abstract class MessageAggregator<I, S, C extends ByteBufHolder, O extends
                 return;
             }
 
-            // A streamed message - initialize the cumulative buffer, and wait for incoming chunks.
+            // A streamed message - initialize the cumulative buffer, and wait for incoming chunks.流消息——初始化累积缓冲区，并等待传入的块。
             CompositeByteBuf content = ctx.alloc().compositeBuffer(maxCumulationBufferComponents);
             if (m instanceof ByteBufHolder) {
                 appendPartialContent(content, ((ByteBufHolder) m).content());
@@ -277,28 +278,29 @@ public abstract class MessageAggregator<I, S, C extends ByteBufHolder, O extends
         } else if (isContentMessage(msg)) {
             if (currentMessage == null) {
                 // it is possible that a TooLongFrameException was already thrown but we can still discard data
-                // until the begging of the next request/response.
+                // until the begging of the next request/response.//可能已经抛出了TooLongFrameException，但是我们仍然可以丢弃数据
+//直到请求下一个请求/响应。
                 return;
             }
 
-            // Merge the received chunk into the content of the current message.
+            // Merge the received chunk into the content of the current message.将接收到的块合并到当前消息的内容中。
             CompositeByteBuf content = (CompositeByteBuf) currentMessage.content();
 
             @SuppressWarnings("unchecked")
             final C m = (C) msg;
-            // Handle oversized message.
+            // Handle oversized message.处理超大号的消息。
             if (content.readableBytes() > maxContentLength - m.content().readableBytes()) {
-                // By convention, full message type extends first message type.
+                // By convention, full message type extends first message type.按照惯例，完整消息类型扩展第一个消息类型。
                 @SuppressWarnings("unchecked")
                 S s = (S) currentMessage;
                 invokeHandleOversizedMessage(ctx, s);
                 return;
             }
 
-            // Append the content of the chunk.
+            // Append the content of the chunk.附加块的内容。
             appendPartialContent(content, m.content());
 
-            // Give the subtypes a chance to merge additional information such as trailing headers.
+            // Give the subtypes a chance to merge additional information such as trailing headers.让子类型有机会合并附加信息，比如结尾标头。
             aggregate(currentMessage, m);
 
             final boolean last;
@@ -401,7 +403,7 @@ public abstract class MessageAggregator<I, S, C extends ByteBufHolder, O extends
         try {
             handleOversizedMessage(ctx, oversized);
         } finally {
-            // Release the message in case it is a full one.
+            // Release the message in case it is a full one.发布消息，以防它是完整的消息。
             ReferenceCountUtil.release(oversized);
         }
     }
@@ -420,7 +422,7 @@ public abstract class MessageAggregator<I, S, C extends ByteBufHolder, O extends
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        // We might need keep reading the channel until the full message is aggregated.
+        // We might need keep reading the channel until the full message is aggregated.我们可能需要一直读取通道，直到聚合完整的消息。
         //
         // See https://github.com/netty/netty/issues/6583
         if (currentMessage != null && !ctx.channel().config().isAutoRead()) {
@@ -432,7 +434,7 @@ public abstract class MessageAggregator<I, S, C extends ByteBufHolder, O extends
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         try {
-            // release current message if it is not null as it may be a left-over
+            // release current message if it is not null as it may be a left-over释放当前消息，如果它不是空的，因为它可能是一个剩余的
             super.channelInactive(ctx);
         } finally {
             releaseCurrentMessage();
@@ -450,7 +452,8 @@ public abstract class MessageAggregator<I, S, C extends ByteBufHolder, O extends
             super.handlerRemoved(ctx);
         } finally {
             // release current message if it is not null as it may be a left-over as there is not much more we can do in
-            // this case
+            // this case//释放当前消息，如果它不是空的，因为它可能是一个剩余的，因为我们不能做更多
+//这里
             releaseCurrentMessage();
         }
     }
